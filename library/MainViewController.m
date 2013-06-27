@@ -249,9 +249,7 @@
 }
 
 - (void)viewDidLoad
-{
-    
-    
+{    
     accounttextField = [[UITextField alloc] initWithFrame:CGRectMake(5,150, 150, 40)];
     accounttextField.borderStyle = UITextBorderStyleRoundedRect;
     accounttextField.font = [UIFont systemFontOfSize:15];
