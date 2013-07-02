@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1805A277177ABFEB00FDFDC4 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1805A276177ABFEB00FDFDC4 /* View.xib */; };
+		18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18060522177C2E1500BD690D /* BookDetailViewController.m */; };
+		18081485177D8E0A001E5506 /* resBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18081484177D8E0A001E5506 /* resBookViewController.m */; };
+		180B8C6C177E7703006E553B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180B8C6B177E7703006E553B /* QuartzCore.framework */; };
 		913BD8F8175494E400145B80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F7175494E400145B80 /* UIKit.framework */; };
 		913BD8FA175494E400145B80 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F9175494E400145B80 /* Foundation.framework */; };
 		913BD8FC175494E400145B80 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8FB175494E400145B80 /* CoreGraphics.framework */; };
@@ -25,6 +29,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1805A276177ABFEB00FDFDC4 /* View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
+		18060521177C2E1500BD690D /* BookDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailViewController.h; sourceTree = "<group>"; };
+		18060522177C2E1500BD690D /* BookDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailViewController.m; sourceTree = "<group>"; };
+		18081483177D8E0A001E5506 /* resBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resBookViewController.h; sourceTree = "<group>"; };
+		18081484177D8E0A001E5506 /* resBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = resBookViewController.m; sourceTree = "<group>"; };
+		180B8C6B177E7703006E553B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		913BD8F4175494E400145B80 /* library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = library.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		913BD8F7175494E400145B80 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		913BD8F9175494E400145B80 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -56,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				180B8C6C177E7703006E553B /* QuartzCore.framework in Frameworks */,
 				913BD9291754A80300145B80 /* libxml2.2.dylib in Frameworks */,
 				913BD8F8175494E400145B80 /* UIKit.framework in Frameworks */,
 				913BD8FA175494E400145B80 /* Foundation.framework in Frameworks */,
@@ -69,6 +80,7 @@
 		913BD8EB175494E400145B80 = {
 			isa = PBXGroup;
 			children = (
+				180B8C6B177E7703006E553B /* QuartzCore.framework */,
 				913BD9281754A80300145B80 /* libxml2.2.dylib */,
 				913BD8FD175494E400145B80 /* library */,
 				913BD8F6175494E400145B80 /* Frameworks */,
@@ -110,6 +122,11 @@
 				913BD8FE175494E400145B80 /* Supporting Files */,
 				913BD92A17587BFC00145B80 /* SearchResultViewController.h */,
 				913BD92B17587BFC00145B80 /* SearchResultViewController.m */,
+				1805A276177ABFEB00FDFDC4 /* View.xib */,
+				18060521177C2E1500BD690D /* BookDetailViewController.h */,
+				18060522177C2E1500BD690D /* BookDetailViewController.m */,
+				18081483177D8E0A001E5506 /* resBookViewController.h */,
+				18081484177D8E0A001E5506 /* resBookViewController.m */,
 			);
 			path = library;
 			sourceTree = "<group>";
@@ -183,6 +200,7 @@
 				913BD90A175494E400145B80 /* Default.png in Resources */,
 				913BD90C175494E400145B80 /* Default@2x.png in Resources */,
 				913BD90E175494E400145B80 /* Default-568h@2x.png in Resources */,
+				1805A277177ABFEB00FDFDC4 /* View.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +218,8 @@
 				913BD9201754A5DE00145B80 /* TFHppleElement.m in Sources */,
 				913BD9231754A61000145B80 /* XPathQuery.m in Sources */,
 				913BD92C17587BFC00145B80 /* SearchResultViewController.m in Sources */,
+				18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */,
+				18081485177D8E0A001E5506 /* resBookViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +356,7 @@
 				913BD913175494E400145B80 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
