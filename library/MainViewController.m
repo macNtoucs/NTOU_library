@@ -13,6 +13,9 @@
 @end
 
 @implementation MainViewController
+@synthesize searchResultArray;
+@synthesize nextpage_url;
+@synthesize maxpage;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -64,7 +67,33 @@
     //設定 parser讀取data，並透過Xpath得到想要的資料位置
     TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
     
+    [searchResultArray removeAllObjects];
+    [self getcontent:parser];
+    
+    // NSLog(@"%@",searchResultArray);
+    SearchResultViewController * display = [[SearchResultViewController alloc]initWithStyle:UITableViewStylePlain];
+    [display.data removeAllObjects];
+    display.data =[[NSMutableArray alloc]initWithArray:searchResultArray];
+    display.mainview = self;
+    [self.navigationController pushViewController:display animated:YES];
+    [display release];
+}
 
+-(void)nextpage{
+    NSError *error;
+    //  設定url
+    NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nextpage_url];
+    //url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    // 設定丟出封包，由data來接
+    NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+    
+    //設定 parser讀取data，並透過Xpath得到想要的資料位置
+    TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
+
+    [self getcontent:parser];
+}
+
+-(void)getcontent:(TFHpple *)parser{
     //取書
     NSArray *tableData_table  = [parser searchWithXPathQuery:@"//html//body//table//tr//td//table//tr//td//table"];
     //取頁
@@ -85,9 +114,23 @@
                 {  //searchResultPage
                     if([((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).tagName isEqualToString:@"a"])
                     {
-                        
+                        NSString *pagestr = ((TFHppleElement*)[((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).children objectAtIndex:0]).content;
+                        if([pagestr isEqualToString:@"下頁"])
+                        {
+                            nextpage_url = [((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).attributes objectForKey:@"href"];
+                            break;
+                        }
+                        else
+                            nextpage_url = NULL;
+                        /*
+                        if([searchResultPage objectForKey:pagestr] == NULL)
+                        {
+                            NSString *href = [((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).attributes objectForKey:@"href"];
+                            [searchResultPage setObject:href forKey:pagestr];
+                        }*/
                     }
                 }
+                break;
             }
         }
         i++;
@@ -107,7 +150,6 @@
     }
     
     //截取書的資料
-    [searchResultArray removeAllObjects];
     NSMutableDictionary *book;
     for (size_t b = 0 ; b < [tableData_book count] ; ++b){
         book = [[NSMutableDictionary alloc] init];
@@ -198,14 +240,8 @@
         [searchResultArray addObject:book];
         [book release];
     }
-    
-    // NSLog(@"%@",searchResultArray);
-    SearchResultViewController * display = [[SearchResultViewController alloc]initWithStyle:UITableViewStylePlain];
-    [display.data removeAllObjects];
-    display.data =[[NSMutableArray alloc]initWithArray:searchResultArray];
-    [self.navigationController pushViewController:display animated:YES];
-    [display release];
 }
+
 
 -(void)fetchHistory{
     NSError *error;
@@ -262,8 +298,9 @@
     passWordtextField.secureTextEntry = YES;
     passWordtextField.placeholder = @"密碼";
     searchResultArray = [NSMutableArray new];
-    for(int i ; i < 20 ; i++)
-        searchResultPage[i] = [NSMutableArray new];
+    /*for(int i ; i < 20 ; i++)
+        searchResultPage[i] = [NSMutableArray new];*/
+    //searchResultPage = [[NSMutableDictionary alloc] init];
     textField = [[UITextField alloc] initWithFrame:CGRectMake(5,10, 300, 40)];
     textField.borderStyle = UITextBorderStyleRoundedRect;
     textField.font = [UIFont systemFontOfSize:15];

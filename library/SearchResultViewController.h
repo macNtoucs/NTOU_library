@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MainViewController.h"
 
+@class MainViewController;
 @interface SearchResultViewController : UITableViewController{
-    NSMutableArray * data;
+    NSMutableArray *data;
 }
+
+@property (strong, nonatomic) MainViewController *mainview;
 @property (nonatomic,retain) NSMutableArray *data;
 
 @end
