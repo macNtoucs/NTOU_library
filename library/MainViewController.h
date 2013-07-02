@@ -14,7 +14,12 @@
     UITextField *accounttextField;
     UITextField *passWordtextField;
     NSMutableArray *searchResultArray;
-    NSMutableArray *searchResultPage[20];
+    //NSMutableArray *searchResultPage[20];
+    NSString *nextpage_url;
 }
+@property (strong, nonatomic) NSString *nextpage_url;
+@property (strong, nonatomic) NSMutableArray *searchResultArray;
+@property (nonatomic) NSInteger maxpage;
 
+-(void)nextpage;
 @end

@@ -51,10 +51,8 @@
     TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
     
     //取書
-    //書名作者
-    NSArray *tableData_name  = [parser searchWithXPathQuery:@"//html//body//div//div//table//tr//td//table//tr//td//table//tr//td//strong"];
-    //出版項
-    NSArray *tableData_press  = [parser searchWithXPathQuery:@"//html//body//div//div//table//tr//td//table//tr//td//table//tr//td"];
+    //書名作者 出版項
+    NSArray *tableData_name  = [parser searchWithXPathQuery:@"//html//body//div//div//table//tr//td//table//tr//td//table//tr//td"];
     //書本借閱情況
     NSArray *tableData_book  = [parser searchWithXPathQuery:@"//html//body//div//div//div//div//table//tr//td"];
     //預約
@@ -64,36 +62,66 @@
     NSString *book_press = NULL;
     NSString *book_resurl = NULL;
 
-    //截取書名
     book_name = [[NSString alloc] init];
-    TFHppleElement* buf_names = [tableData_name objectAtIndex:0];   //取最外層的strong
-    for(size_t n = 0 ; n < [buf_names.children count] ; n++)
-    {
-        TFHppleElement* buf_name = [buf_names.children objectAtIndex:n];
-        
-        if([buf_name.tagName isEqualToString:@"font"])
-        {
-            book_name = [book_name stringByAppendingString:((TFHppleElement*)[((TFHppleElement*)[buf_name.children objectAtIndex:0]).children objectAtIndex:0]).content];
-        }
-        else if ([buf_name.tagName isEqualToString:@"text"])
-            book_name = [book_name stringByAppendingString:buf_name.content];
-    }
-    [bookdetail setObject:book_name forKey:@"name"];
     
-    //截取出版項
-    for(size_t p = 0 ; p < [tableData_press count] ; p++)
+    for(size_t s = 0 ; s < [tableData_name count] ; s++)
     {
-        TFHppleElement* buf_press = [tableData_press objectAtIndex:p];
+        TFHppleElement* buf_s = [tableData_name objectAtIndex:s];   //取最外層的strong
         
-        if([buf_press.attributes objectForKey:@"class"] != NULL && [buf_press.children count]!= 0)
-            if([[buf_press.attributes objectForKey:@"class"] isEqualToString:@"bibInfoData"] && [((TFHppleElement*)[buf_press.children objectAtIndex:0]).tagName isEqualToString:@"text"])
-                if(![((TFHppleElement*)[buf_press.children objectAtIndex:0]).content isEqualToString:@"\n"])
-                {
-                    NSString *buf_p = ((TFHppleElement*)[buf_press.children objectAtIndex:0]).content;
-                    book_press = [[NSString alloc] initWithString:[buf_p substringFromIndex:1]]; //濾掉/n
+        if([buf_s.children count]!= 0)
+        {
+            if(((TFHppleElement*)[buf_s.children objectAtIndex:0]).content != NULL)
+            {
+                if([((TFHppleElement*)[buf_s.children objectAtIndex:0]).content isEqualToString:@"書名"])
+                {   //截取書名
+                    buf_s = [tableData_name objectAtIndex:s+1];
+                    for(size_t sn = 0 ; sn < [tableData_name count] ; sn++)
+                    {
+                        TFHppleElement* buf_names = [buf_s.children objectAtIndex:sn];
+                        if([buf_names.tagName isEqualToString:@"strong"] || [buf_names.tagName isEqualToString:@"a"])
+                        {
+                            for(size_t n = 0 ; n < [buf_names.children count] ; n++)
+                            {
+                                TFHppleElement* buf_name = [buf_names.children objectAtIndex:n];
+                                
+                                if([buf_name.tagName isEqualToString:@"font"])
+                                {
+                                    book_name = [book_name stringByAppendingString:((TFHppleElement*)[((TFHppleElement*)[buf_name.children objectAtIndex:0]).children objectAtIndex:0]).content];
+                                }
+                                else if ([buf_name.tagName isEqualToString:@"text"])
+                                    book_name = [book_name stringByAppendingString:buf_name.content];
+                            }
+                            break;
+                        }
+                    }
+                }
+                else if([((TFHppleElement*)[buf_s.children objectAtIndex:0]).content isEqualToString:@"出版項"])
+                {//截取出版項
+                    buf_s = [tableData_name objectAtIndex:s+1];
+                    for(size_t sn = 0 ; sn < [tableData_name count] ; sn++)
+                    {
+                        TFHppleElement* buf_press = [buf_s.children objectAtIndex:sn];
+                        if([buf_press.tagName isEqualToString:@"text"])
+                        {
+                            if(![buf_press.content isEqualToString:@"\n"])
+                            {
+                                NSString *buf_p = buf_press.content;
+                                book_press = [[NSString alloc] initWithString:[buf_p substringFromIndex:1]]; //濾掉/n
+                                break;
+                            }
+                        }
+                        else if([buf_press.tagName isEqualToString:@"a"])
+                        {
+                            book_press = ((TFHppleElement*)[buf_press.children objectAtIndex:0]).content;
+                            break;
+                        }
+                    }
                     break;
                 }
+            }
+        }
     }
+    [bookdetail setObject:book_name forKey:@"name"];    
     [bookdetail setObject:book_press forKey:@"press"];
     
     //截取借閱情況
@@ -166,7 +194,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if(book_count == 0 && [bookdetail objectForKey:@"resurl"] == NULL)
-        return 0;   //只有書籍資料
+        return 1;   //只有書籍資料
     else if([bookdetail objectForKey:@"resurl"] == NULL)
         return 2;   //書籍資料＋借閱資訊
     else
@@ -444,7 +472,7 @@
         }
     }
     else if(section == 1)
-        return 92;  //6*2 + 20*4
+        return 88;  //6*2 + 20*3 + 16 = 12 + 60 + 16
     else if (section == 2)
         return 32;
     else
