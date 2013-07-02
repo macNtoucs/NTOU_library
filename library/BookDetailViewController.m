@@ -8,6 +8,8 @@
 
 #import "BookDetailViewController.h"
 #import "TFHpple.h"
+#import "resBookViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface BookDetailViewController ()
 {
@@ -102,7 +104,9 @@
         if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"28%"] && [buf_book.attributes objectForKey:@"class"] == NULL)
         {
             NSString *buf = ((TFHppleElement*)[buf_book.children objectAtIndex:1]).content;
-            book_part1[book_count] = [[NSString alloc] initWithString:[buf substringToIndex:[buf length]-2]];
+            buf = [buf substringToIndex:[buf length]-2];    //濾掉/n
+            buf = [buf substringFromIndex:1];   //濾掉開頭空白
+            book_part1[book_count] = [[NSString alloc] initWithString:buf];
         }
         else if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"38%"] && [buf_book.attributes objectForKey:@"class"] == NULL)
         {
@@ -118,11 +122,15 @@
         }
         else if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"12%"] && [buf_book.attributes objectForKey:@"class"] == NULL)
         {
-            book_part3[book_count] = [[NSString alloc] initWithString:((TFHppleElement*)[buf_book.children objectAtIndex:1]).content];
+            NSString *buf = ((TFHppleElement*)[buf_book.children objectAtIndex:1]).content;
+            buf = [buf substringFromIndex:1];   //濾掉開頭空白
+            book_part3[book_count] = [[NSString alloc] initWithString:buf];
         }
         else if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"22%"] && [buf_book.attributes objectForKey:@"class"] == NULL)
         {
-            book_part4[book_count] = [[NSString alloc] initWithString:((TFHppleElement*)[buf_book.children objectAtIndex:1]).content];
+            NSString *buf = ((TFHppleElement*)[buf_book.children objectAtIndex:1]).content;
+            buf = [buf substringFromIndex:1];   //濾掉開頭空白
+            book_part4[book_count] = [[NSString alloc] initWithString:buf];
             book_count++;
         }
     }
@@ -157,10 +165,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if(book_count == 0)
-        return 0;
+    if(book_count == 0 && [bookdetail objectForKey:@"resurl"] == NULL)
+        return 0;   //只有書籍資料
+    else if([bookdetail objectForKey:@"resurl"] == NULL)
+        return 2;   //書籍資料＋借閱資訊
     else
-        return 2;
+        return 3;   //可預借
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -173,7 +183,7 @@
             return [NSString stringWithFormat:@"借閱情況"];
             break;
         default:
-            return [NSString stringWithFormat:@""];
+            return [NSString stringWithFormat:@" "];
             break;
     }
 }
@@ -184,6 +194,8 @@
         return 2;
     else if (section == 1)
         return book_count;
+    else if (section == 2)
+        return 1;   //按鈕
     else
         return 0;
 }
@@ -206,6 +218,7 @@
     UILabel *part3 = nil;
     UILabel *part4label = nil;
     UILabel *part4 = nil;
+    UILabel *button = nil;
     
     if (cell == nil)
     {
@@ -221,13 +234,15 @@
         part2label = [[UILabel alloc] init];
         part3label = [[UILabel alloc] init];
         part4label = [[UILabel alloc] init];
+        button = [[UILabel alloc] init];
         
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
+    UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
+    UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
     if(section == 0)
     {
-        UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
         NSString *book_name = [bookdetail objectForKey:@"name"];
         NSString *book_press = [bookdetail objectForKey:@"press"];
        
@@ -248,7 +263,7 @@
                 namelabel.textAlignment = NSTextAlignmentRight;
                 namelabel.tag = indexPath.row;
                 namelabel.backgroundColor = [UIColor clearColor];
-                namelabel.font = font;
+                namelabel.font = boldfont;
 
                 name.frame = CGRectMake(85,6,200,nameLabelSize.height);
                 name.text = book_name;
@@ -269,7 +284,7 @@
                 presslabel.textAlignment = NSTextAlignmentRight;
                 presslabel.tag = indexPath.row;
                 presslabel.backgroundColor = [UIColor clearColor];
-                presslabel.font = font;
+                presslabel.font = boldfont;
 
                 press.frame = CGRectMake(85,6,200,pressLabelSize.height);
                 press.text = book_press;
@@ -285,21 +300,21 @@
             default:
                 break;
         }
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else if (section == 1)
     {
-        UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
-        
-        part1label.frame = CGRectMake(0,6,90,16);
+        part1label.frame = CGRectMake(0,6,100,16);
         part1label.text = @"館藏地：";
         part1label.lineBreakMode = NSLineBreakByWordWrapping;
         part1label.numberOfLines = 0;
         part1label.textAlignment = NSTextAlignmentRight;
         part1label.tag = indexPath.row;
         part1label.backgroundColor = [UIColor clearColor];
-        part1label.font = font;
+        part1label.font = boldfont;
         
-        part1.frame = CGRectMake(95,6,200,16);
+        part1.frame = CGRectMake(105,6,200,16);
         part1.text = book_part1[row];
         part1.lineBreakMode = NSLineBreakByWordWrapping;
         part1.numberOfLines = 0;
@@ -307,16 +322,16 @@
         part1.backgroundColor = [UIColor clearColor];
         part1.font = font;
 
-        part2label.frame = CGRectMake(0,26,90,16);
+        part2label.frame = CGRectMake(0,26,100,16);
         part2label.text = @"索書號/卷期：";
         part2label.lineBreakMode = NSLineBreakByWordWrapping;
         part2label.numberOfLines = 0;
         part2label.textAlignment = NSTextAlignmentRight;
         part2label.tag = indexPath.row;
         part2label.backgroundColor = [UIColor clearColor];
-        part2label.font = font;
+        part2label.font = boldfont;
         
-        part2.frame = CGRectMake(95,26,200,16);
+        part2.frame = CGRectMake(105,26,200,16);
         part2.text = book_part2[row];
         part2.lineBreakMode = NSLineBreakByWordWrapping;
         part2.numberOfLines = 0;
@@ -324,16 +339,16 @@
         part2.backgroundColor = [UIColor clearColor];
         part2.font = font;
 
-        part3label.frame = CGRectMake(0,46,90,16);
+        part3label.frame = CGRectMake(0,46,100,16);
         part3label.text = @"條碼：";
         part3label.lineBreakMode = NSLineBreakByWordWrapping;
         part3label.numberOfLines = 0;
         part3label.textAlignment = NSTextAlignmentRight;
         part3label.tag = indexPath.row;
         part3label.backgroundColor = [UIColor clearColor];
-        part3label.font = font;
+        part3label.font = boldfont;
         
-        part3.frame = CGRectMake(95,46,200,16);
+        part3.frame = CGRectMake(105,46,200,16);
         part3.text = book_part3[row];
         part3.lineBreakMode = NSLineBreakByWordWrapping;
         part3.numberOfLines = 0;
@@ -341,16 +356,16 @@
         part3.backgroundColor = [UIColor clearColor];
         part3.font = font;
 
-        part4label.frame = CGRectMake(0,66,90,16);
+        part4label.frame = CGRectMake(0,66,100,16);
         part4label.text = @"處理狀態：";
         part4label.lineBreakMode = NSLineBreakByWordWrapping;
         part4label.numberOfLines = 0;
         part4label.textAlignment = NSTextAlignmentRight;
         part4label.tag = indexPath.row;
         part4label.backgroundColor = [UIColor clearColor];
-        part4label.font = font;
+        part4label.font = boldfont;
         
-        part4.frame = CGRectMake(95,66,200,16);
+        part4.frame = CGRectMake(105,66,200,16);
         part4.text = book_part4[row];
         part4.lineBreakMode = NSLineBreakByWordWrapping;
         part4.numberOfLines = 0;
@@ -369,7 +384,27 @@
 
         [cell.contentView addSubview:part4label];
         [cell.contentView addSubview:part4];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
+    else if (section == 2)
+    {
+        UIFont *buttonfont = [UIFont boldSystemFontOfSize:18.0];
 
+        button.frame = CGRectMake(110,7,100,18);
+        button.text = @"預        借";
+        button.tag = indexPath.row;
+        button.backgroundColor = [UIColor clearColor];
+        button.font = buttonfont;
+        
+        [cell.contentView addSubview:button];
+        //cell.backgroundColor = [UIColor brownColor];
+        
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.cornerRadius = 6; // 圆角的弧度
+        gradient.masksToBounds = YES;
+        gradient.frame = CGRectMake(0,0,300,32);
+        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor blueColor] CGColor], nil]; // 由上到下由白色渐变为蓝色
+        [cell.contentView.layer insertSublayer:gradient atIndex:0];
     }
     return cell;
 }
@@ -410,6 +445,8 @@
     }
     else if(section == 1)
         return 92;  //6*2 + 20*4
+    else if (section == 2)
+        return 32;
     else
         return 0;
 }
@@ -418,6 +455,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSInteger section = indexPath.section;
+
+    if(section == 2)
+    {
+        resBookViewController * display = [[resBookViewController alloc]init];
+        display.resurl = [bookdetail objectForKey:@"resurl"];
+        [self.navigationController pushViewController:display animated:YES];
+    }
 }
 
 @end
