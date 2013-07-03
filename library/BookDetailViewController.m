@@ -38,6 +38,8 @@
 
 - (void)viewDidLoad
 {
+    self.title = @"詳細資訊";
+
     bookdetail = [[NSMutableDictionary alloc] init];
     book_count = 0;
     NSError *error;
@@ -418,7 +420,7 @@
     {
         UIFont *buttonfont = [UIFont boldSystemFontOfSize:18.0];
 
-        button.frame = CGRectMake(110,7,100,18);
+        button.frame = CGRectMake(110,6,100,18);
         button.text = @"預        借";
         button.tag = indexPath.row;
         button.backgroundColor = [UIColor clearColor];
@@ -430,8 +432,8 @@
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.cornerRadius = 6; // 圆角的弧度
         gradient.masksToBounds = YES;
-        gradient.frame = CGRectMake(0,0,300,32);
-        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor blueColor] CGColor], nil]; // 由上到下由白色渐变为蓝色
+        gradient.frame = CGRectMake(0,0,300,30);
+        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor brownColor] CGColor], nil]; // 由上到下由白色渐变为蓝色
         [cell.contentView.layer insertSublayer:gradient atIndex:0];
     }
     return cell;
@@ -474,7 +476,7 @@
     else if(section == 1)
         return 88;  //6*2 + 20*3 + 16 = 12 + 60 + 16
     else if (section == 2)
-        return 32;
+        return 30;
     else
         return 0;
 }

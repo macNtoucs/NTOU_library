@@ -10,6 +10,8 @@
 		1805A277177ABFEB00FDFDC4 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1805A276177ABFEB00FDFDC4 /* View.xib */; };
 		18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18060522177C2E1500BD690D /* BookDetailViewController.m */; };
 		18081485177D8E0A001E5506 /* resBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18081484177D8E0A001E5506 /* resBookViewController.m */; };
+		180B00281783D6B70071E12D /* switchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B00271783D6B70071E12D /* switchController.m */; };
+		180B002B1783DB790071E12D /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B002A1783DB790071E12D /* loginViewController.m */; };
 		180B8C6C177E7703006E553B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180B8C6B177E7703006E553B /* QuartzCore.framework */; };
 		913BD8F8175494E400145B80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F7175494E400145B80 /* UIKit.framework */; };
 		913BD8FA175494E400145B80 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F9175494E400145B80 /* Foundation.framework */; };
@@ -34,6 +36,10 @@
 		18060522177C2E1500BD690D /* BookDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailViewController.m; sourceTree = "<group>"; };
 		18081483177D8E0A001E5506 /* resBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resBookViewController.h; sourceTree = "<group>"; };
 		18081484177D8E0A001E5506 /* resBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = resBookViewController.m; sourceTree = "<group>"; };
+		180B00261783D6B70071E12D /* switchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = switchController.h; sourceTree = "<group>"; };
+		180B00271783D6B70071E12D /* switchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = switchController.m; sourceTree = "<group>"; };
+		180B00291783DB790071E12D /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
+		180B002A1783DB790071E12D /* loginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginViewController.m; sourceTree = "<group>"; };
 		180B8C6B177E7703006E553B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		913BD8F4175494E400145B80 /* library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = library.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		913BD8F7175494E400145B80 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -117,8 +123,12 @@
 				913BD91E1754A5DE00145B80 /* TFHppleElement.m */,
 				913BD906175494E400145B80 /* AppDelegate.h */,
 				913BD907175494E400145B80 /* AppDelegate.m */,
+				180B00261783D6B70071E12D /* switchController.h */,
+				180B00271783D6B70071E12D /* switchController.m */,
 				913BD9141754963D00145B80 /* MainViewController.h */,
 				913BD9151754963D00145B80 /* MainViewController.m */,
+				180B00291783DB790071E12D /* loginViewController.h */,
+				180B002A1783DB790071E12D /* loginViewController.m */,
 				913BD8FE175494E400145B80 /* Supporting Files */,
 				913BD92A17587BFC00145B80 /* SearchResultViewController.h */,
 				913BD92B17587BFC00145B80 /* SearchResultViewController.m */,
@@ -220,6 +230,8 @@
 				913BD92C17587BFC00145B80 /* SearchResultViewController.m in Sources */,
 				18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */,
 				18081485177D8E0A001E5506 /* resBookViewController.m in Sources */,
+				180B00281783D6B70071E12D /* switchController.m in Sources */,
+				180B002B1783DB790071E12D /* loginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

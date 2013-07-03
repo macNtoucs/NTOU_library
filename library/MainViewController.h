@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "TFHpple.h"
-#import "SearchResultViewController.h"
-@interface MainViewController : UIViewController<UITextFieldDelegate >{
+
+@class switchController;
+@interface MainViewController : UIViewController<UITextFieldDelegate,UIGestureRecognizerDelegate>{
     UIView * mainView; UITextField *textField;
-    UITextField *accounttextField;
-    UITextField *passWordtextField;
     NSMutableArray *searchResultArray;
     //NSMutableArray *searchResultPage[20];
     NSString *nextpage_url;
 }
+@property (strong, nonatomic) switchController *switchviewcontroller;
 @property (strong, nonatomic) NSString *nextpage_url;
 @property (strong, nonatomic) NSMutableArray *searchResultArray;
 @property (nonatomic) NSInteger maxpage;

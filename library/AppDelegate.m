@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
+#import "switchController.h"
 @implementation AppDelegate
 
 - (void)dealloc
@@ -21,10 +21,9 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    UINavigationController * nav = [[UINavigationController alloc]init];
-    MainViewController * mainView = [[MainViewController alloc]initWithNibName:nil bundle:nil];
-    self.window.rootViewController = nav;
-    [nav pushViewController:mainView animated:NO];
+    switchController * switchcontroller = [[switchController alloc]init];
+    self.window.rootViewController = switchcontroller;
+
     [self.window makeKeyAndVisible];
     return YES;
 }
