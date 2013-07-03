@@ -12,9 +12,10 @@
 @class MainViewController;
 @interface SearchResultViewController : UITableViewController{
     NSMutableArray *data;
+    NSString *nextpage_url;
 }
 
 @property (strong, nonatomic) MainViewController *mainview;
 @property (nonatomic,retain) NSMutableArray *data;
-
+@property (strong, nonatomic) NSString *inputtext;
 @end

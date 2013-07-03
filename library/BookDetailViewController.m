@@ -65,7 +65,8 @@
     NSString *book_resurl = NULL;
 
     book_name = [[NSString alloc] init];
-    
+    book_press = [[NSString alloc] init];
+
     for(size_t s = 0 ; s < [tableData_name count] ; s++)
     {
         TFHppleElement* buf_s = [tableData_name objectAtIndex:s];   //取最外層的strong
@@ -77,7 +78,7 @@
                 if([((TFHppleElement*)[buf_s.children objectAtIndex:0]).content isEqualToString:@"書名"])
                 {   //截取書名
                     buf_s = [tableData_name objectAtIndex:s+1];
-                    for(size_t sn = 0 ; sn < [tableData_name count] ; sn++)
+                    for(size_t sn = 0 ; sn < [buf_s.children count] ; sn++)
                     {
                         TFHppleElement* buf_names = [buf_s.children objectAtIndex:sn];
                         if([buf_names.tagName isEqualToString:@"strong"] || [buf_names.tagName isEqualToString:@"a"])
@@ -100,23 +101,23 @@
                 else if([((TFHppleElement*)[buf_s.children objectAtIndex:0]).content isEqualToString:@"出版項"])
                 {//截取出版項
                     buf_s = [tableData_name objectAtIndex:s+1];
-                    for(size_t sn = 0 ; sn < [tableData_name count] ; sn++)
+                    for(size_t sn = 0 ; sn < [buf_s.children count] ; sn++)
                     {
                         TFHppleElement* buf_press = [buf_s.children objectAtIndex:sn];
-                        if([buf_press.tagName isEqualToString:@"text"])
+ 
+                        if([buf_press.tagName isEqualToString:@"a"])
+                        {
+                            book_press = [book_press stringByAppendingString:((TFHppleElement*)[((TFHppleElement*)[buf_press.children objectAtIndex:0]).children objectAtIndex:0]).content];
+                        }
+                        else if ([buf_press.tagName isEqualToString:@"text"])
                         {
                             if(![buf_press.content isEqualToString:@"\n"])
                             {
-                                NSString *buf_p = buf_press.content;
-                                book_press = [[NSString alloc] initWithString:[buf_p substringFromIndex:1]]; //濾掉/n
-                                break;
+                                NSString *buf_p = [buf_press.content stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]]; //濾掉\n
+                                book_press = [book_press stringByAppendingString:buf_p];
                             }
                         }
-                        else if([buf_press.tagName isEqualToString:@"a"])
-                        {
-                            book_press = ((TFHppleElement*)[buf_press.children objectAtIndex:0]).content;
-                            break;
-                        }
+                        
                     }
                     break;
                 }
