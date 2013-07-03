@@ -21,13 +21,24 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
+    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
+    titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+    titleView.backgroundColor = [UIColor clearColor];
+    titleView.font = [UIFont boldSystemFontOfSize:18.0];
+    titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    titleView.textColor = [UIColor whiteColor]; // Change to desired color
+    titleView.text = @"查詢結果";
+    [titleView sizeToFit];
+    
+    self.navigationItem.titleView = titleView;
+    [titleView release];
+
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
