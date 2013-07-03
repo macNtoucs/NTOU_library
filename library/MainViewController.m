@@ -175,15 +175,19 @@
                         if([((TFHppleElement*)[buf_search.children objectAtIndex:1]).tagName isEqualToString:@"a"])
                         {   //有圖片
                             NSString *image = [((TFHppleElement*)[((TFHppleElement*)[buf_search.children objectAtIndex:1]).children objectAtIndex:0]).attributes objectForKey:@"src"];
-                            [book setObject:image forKey:@"image"];
+                            NSData *imagedata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:image]];
+                            UIImage *book_img = [[UIImage alloc] initWithData:imagedata];
+                            [book setObject:book_img forKey:@"image"];
                         
                             NSString *image_url = [((TFHppleElement*)[buf_search.children objectAtIndex:1]).attributes objectForKey:@"href"];
                             [book setObject:image_url forKey:@"image_url"];
                         }
                         else
                         {   //沒有圖片
-                            NSString *image = [[NSString alloc] initWithFormat:@"NULL"];
-                            [book setObject:image forKey:@"image"];
+                            NSString *image = @"http://static.findbook.tw/image/book/1419879251/large";
+                            NSData *imagedata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:image]];
+                            UIImage *book_img = [[UIImage alloc] initWithData:imagedata];
+                            [book setObject:book_img forKey:@"image"];
                         
                             NSString *image_url = [[NSString alloc] initWithFormat:@"NULL"];
                             [book setObject:image_url forKey:@"image_url"];

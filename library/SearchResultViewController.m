@@ -94,7 +94,7 @@
         NSDictionary *book = [data objectAtIndex:indexPath.row];
         NSString *bookname = [book objectForKey:@"bookname"];
         NSString *book_url = [book objectForKey:@"book_url"];
-        NSString *image = [book objectForKey:@"image"];
+        UIImage *image = [book objectForKey:@"image"];
         NSString *image_url = [book objectForKey:@"image_url"];
         NSString *auther = [book objectForKey:@"auther"];
         NSString *press = [book objectForKey:@"press"];
@@ -118,9 +118,7 @@
         if(imageY < 6)
             imageY = 6;
         
-        NSData *imagedata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:image]];
-        UIImage *book_img = [[UIImage alloc] initWithData:imagedata];
-        UIImageView *imageview = [[UIImageView alloc] initWithImage:book_img];
+        UIImageView *imageview = [[UIImageView alloc] initWithImage:image];
         imageview.frame = CGRectMake(10,imageY,60,80);
         [cell.contentView addSubview:imageview];
         
