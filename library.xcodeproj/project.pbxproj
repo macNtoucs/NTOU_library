@@ -14,6 +14,9 @@
 		180B002B1783DB790071E12D /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B002A1783DB790071E12D /* loginViewController.m */; };
 		180B002E1783FF380071E12D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B002D1783FF380071E12D /* MBProgressHUD.m */; };
 		180B8C6C177E7703006E553B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 180B8C6B177E7703006E553B /* QuartzCore.framework */; };
+		9047C7201784418E0032EA40 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9047C71C1784418E0032EA40 /* AboutViewController.m */; };
+		9047C7211784418E0032EA40 /* OpenTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9047C71E1784418E0032EA40 /* OpenTimeViewController.m */; };
+		9047C7221784418E0032EA40 /* OpenTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9047C71F1784418E0032EA40 /* OpenTimeViewController.xib */; };
 		913BD8F8175494E400145B80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F7175494E400145B80 /* UIKit.framework */; };
 		913BD8FA175494E400145B80 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F9175494E400145B80 /* Foundation.framework */; };
 		913BD8FC175494E400145B80 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8FB175494E400145B80 /* CoreGraphics.framework */; };
@@ -44,6 +47,11 @@
 		180B002C1783FF380071E12D /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		180B002D1783FF380071E12D /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		180B8C6B177E7703006E553B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		9047C71B1784418E0032EA40 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		9047C71C1784418E0032EA40 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		9047C71D1784418E0032EA40 /* OpenTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenTimeViewController.h; sourceTree = "<group>"; };
+		9047C71E1784418E0032EA40 /* OpenTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenTimeViewController.m; sourceTree = "<group>"; };
+		9047C71F1784418E0032EA40 /* OpenTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OpenTimeViewController.xib; sourceTree = "<group>"; };
 		913BD8F4175494E400145B80 /* library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = library.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		913BD8F7175494E400145B80 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		913BD8F9175494E400145B80 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -86,6 +94,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9047C71A1784418E0032EA40 /* about */ = {
+			isa = PBXGroup;
+			children = (
+				9047C71B1784418E0032EA40 /* AboutViewController.h */,
+				9047C71C1784418E0032EA40 /* AboutViewController.m */,
+				9047C71D1784418E0032EA40 /* OpenTimeViewController.h */,
+				9047C71E1784418E0032EA40 /* OpenTimeViewController.m */,
+				9047C71F1784418E0032EA40 /* OpenTimeViewController.xib */,
+			);
+			path = about;
+			sourceTree = "<group>";
+		};
 		913BD8EB175494E400145B80 = {
 			isa = PBXGroup;
 			children = (
@@ -120,8 +140,8 @@
 			children = (
 				913BD9211754A61000145B80 /* XPathQuery.h */,
 				913BD9221754A61000145B80 /* XPathQuery.m */,
-				913BD91B1754A5DE00145B80 /* TFHpple.h */,
 				913BD91C1754A5DE00145B80 /* TFHpple.m */,
+				913BD91B1754A5DE00145B80 /* TFHpple.h */,
 				913BD91D1754A5DE00145B80 /* TFHppleElement.h */,
 				913BD91E1754A5DE00145B80 /* TFHppleElement.m */,
 				913BD906175494E400145B80 /* AppDelegate.h */,
@@ -134,6 +154,7 @@
 				913BD9151754963D00145B80 /* MainViewController.m */,
 				180B00291783DB790071E12D /* loginViewController.h */,
 				180B002A1783DB790071E12D /* loginViewController.m */,
+				9047C71A1784418E0032EA40 /* about */,
 				913BD8FE175494E400145B80 /* Supporting Files */,
 				913BD92A17587BFC00145B80 /* SearchResultViewController.h */,
 				913BD92B17587BFC00145B80 /* SearchResultViewController.m */,
@@ -216,6 +237,7 @@
 				913BD90C175494E400145B80 /* Default@2x.png in Resources */,
 				913BD90E175494E400145B80 /* Default-568h@2x.png in Resources */,
 				1805A277177ABFEB00FDFDC4 /* View.xib in Resources */,
+				9047C7221784418E0032EA40 /* OpenTimeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +260,8 @@
 				180B00281783D6B70071E12D /* switchController.m in Sources */,
 				180B002B1783DB790071E12D /* loginViewController.m in Sources */,
 				180B002E1783FF380071E12D /* MBProgressHUD.m in Sources */,
+				9047C7201784418E0032EA40 /* AboutViewController.m in Sources */,
+				9047C7211784418E0032EA40 /* OpenTimeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

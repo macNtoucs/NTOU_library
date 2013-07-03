@@ -9,7 +9,7 @@
 #import "switchController.h"
 #import "MainViewController.h"
 #import "loginViewController.h"
-
+#import "AboutViewController.h"
 @interface switchController ()
 
 @end
@@ -33,13 +33,13 @@
     UINavigationController * nav2 = [[UINavigationController alloc]initWithRootViewController:view2];
     [view2 release];
     
-    UIViewController* view3;
-    view3 = [[UIViewController alloc] init];
+    AboutViewController* view3;
+    view3 = [[AboutViewController alloc] init];
     UITabBarItem *item3 = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:3];
     view3.tabBarItem = item3;
     [item3 release];
-    UINavigationController * nav3 = [[UINavigationController alloc]init];
-    [nav3 pushViewController:view3 animated:NO];
+    UINavigationController * nav3 = [[UINavigationController alloc]initWithRootViewController:view3];
+    //[nav3 pushViewController:view3 animated:NO];
     [view3 release];
     /*
     UINavigationController * nav3 = [[UINavigationController alloc]init];
