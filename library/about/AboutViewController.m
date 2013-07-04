@@ -7,6 +7,7 @@
 //
 
 #import "AboutViewController.h"
+#import "OpenTimeViewController.h"
 
 @interface AboutViewController ()
 
@@ -158,6 +159,40 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
+    
+    switch (indexPath.section) {
+        case 0:
+            ;
+            break;
+        case 1:
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    OpenTimeViewController *opentime = [[OpenTimeViewController alloc] init];
+                    opentime.title=@"開館時間";
+                    [self.navigationController pushViewController:opentime  animated:YES];
+                    [opentime release];
+                  
+                    break;
+                }
+                case 1:
+                    ;
+                    break;
+                case 2:
+                    ;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        default:
+            break;
+    }
+    
+    
+    
+    
 }
 
 @end

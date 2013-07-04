@@ -17,6 +17,7 @@
 		9047C7201784418E0032EA40 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9047C71C1784418E0032EA40 /* AboutViewController.m */; };
 		9047C7211784418E0032EA40 /* OpenTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9047C71E1784418E0032EA40 /* OpenTimeViewController.m */; };
 		9047C7221784418E0032EA40 /* OpenTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9047C71F1784418E0032EA40 /* OpenTimeViewController.xib */; };
+		90CBA9621785776000D57E39 /* opentime.png in Resources */ = {isa = PBXBuildFile; fileRef = 90CBA9611785776000D57E39 /* opentime.png */; };
 		913BD8F8175494E400145B80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F7175494E400145B80 /* UIKit.framework */; };
 		913BD8FA175494E400145B80 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F9175494E400145B80 /* Foundation.framework */; };
 		913BD8FC175494E400145B80 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8FB175494E400145B80 /* CoreGraphics.framework */; };
@@ -52,6 +53,7 @@
 		9047C71D1784418E0032EA40 /* OpenTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenTimeViewController.h; sourceTree = "<group>"; };
 		9047C71E1784418E0032EA40 /* OpenTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenTimeViewController.m; sourceTree = "<group>"; };
 		9047C71F1784418E0032EA40 /* OpenTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OpenTimeViewController.xib; sourceTree = "<group>"; };
+		90CBA9611785776000D57E39 /* opentime.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = opentime.png; sourceTree = "<group>"; };
 		913BD8F4175494E400145B80 /* library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = library.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		913BD8F7175494E400145B80 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		913BD8F9175494E400145B80 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -100,6 +102,7 @@
 				9047C71B1784418E0032EA40 /* AboutViewController.h */,
 				9047C71C1784418E0032EA40 /* AboutViewController.m */,
 				9047C71D1784418E0032EA40 /* OpenTimeViewController.h */,
+				90CBA9611785776000D57E39 /* opentime.png */,
 				9047C71E1784418E0032EA40 /* OpenTimeViewController.m */,
 				9047C71F1784418E0032EA40 /* OpenTimeViewController.xib */,
 			);
@@ -238,6 +241,7 @@
 				913BD90E175494E400145B80 /* Default-568h@2x.png in Resources */,
 				1805A277177ABFEB00FDFDC4 /* View.xib in Resources */,
 				9047C7221784418E0032EA40 /* OpenTimeViewController.xib in Resources */,
+				90CBA9621785776000D57E39 /* opentime.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
