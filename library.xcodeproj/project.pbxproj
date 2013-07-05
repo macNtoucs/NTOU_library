@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		18046A3017866FCB009813D8 /* LoginResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A2F17866FCB009813D8 /* LoginResultViewController.m */; };
-		1805A277177ABFEB00FDFDC4 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1805A276177ABFEB00FDFDC4 /* View.xib */; };
 		18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18060522177C2E1500BD690D /* BookDetailViewController.m */; };
 		18081485177D8E0A001E5506 /* resBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18081484177D8E0A001E5506 /* resBookViewController.m */; };
 		180B00281783D6B70071E12D /* switchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B00271783D6B70071E12D /* switchController.m */; };
@@ -35,7 +34,6 @@
 /* Begin PBXFileReference section */
 		18046A2E17866FCB009813D8 /* LoginResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResultViewController.h; sourceTree = "<group>"; };
 		18046A2F17866FCB009813D8 /* LoginResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResultViewController.m; sourceTree = "<group>"; };
-		1805A276177ABFEB00FDFDC4 /* View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
 		18060521177C2E1500BD690D /* BookDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailViewController.h; sourceTree = "<group>"; };
 		18060522177C2E1500BD690D /* BookDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailViewController.m; sourceTree = "<group>"; };
 		18081483177D8E0A001E5506 /* resBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resBookViewController.h; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 				18046A3117867004009813D8 /* Search */,
 				18046A3217867028009813D8 /* Login */,
 				913BD8FE175494E400145B80 /* Supporting Files */,
-				1805A276177ABFEB00FDFDC4 /* View.xib */,
 			);
 			path = library;
 			sourceTree = "<group>";
@@ -236,7 +233,6 @@
 				913BD90A175494E400145B80 /* Default.png in Resources */,
 				913BD90C175494E400145B80 /* Default@2x.png in Resources */,
 				913BD90E175494E400145B80 /* Default-568h@2x.png in Resources */,
-				1805A277177ABFEB00FDFDC4 /* View.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
