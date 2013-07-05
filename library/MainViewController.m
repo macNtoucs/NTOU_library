@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "SearchResultViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface MainViewController ()
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
@@ -94,7 +95,7 @@
                action:@selector(search)
      forControlEvents:UIControlEventTouchDown];
     [button setTitle:@"search" forState:UIControlStateNormal];
-    button.frame = CGRectMake(swidth/2 - 80, 120.0, 160.0, 30.0);
+    button.frame = CGRectMake(swidth/2 - 80, 120.0, 160.0, 30.0);    
     
     [mainView addSubview:textField];
     [mainView addSubview:button];

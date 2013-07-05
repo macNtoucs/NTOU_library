@@ -26,6 +26,8 @@
 
 - (void)viewDidLoad
 {
+    self.title = @"關於圖書館";
+
     [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -45,15 +47,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
     switch (section) {
         case 0:
             return 1;

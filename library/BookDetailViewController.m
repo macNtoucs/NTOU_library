@@ -423,18 +423,21 @@
 
         button.frame = CGRectMake(110,6,100,18);
         button.text = @"預        借";
+        button.textColor = [UIColor whiteColor];
         button.tag = indexPath.row;
         button.backgroundColor = [UIColor clearColor];
         button.font = buttonfont;
         
         [cell.contentView addSubview:button];
         //cell.backgroundColor = [UIColor brownColor];
-        
+
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.cornerRadius = 6; // 圆角的弧度
         gradient.masksToBounds = YES;
         gradient.frame = CGRectMake(0,0,300,30);
-        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor brownColor] CGColor], nil]; // 由上到下由白色渐变为蓝色
+        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor brownColor] CGColor], (id)[[UIColor brownColor] CGColor], nil]; // 由上到下由白色渐变为蓝色
+        //阴影
+        
         [cell.contentView.layer insertSublayer:gradient atIndex:0];
     }
     return cell;
