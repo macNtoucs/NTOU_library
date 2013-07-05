@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1805A277177ABFEB00FDFDC4 /* View.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1805A276177ABFEB00FDFDC4 /* View.xib */; };
+		18046A3017866FCB009813D8 /* LoginResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A2F17866FCB009813D8 /* LoginResultViewController.m */; };
 		18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18060522177C2E1500BD690D /* BookDetailViewController.m */; };
 		18081485177D8E0A001E5506 /* resBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18081484177D8E0A001E5506 /* resBookViewController.m */; };
 		180B00281783D6B70071E12D /* switchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B00271783D6B70071E12D /* switchController.m */; };
@@ -36,7 +36,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1805A276177ABFEB00FDFDC4 /* View.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = View.xib; sourceTree = "<group>"; };
+		18046A2E17866FCB009813D8 /* LoginResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResultViewController.h; sourceTree = "<group>"; };
+		18046A2F17866FCB009813D8 /* LoginResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResultViewController.m; sourceTree = "<group>"; };
 		18060521177C2E1500BD690D /* BookDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailViewController.h; sourceTree = "<group>"; };
 		18060522177C2E1500BD690D /* BookDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailViewController.m; sourceTree = "<group>"; };
 		18081483177D8E0A001E5506 /* resBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resBookViewController.h; sourceTree = "<group>"; };
@@ -96,6 +97,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+<<<<<<< HEAD
 		9047C71A1784418E0032EA40 /* about */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +109,32 @@
 				9047C71F1784418E0032EA40 /* OpenTimeViewController.xib */,
 			);
 			path = about;
+=======
+		18046A3117867004009813D8 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				913BD9141754963D00145B80 /* MainViewController.h */,
+				913BD9151754963D00145B80 /* MainViewController.m */,
+				913BD92A17587BFC00145B80 /* SearchResultViewController.h */,
+				913BD92B17587BFC00145B80 /* SearchResultViewController.m */,
+				18060521177C2E1500BD690D /* BookDetailViewController.h */,
+				18060522177C2E1500BD690D /* BookDetailViewController.m */,
+				18081483177D8E0A001E5506 /* resBookViewController.h */,
+				18081484177D8E0A001E5506 /* resBookViewController.m */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		18046A3217867028009813D8 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				180B00291783DB790071E12D /* loginViewController.h */,
+				180B002A1783DB790071E12D /* loginViewController.m */,
+				18046A2E17866FCB009813D8 /* LoginResultViewController.h */,
+				18046A2F17866FCB009813D8 /* LoginResultViewController.m */,
+			);
+			name = Login;
+>>>>>>> refs/remotes/origin/wolf
 			sourceTree = "<group>";
 		};
 		913BD8EB175494E400145B80 = {
@@ -153,19 +181,17 @@
 				180B002D1783FF380071E12D /* MBProgressHUD.m */,
 				180B00261783D6B70071E12D /* switchController.h */,
 				180B00271783D6B70071E12D /* switchController.m */,
+<<<<<<< HEAD
 				913BD9141754963D00145B80 /* MainViewController.h */,
 				913BD9151754963D00145B80 /* MainViewController.m */,
 				180B00291783DB790071E12D /* loginViewController.h */,
 				180B002A1783DB790071E12D /* loginViewController.m */,
 				9047C71A1784418E0032EA40 /* about */,
+=======
+				18046A3117867004009813D8 /* Search */,
+				18046A3217867028009813D8 /* Login */,
+>>>>>>> refs/remotes/origin/wolf
 				913BD8FE175494E400145B80 /* Supporting Files */,
-				913BD92A17587BFC00145B80 /* SearchResultViewController.h */,
-				913BD92B17587BFC00145B80 /* SearchResultViewController.m */,
-				1805A276177ABFEB00FDFDC4 /* View.xib */,
-				18060521177C2E1500BD690D /* BookDetailViewController.h */,
-				18060522177C2E1500BD690D /* BookDetailViewController.m */,
-				18081483177D8E0A001E5506 /* resBookViewController.h */,
-				18081484177D8E0A001E5506 /* resBookViewController.m */,
 			);
 			path = library;
 			sourceTree = "<group>";
@@ -239,9 +265,12 @@
 				913BD90A175494E400145B80 /* Default.png in Resources */,
 				913BD90C175494E400145B80 /* Default@2x.png in Resources */,
 				913BD90E175494E400145B80 /* Default-568h@2x.png in Resources */,
+<<<<<<< HEAD
 				1805A277177ABFEB00FDFDC4 /* View.xib in Resources */,
 				9047C7221784418E0032EA40 /* OpenTimeViewController.xib in Resources */,
 				90CBA9621785776000D57E39 /* opentime.png in Resources */,
+=======
+>>>>>>> refs/remotes/origin/wolf
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,8 +293,12 @@
 				180B00281783D6B70071E12D /* switchController.m in Sources */,
 				180B002B1783DB790071E12D /* loginViewController.m in Sources */,
 				180B002E1783FF380071E12D /* MBProgressHUD.m in Sources */,
+<<<<<<< HEAD
 				9047C7201784418E0032EA40 /* AboutViewController.m in Sources */,
 				9047C7211784418E0032EA40 /* OpenTimeViewController.m in Sources */,
+=======
+				18046A3017866FCB009813D8 /* LoginResultViewController.m in Sources */,
+>>>>>>> refs/remotes/origin/wolf
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

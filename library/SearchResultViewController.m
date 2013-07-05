@@ -381,23 +381,24 @@
     {
         NSString *MyIdentifier = @"moreArticles";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+        UILabel *morelabel = nil;
         if (cell == nil)
         {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier] autorelease];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
-            UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
             
-            UILabel *morelabel = [[UILabel alloc] init];
-            morelabel.frame = CGRectMake(20,6,200,20);
-            morelabel.tag = indexPath.row;
-            morelabel.backgroundColor = [UIColor clearColor];
-            morelabel.font = boldfont;
-            morelabel.textColor = [UIColor brownColor];
-            morelabel.text = @"載入更多...";
-            
-            [cell.contentView addSubview:morelabel];
+            morelabel = [[UILabel alloc] init];
         }
+        UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
         
+        morelabel.frame = CGRectMake(20,6,200,20);
+        morelabel.tag = indexPath.row;
+        morelabel.backgroundColor = [UIColor clearColor];
+        morelabel.font = boldfont;
+        morelabel.textColor = [UIColor brownColor];
+        morelabel.text = @"載入更多...";
+        
+        [cell.contentView addSubview:morelabel];
         return cell;
     }
 }

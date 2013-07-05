@@ -107,7 +107,7 @@
  
                         if([buf_press.tagName isEqualToString:@"a"])
                         {
-                            book_press = [book_press stringByAppendingString:((TFHppleElement*)[((TFHppleElement*)[buf_press.children objectAtIndex:0]).children objectAtIndex:0]).content];
+                            book_press = [book_press stringByAppendingString:((TFHppleElement*)[buf_press.children objectAtIndex:0]).content];
                         }
                         else if ([buf_press.tagName isEqualToString:@"text"])
                         {
