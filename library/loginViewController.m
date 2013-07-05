@@ -8,7 +8,7 @@
 
 #import "loginViewController.h"
 #import "TFHpple.h"
-#import "SearchResultViewController.h"
+#import "LoginResultViewController.h"
 
 @interface loginViewController ()
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
@@ -108,7 +108,7 @@
         [searchResultArray addObject:[[buf.children objectAtIndex:0] content]];
     }
     // NSLog(@"%@",searchResultArray);
-    SearchResultViewController * display = [[SearchResultViewController alloc]initWithStyle:UITableViewStylePlain];
+    LoginResultViewController * display = [[LoginResultViewController alloc]initWithStyle:UITableViewStylePlain];
     display.data =[[NSMutableArray alloc]initWithArray:searchResultArray];
     [self.navigationController pushViewController:display animated:YES];
     [display release];
