@@ -177,14 +177,22 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    //建立一個NSURL物件
+    NSURL *url = [NSURL URLWithString: [[NEWSdata objectAtIndex:indexPath.row] objectForKeyedSubscript:@"url"]];
+    //建立一個NSURLRequest物件
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+    
+    //建立一個UIWebView 物件
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:[self.view frame]];
+    
+    //讓 UIWebView 連上NSURLRequest 物件所設定好的網址
+    [webView loadRequest:requestObj];
+    
+    //將 UIWebVeiw 物件加入到現有的 View 上
+    [self.view addSubview:webView];
+    
+    //釋放 UIWebView佔用的記憶體  
+    [webView release];
 }
 
 -(void)getcontent:(TFHpple *)parser
@@ -210,7 +218,7 @@
             if([tmp.tagName isEqualToString:@"font"])
             {
                 highlight = ((TFHppleElement*)[tmp.children objectAtIndex:0]).content;
-                NSLog(@"--highlight:%@\n",highlight);
+                //NSLog(@"--highlight:%@\n",highlight);
                 break;
             }
         }
@@ -225,7 +233,7 @@
                 else{
                     newstitle =[NSString stringWithFormat: @"%@%@",tmp.content,highlight];
                 }
-                NSLog(@"--title:%@\n",newstitle);
+                //NSLog(@"--title:%@\n",newstitle);
                 [news setObject:newstitle forKey:@"title"];
             }
             
@@ -233,14 +241,14 @@
         
         
          NSString *url = [buffer.attributes objectForKey:@"href"];
-        NSLog(@"--URL:%@\n",url);
+        //NSLog(@"--URL:%@\n",url);
         [news setObject:url forKey:@"url"];
         
         TFHppleElement* buffer2 = [timeData  objectAtIndex:i*2];
         if ([buffer2.tagName isEqualToString:@"span"]&&[[buffer2.attributes objectForKey:@"class"]isEqualToString:@"rdate"])
         {
             NSString *time = ((TFHppleElement*)[buffer2.children objectAtIndex:0]).content;
-            NSLog(@"--time:%@\n",time);
+            //NSLog(@"--time:%@\n",time);
             [news setObject:time forKey:@"time"];
         }
         [NEWSdata addObject:news];
