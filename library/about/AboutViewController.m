@@ -8,6 +8,7 @@
 
 #import "AboutViewController.h"
 #import "OpenTimeViewController.h"
+#import "NewsViewController.h"
 
 @interface AboutViewController ()
 
@@ -19,6 +20,7 @@
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
+        self.title=@"關於";
         // Custom initialization
     }
     return self;
@@ -162,8 +164,13 @@
     
     switch (indexPath.section) {
         case 0:
-            ;
+        {
+            NewsViewController *news = [[NewsViewController alloc]init];
+            news.title= @"最新消息";
+            [self.navigationController pushViewController:news  animated:YES];
+            [news release];
             break;
+        }
         case 1:
             switch (indexPath.row)
             {
