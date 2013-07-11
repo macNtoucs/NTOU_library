@@ -1,27 +1,26 @@
 //
-//  AboutViewController.m
+//  floorInfoViewController.m
 //  library
 //
-//  Created by su on 13/7/3.
+//  Created by su on 13/7/10.
 //  Copyright (c) 2013年 NTOUcs_MAC. All rights reserved.
 //
 
-#import "AboutViewController.h"
-#import "OpenTimeViewController.h"
-#import "NewsViewController.h"
 #import "floorInfoViewController.h"
-
-@interface AboutViewController ()
+#define FONT_SIZE 14.0f
+#define CELL_CONTENT_WIDTH 320.0f
+#define CELL_CONTENT_MARGIN 10.0f
+@interface floorInfoViewController ()
 
 @end
 
-@implementation AboutViewController
-
+@implementation floorInfoViewController
+@synthesize floorInfo;
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-        self.title=@"關於";
+        self.title = @"樓層簡介";
         // Custom initialization
     }
     return self;
@@ -29,6 +28,10 @@
 
 - (void)viewDidLoad
 {
+    
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"LibraryFloor" ofType:@"plist"];
+    self.floorInfo= [NSArray arrayWithContentsOfFile: plistPath]; //讀取plist file
+    
     [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -45,30 +48,65 @@
 }
 
 #pragma mark - Table view data source
+/*
+- (UIView *) tableView: (UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+	NSString *headerTitle;
+    switch (section) {
+        case 0:
+            headerTitle = @"圖書一館";
+            break;
+        case 1:
+            headerTitle = @"圖書二館";
+            break;
+        default:
+            break;
+    }
+    UIFont *font = [UIFont fontWithName:@"Helvetica" size:16.0];;
+	CGSize size = [headerTitle sizeWithFont:font];
+	CGRect appFrame = [[UIScreen mainScreen] applicationFrame];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(19.0, 3.0, appFrame.size.width - 19.0, size.height)];
+	
+	label.text = headerTitle;
+	label.textColor = [UIColor blackColor];
+	label.font = font;
+	label.backgroundColor = [UIColor clearColor];
+	
+	UIView *labelContainer = [[[UIView alloc] initWithFrame:CGRectMake(10.0, 10.0, appFrame.size.width,20)] autorelease];
+	labelContainer.backgroundColor = [UIColor clearColor];
+	
+	[labelContainer addSubview:label];
+	[label release];
+	return labelContainer;
+}*/
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case 0:
+            return  @"圖書一館";
+            break;
+        case 1:
+            return  @"圖書二館";
+            break;
+        default:
+            return  @"";
+            break;
+    }
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 2;
+    return [self.floorInfo count];
+    //return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    switch (section) {
-        case 0:
-            return 1;
-            break;
-        case 1:
-            return 3;
-            break;
-        default:
-            return 0;
-            break;
-    }
-    
+    return [[self.floorInfo objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -77,38 +115,37 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    switch (indexPath.section)  {
-        case 0:
-            switch (indexPath.row) {
-                case 0:
-                    cell.textLabel.text = @"最新消息";
-                    break;
-            }
-            break;
-        case 1:
-            switch (indexPath.row) {
-                case 0:
-                    cell.textLabel.text = @"開館時間";
-                    break;
-                case 1:
-                    cell.textLabel.text = @"樓層簡介";
-                    break;
-                case 2:
-                    cell.textLabel.text = @"聯絡資訊";
-                    break;
-                default:
-                    break;
-            }
-            break;
-        default:
-            break;
-    }
     
+    
+    NSArray *hall = [self.floorInfo objectAtIndex:indexPath.section];
+    NSDictionary *floor = [hall objectAtIndex:indexPath.row];
+    
+    NSString *floortitle = [floor objectForKey:@"floor"];
+    cell.textLabel.text = floortitle;
+    cell.font = [UIFont fontWithName:@"Helvetica" size:14.0];
+    cell.textLabel.textAlignment = UITextAlignmentCenter;
+    cell.textLabel.textColor = [UIColor brownColor];
+    
+    cell.detailTextLabel.text = [floor objectForKey:@"info"];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:12.0];
+    cell.detailTextLabel.numberOfLines = 0;
+    [cell setLineBreakMode:UILineBreakModeCharacterWrap];
     return cell;
+}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+{
+    NSString *text = [[[self.floorInfo objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"info"];
+    CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), 20000.0f);
+    
+    CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+    
+    CGFloat height = MAX(size.height, 44.0f);
+    
+    return height + (CELL_CONTENT_MARGIN * 2) + 5;
 }
 
 /*
@@ -162,52 +199,6 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
-    
-    switch (indexPath.section) {
-        case 0:
-        {
-            NewsViewController *news = [[NewsViewController alloc]init];
-            news.title= @"最新消息";
-            [self.navigationController pushViewController:news  animated:YES];
-            [news release];
-            break;
-        }
-        case 1:
-            switch (indexPath.row)
-            {
-                case 0:
-                {
-                    OpenTimeViewController *opentime = [[OpenTimeViewController alloc] init];
-                    opentime.title=@"開館時間";
-                    [self.navigationController pushViewController:opentime  animated:YES];
-                    [opentime release];
-                  
-                    break;
-                }
-                case 1:
-                {
-                    floorInfoViewController *floorinfo = [[floorInfoViewController alloc] init];
-                    floorinfo.title=@"樓層簡介";
-                    [self.navigationController pushViewController:floorinfo  animated:YES];
-                    [floorinfo release];
-                    break;
-                }
-                case 2:
-                {
-                    
-                    break;
-                }
-                default:
-                    break;
-            }
-            break;
-        default:
-            break;
-    }
-    
-    
-    
-    
 }
 
 @end

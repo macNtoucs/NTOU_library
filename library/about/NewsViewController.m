@@ -9,6 +9,7 @@
 #import "NewsViewController.h"
 #import "MBProgressHUD.h"
 #import "TFHpple.h"
+#import "loadWebViewController.h"
 #define FONT_SIZE 14.0f
 #define CELL_CONTENT_WIDTH 320.0f
 #define CELL_CONTENT_MARGIN 10.0f
@@ -177,22 +178,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //建立一個NSURL物件
-    NSURL *url = [NSURL URLWithString: [[NEWSdata objectAtIndex:indexPath.row] objectForKeyedSubscript:@"url"]];
-    //建立一個NSURLRequest物件
-    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
-    
-    //建立一個UIWebView 物件
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:[self.view frame]];
-    
-    //讓 UIWebView 連上NSURLRequest 物件所設定好的網址
-    [webView loadRequest:requestObj];
-    
-    //將 UIWebVeiw 物件加入到現有的 View 上
-    [self.view addSubview:webView];
-    
-    //釋放 UIWebView佔用的記憶體  
-    [webView release];
+    loadWebViewController* load = [[loadWebViewController alloc] init];
+    load.stringurl = [[NEWSdata objectAtIndex:indexPath.row] objectForKeyedSubscript:@"url"];
+    load.title = @"";
+    [self.navigationController pushViewController:load animated:YES];
+    [load release];
 }
 
 -(void)getcontent:(TFHpple *)parser
@@ -210,6 +200,7 @@
         TFHppleElement* buffer = [newsData objectAtIndex:i];
         NSString* newstitle;
         NSString* highlight = @"";
+        NSString* tmpContent= @"";
         
         //<font color="red" size="+2">(徵才)</font>
         size_t j;
@@ -223,21 +214,21 @@
             }
         }
         
-        
         for (size_t k=0; k<[buffer.children count]; k++) {
             TFHppleElement* tmp = [buffer.children objectAtIndex:k];
             if ([tmp.tagName isEqualToString:@"text"]) {
-                if (j==0) {
-                    newstitle =[NSString stringWithFormat: @"%@%@",highlight,tmp.content];
-                }
-                else{
-                    newstitle =[NSString stringWithFormat: @"%@%@",tmp.content,highlight];
-                }
-                //NSLog(@"--title:%@\n",newstitle);
-                [news setObject:newstitle forKey:@"title"];
+                tmpContent = tmp.content;
             }
             
         }
+        if (j==0) {
+            newstitle =[NSString stringWithFormat: @"%@%@",highlight,tmpContent];
+        }
+        else{
+            newstitle =[NSString stringWithFormat: @"%@%@",tmpContent,highlight];
+        }
+        //NSLog(@"--title:%@\n",newstitle);
+        [news setObject:newstitle forKey:@"title"];
         
         
          NSString *url = [buffer.attributes objectForKey:@"href"];
