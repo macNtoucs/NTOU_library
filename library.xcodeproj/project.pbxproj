@@ -19,7 +19,6 @@
 		180C05AD1786C3A00042ACFE /* OpenTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180C05A91786C3A00042ACFE /* OpenTimeViewController.m */; };
 		180C05AE1786C3A00042ACFE /* OpenTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */; };
 		9053DE911786CFAC0015E837 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9053DE901786CFAC0015E837 /* NewsViewController.m */; };
-		90AFA3F1178E68DA007A88D4 /* loadWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AFA3F0178E68DA007A88D4 /* loadWebViewController.m */; };
 		90BEAC17178D49D000B8CE03 /* LibraryFloor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAC16178D49D000B8CE03 /* LibraryFloor.plist */; };
 		90BEAC1A178D4CDC00B8CE03 /* floorInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */; };
 		913BD8F8175494E400145B80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F7175494E400145B80 /* UIKit.framework */; };
@@ -61,8 +60,6 @@
 		180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OpenTimeViewController.xib; sourceTree = "<group>"; };
 		9053DE8F1786CFAC0015E837 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		9053DE901786CFAC0015E837 /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
-		90AFA3EF178E68DA007A88D4 /* loadWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loadWebViewController.h; sourceTree = "<group>"; };
-		90AFA3F0178E68DA007A88D4 /* loadWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loadWebViewController.m; sourceTree = "<group>"; };
 		90BEAC16178D49D000B8CE03 /* LibraryFloor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LibraryFloor.plist; path = about/LibraryFloor.plist; sourceTree = "<group>"; };
 		90BEAC18178D4CDC00B8CE03 /* floorInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = floorInfoViewController.h; sourceTree = "<group>"; };
 		90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = floorInfoViewController.m; sourceTree = "<group>"; };
@@ -145,8 +142,6 @@
 				180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */,
 				9053DE8F1786CFAC0015E837 /* NewsViewController.h */,
 				9053DE901786CFAC0015E837 /* NewsViewController.m */,
-				90AFA3EF178E68DA007A88D4 /* loadWebViewController.h */,
-				90AFA3F0178E68DA007A88D4 /* loadWebViewController.m */,
 				90BEAC18178D4CDC00B8CE03 /* floorInfoViewController.h */,
 				90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */,
 			);
@@ -305,7 +300,6 @@
 				180C05AD1786C3A00042ACFE /* OpenTimeViewController.m in Sources */,
 				9053DE911786CFAC0015E837 /* NewsViewController.m in Sources */,
 				90BEAC1A178D4CDC00B8CE03 /* floorInfoViewController.m in Sources */,
-				90AFA3F1178E68DA007A88D4 /* loadWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

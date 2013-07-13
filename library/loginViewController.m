@@ -76,7 +76,7 @@
 }
 
 -(void)Login{
-    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",accounttextField.text,passWordtextField.text] ;
+    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",accounttextField.text,passWordtextField.text];
     NSHTTPURLResponse *urlResponse = nil;
     NSError *error = [[[NSError alloc] init]autorelease];
     NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];

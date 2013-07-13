@@ -113,39 +113,57 @@
 {
     NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d%d",indexPath.section,indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UILabel *levellabel = nil;
+    UILabel *infolabel = nil;
+
     if (cell == nil)
     {
+        levellabel = [[UILabel alloc] init];
+        infolabel = [[UILabel alloc] init];
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
     }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     
     NSArray *hall = [self.floorInfo objectAtIndex:indexPath.section];
     NSDictionary *floor = [hall objectAtIndex:indexPath.row];
-    
+    NSString *infotext = [floor objectForKey:@"info"];
     NSString *floortitle = [floor objectForKey:@"floor"];
-    cell.textLabel.text = floortitle;
-    cell.font = [UIFont fontWithName:@"Helvetica" size:14.0];
-    cell.textLabel.textAlignment = UITextAlignmentCenter;
-    cell.textLabel.textColor = [UIColor brownColor];
+
+    CGSize maximumLabelSize = CGSizeMake(200,9999);
+    CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), 20000.0f);
+    CGSize size = [infotext sizeWithFont:[UIFont fontWithName:@"Helvetica" size:13.0] constrainedToSize:maximumLabelSize lineBreakMode:UILineBreakModeWordWrap];
+        
+    levellabel.text = floortitle;
+    levellabel.font = [UIFont boldSystemFontOfSize:14.0];
+    levellabel.textAlignment = UITextAlignmentCenter;
+    levellabel.textColor = [UIColor brownColor];
+    levellabel.frame = CGRectMake(10,(30 + size.height)/2 - 7,50,14);
+    levellabel.textAlignment = NSTextAlignmentRight;
+    levellabel.backgroundColor = [UIColor clearColor];
     
-    cell.detailTextLabel.text = [floor objectForKey:@"info"];
-    cell.detailTextLabel.font = [UIFont fontWithName:@"Helvetica" size:12.0];
-    cell.detailTextLabel.numberOfLines = 0;
-    [cell setLineBreakMode:UILineBreakModeCharacterWrap];
+    infolabel.text = infotext;
+    infolabel.font = [UIFont fontWithName:@"Helvetica" size:13.0];
+    infolabel.numberOfLines = 0;
+    infolabel.lineBreakMode = NSLineBreakByWordWrapping;
+    infolabel.frame = CGRectMake(75,15,200,size.height);
+    infolabel.backgroundColor = [UIColor clearColor];
+
+    [cell.contentView addSubview:levellabel];
+    [cell.contentView addSubview:infolabel];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
     NSString *text = [[[self.floorInfo objectAtIndex:indexPath.section] objectAtIndex:indexPath.row] objectForKey:@"info"];
-    CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), 20000.0f);
+    CGSize maximumLabelSize = CGSizeMake(200,9999);
     
-    CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+    CGSize size = [text sizeWithFont:[UIFont fontWithName:@"Helvetica" size:13.0] constrainedToSize:maximumLabelSize lineBreakMode:UILineBreakModeWordWrap];
     
-    CGFloat height = MAX(size.height, 44.0f);
+    CGFloat height = size.height + 30;
     
-    return height + (CELL_CONTENT_MARGIN * 2) + 5;
+    return height;
 }
 
 /*

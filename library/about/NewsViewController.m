@@ -9,7 +9,6 @@
 #import "NewsViewController.h"
 #import "MBProgressHUD.h"
 #import "TFHpple.h"
-#import "loadWebViewController.h"
 #define FONT_SIZE 14.0f
 #define CELL_CONTENT_WIDTH 320.0f
 #define CELL_CONTENT_MARGIN 10.0f
@@ -105,9 +104,9 @@
     if (cell == nil)
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
     
     NSDictionary *news = [NEWSdata objectAtIndex:indexPath.row];
     NSString *newstitle = [news objectForKey:@"title"];
@@ -130,9 +129,9 @@
     
     CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:FONT_SIZE] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
     
-    CGFloat height = MAX(size.height, 44.0f);
+    CGFloat height = size.height + 12 + 16 + 2;
     
-    return height + (CELL_CONTENT_MARGIN * 2) + 5;
+    return height;
 }
 
 /*
@@ -178,10 +177,27 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    /*
     loadWebViewController* load = [[loadWebViewController alloc] init];
     load.stringurl = [[NEWSdata objectAtIndex:indexPath.row] objectForKeyedSubscript:@"url"];
     load.title = @"";
+    */
+    UIViewController *load = [[UIViewController alloc] init];
+    NSString *weburl = [[NEWSdata objectAtIndex:indexPath.row] objectForKeyedSubscript:@"url"];
+    NSURL *url = [NSURL URLWithString: weburl];
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:[self.view frame]];
+    
+    //讓 UIWebView 連上NSURLRequest 物件所設定好的網址
+    [webView loadRequest:requestObj];
+
+    [load.view addSubview:webView];
+    load.title = weburl;
+
     [self.navigationController pushViewController:load animated:YES];
+    
+    //釋放 UIWebView佔用的記憶體
+    [webView release];
     [load release];
 }
 
