@@ -8,6 +8,8 @@
 
 #import "AboutViewController.h"
 #import "OpenTimeViewController.h"
+#import "NewsViewController.h"
+#import "floorInfoViewController.h"
 
 @interface AboutViewController ()
 
@@ -19,6 +21,7 @@
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
+        self.title=@"關於";
         // Custom initialization
     }
     return self;
@@ -160,8 +163,13 @@
     
     switch (indexPath.section) {
         case 0:
-            ;
+        {
+            NewsViewController *news = [[NewsViewController alloc]init];
+            news.title= @"最新消息";
+            [self.navigationController pushViewController:news  animated:YES];
+            [news release];
             break;
+        }
         case 1:
             switch (indexPath.row)
             {
@@ -175,11 +183,18 @@
                     break;
                 }
                 case 1:
-                    ;
+                {
+                    floorInfoViewController *floorinfo = [[floorInfoViewController alloc] init];
+                    floorinfo.title=@"樓層簡介";
+                    [self.navigationController pushViewController:floorinfo  animated:YES];
+                    [floorinfo release];
                     break;
+                }
                 case 2:
-                    ;
+                {
+                    
                     break;
+                }
                 default:
                     break;
             }
