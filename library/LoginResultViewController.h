@@ -10,4 +10,6 @@
 
 @interface LoginResultViewController : UITableViewController
 @property (nonatomic,retain) NSMutableArray *data;
+@property (nonatomic,retain) NSMutableArray *resdata;
+
 @end

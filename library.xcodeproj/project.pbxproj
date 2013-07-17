@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		18046A3017866FCB009813D8 /* LoginResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A2F17866FCB009813D8 /* LoginResultViewController.m */; };
 		18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18060522177C2E1500BD690D /* BookDetailViewController.m */; };
-		18081485177D8E0A001E5506 /* resBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18081484177D8E0A001E5506 /* resBookViewController.m */; };
+		1808605D17968D27009D8F9E /* RBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1808605C17968D27009D8F9E /* RBookViewController.m */; };
 		180B00281783D6B70071E12D /* switchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B00271783D6B70071E12D /* switchController.m */; };
 		180B002B1783DB790071E12D /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B002A1783DB790071E12D /* loginViewController.m */; };
 		180B002E1783FF380071E12D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B002D1783FF380071E12D /* MBProgressHUD.m */; };
@@ -43,8 +43,8 @@
 		18046A2F17866FCB009813D8 /* LoginResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResultViewController.m; sourceTree = "<group>"; };
 		18060521177C2E1500BD690D /* BookDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailViewController.h; sourceTree = "<group>"; };
 		18060522177C2E1500BD690D /* BookDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailViewController.m; sourceTree = "<group>"; };
-		18081483177D8E0A001E5506 /* resBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resBookViewController.h; sourceTree = "<group>"; };
-		18081484177D8E0A001E5506 /* resBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = resBookViewController.m; sourceTree = "<group>"; };
+		1808605B17968D27009D8F9E /* RBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBookViewController.h; sourceTree = "<group>"; };
+		1808605C17968D27009D8F9E /* RBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBookViewController.m; sourceTree = "<group>"; };
 		180B00261783D6B70071E12D /* switchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = switchController.h; sourceTree = "<group>"; };
 		180B00271783D6B70071E12D /* switchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = switchController.m; sourceTree = "<group>"; };
 		180B00291783DB790071E12D /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
@@ -114,8 +114,8 @@
 				913BD92B17587BFC00145B80 /* SearchResultViewController.m */,
 				18060521177C2E1500BD690D /* BookDetailViewController.h */,
 				18060522177C2E1500BD690D /* BookDetailViewController.m */,
-				18081483177D8E0A001E5506 /* resBookViewController.h */,
-				18081484177D8E0A001E5506 /* resBookViewController.m */,
+				1808605B17968D27009D8F9E /* RBookViewController.h */,
+				1808605C17968D27009D8F9E /* RBookViewController.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -291,7 +291,6 @@
 				913BD9231754A61000145B80 /* XPathQuery.m in Sources */,
 				913BD92C17587BFC00145B80 /* SearchResultViewController.m in Sources */,
 				18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */,
-				18081485177D8E0A001E5506 /* resBookViewController.m in Sources */,
 				180B00281783D6B70071E12D /* switchController.m in Sources */,
 				180B002B1783DB790071E12D /* loginViewController.m in Sources */,
 				180B002E1783FF380071E12D /* MBProgressHUD.m in Sources */,
@@ -300,6 +299,7 @@
 				180C05AD1786C3A00042ACFE /* OpenTimeViewController.m in Sources */,
 				9053DE911786CFAC0015E837 /* NewsViewController.m in Sources */,
 				90BEAC1A178D4CDC00B8CE03 /* floorInfoViewController.m in Sources */,
+				1808605D17968D27009D8F9E /* RBookViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,6 +328,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Lin ching-chi (JJY99JB76X)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -348,6 +349,7 @@
 					"-all_load",
 					"-ObjC",
 				);
+				PROVISIONING_PROFILE = "A96366A8-47B7-4DCC-B182-33ED1AB30121";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;

@@ -8,7 +8,7 @@
 
 #import "BookDetailViewController.h"
 #import "TFHpple.h"
-#import "resBookViewController.h"
+#import "RBookViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface BookDetailViewController ()
@@ -493,7 +493,7 @@
 
     if(section == 2)
     {
-        resBookViewController * display = [[resBookViewController alloc]init];
+        RBookViewController * display = [[RBookViewController alloc]initWithStyle:UITableViewStyleGrouped];
         display.resurl = [bookdetail objectForKey:@"resurl"];
         [self.navigationController pushViewController:display animated:YES];
     }
