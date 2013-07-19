@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class WOLSwitchViewController;
 @interface LoginResultViewController : UITableViewController
-@property (nonatomic,retain) NSMutableArray *data;
-@property (nonatomic,retain) NSMutableArray *resdata;
+@property (nonatomic,retain) NSString *fetchURL;
+@property (strong, nonatomic) WOLSwitchViewController *switchviewcontroller;
 
+-(void)fetchHistory;
 @end

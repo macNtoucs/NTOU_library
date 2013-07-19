@@ -7,43 +7,33 @@
 //
 
 #import "LoginResultViewController.h"
+#import "TFHpple.h"
+#import "WOLSwitchViewController.h"
+#import "MBProgressHUD.h"
 
 @interface LoginResultViewController ()
-{
-    NSInteger nowView;
-}
 @property (nonatomic,retain) NSMutableArray *maindata;
+
 @end
 
 @implementation LoginResultViewController
-@synthesize data;
-@synthesize resdata;
+@synthesize fetchURL;
+@synthesize switchviewcontroller;
 @synthesize maindata;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
+        NSInteger screenheight = [[UIScreen mainScreen] bounds].size.height;
+        self.view.frame = CGRectMake(0, 0, 320,screenheight - 20);
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-    UIBarButtonItem *menuButton = [[UIBarButtonItem alloc]
-                                   initWithTitle:@"預約"
-                                   style:UIBarButtonItemStyleBordered
-                                   target:self
-                                   action:@selector(switchview)];
-    menuButton.style = UIBarButtonItemStylePlain;
-    
-    self.navigationItem.rightBarButtonItem = menuButton;
-    
-    nowView = 0;
-    maindata = [[NSMutableArray alloc] initWithArray:data];
-    
-    self.title = @"借閱歷史紀錄";
+    maindata = [[NSMutableArray alloc] init];
     [super viewDidLoad];
 }
 
@@ -53,24 +43,55 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)switchview
-{
-    nowView = (nowView == 0)?1:0;
-    
-    [maindata release];
-    if(nowView == 0)
-    {
-        self.title = @"借閱歷史紀錄";
-        self.navigationItem.rightBarButtonItem.title = @"預約";
-        maindata = [[NSMutableArray alloc] initWithArray:data];
-    }
-    else
-    {
-        self.title = @"預約記錄";
-        self.navigationItem.rightBarButtonItem.title = @"借閱歷史";
-        maindata = [[NSMutableArray alloc] initWithArray:resdata];
-    }
-    [self.tableView reloadData];
+-(void)fetchHistory{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Show the HUD in the main tread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // No need to hod onto (retain)
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+            hud.labelText = @"Loading";
+        });
+        NSError *error;
+        NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:fetchURL] encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+        
+        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
+        NSArray *tableData_td  = [parser searchWithXPathQuery:@"//html//body//div//form//table//tr"];
+        [maindata removeAllObjects];
+        
+        NSMutableDictionary *book;
+        for (size_t i = 0 ; i < [tableData_td count] ; ++i){
+            TFHppleElement* buf = [tableData_td objectAtIndex:i];
+            if([[buf.attributes objectForKey:@"class"] isEqualToString:@"patFuncEntry"])
+            {
+                book = [[NSMutableDictionary alloc] init];
+                for (size_t j = 0 ; j < [buf.children count] ; ++j){
+                    TFHppleElement* buf_b = [buf.children objectAtIndex:j];
+                    
+                    if([buf_b.attributes objectForKey:@"width"] != NULL && [buf_b.attributes objectForKey:@"class"] != NULL)
+                    {
+                        if([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"30%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
+                        {
+                            [book setObject:[[((TFHppleElement*)[buf_b.children objectAtIndex:0]).children objectAtIndex:0] content] forKey:@"bookname"];
+                        }
+                        else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"20%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncAuthor"])
+                        {
+                            [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"auther"];
+                        }
+                        else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"15%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncDate"])
+                        {
+                            [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"date"];
+                        }
+                    }
+                }
+                [maindata addObject:book];
+                [book release];
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            [self.tableView reloadData];
+        });
+    });
 }
 
 #pragma mark - Table view data source
@@ -89,17 +110,7 @@
 {
     if([maindata count] == 0)
     {
-        switch (nowView) {
-            case 0:
-                return [NSString stringWithFormat:@"沒有借閱歷史紀錄"];
-                break;
-            case 1:
-                return [NSString stringWithFormat:@"沒有預約記錄"];
-                break;
-            default:
-                return NULL;
-                break;
-        }
+        return [NSString stringWithFormat:@"沒有借閱歷史紀錄"];
     }
     else
         return NULL;
@@ -107,7 +118,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {    
-    NSString *MyIdentifier = [NSString stringWithFormat:@"Cell%d%d",indexPath.row,nowView];
+    NSString *MyIdentifier = [NSString stringWithFormat:@"Cell%d",indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     UILabel *name = nil;
     UILabel *date = nil;
@@ -133,155 +144,58 @@
         cancel = [[UILabel alloc] init];
         cancelleabel = [[UILabel alloc] init];
     }
+
+    NSDictionary *book = [maindata objectAtIndex:indexPath.row];
+    NSString *bookname = [book objectForKey:@"bookname"];
+    NSString *bookdate = [book objectForKey:@"date"];
+
+    UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
+    UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
+    CGSize maximumLabelSize = CGSizeMake(200,9999);
+    CGSize booknameLabelSize = [bookname sizeWithFont:font
+                                    constrainedToSize:maximumLabelSize
+                                        lineBreakMode:NSLineBreakByWordWrapping];
     
-    if(nowView == 0)
-    {
-        NSDictionary *book = [maindata objectAtIndex:indexPath.row];
-        NSString *bookname = [book objectForKey:@"bookname"];
-        NSString *bookdate = [book objectForKey:@"date"];
-
-        UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
-        UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
-        CGSize maximumLabelSize = CGSizeMake(200,9999);
-        CGSize booknameLabelSize = [bookname sizeWithFont:font
-                                        constrainedToSize:maximumLabelSize
-                                            lineBreakMode:NSLineBreakByWordWrapping];
-        
-        namelabel.frame = CGRectMake(5,7,80,15);
-        namelabel.text = @"書名/作者：";
-        namelabel.lineBreakMode = NSLineBreakByWordWrapping;
-        namelabel.numberOfLines = 0;
-        namelabel.textAlignment = NSTextAlignmentRight;
-        namelabel.tag = indexPath.row;
-        namelabel.backgroundColor = [UIColor clearColor];
-        namelabel.font = boldfont;
-        
-        name.frame = CGRectMake(90,6,200,booknameLabelSize.height);
-        name.text = bookname;
-        name.lineBreakMode = NSLineBreakByWordWrapping;
-        name.numberOfLines = 0;
-        name.tag = indexPath.row;
-        name.backgroundColor = [UIColor clearColor];
-        name.font = font;
-        
-        datelabel.frame = CGRectMake(5,10 + booknameLabelSize.height,80,15);
-        datelabel.text = @"借書：";
-        datelabel.lineBreakMode = NSLineBreakByWordWrapping;
-        datelabel.numberOfLines = 0;
-        datelabel.textAlignment = NSTextAlignmentRight;
-        datelabel.tag = indexPath.row;
-        datelabel.backgroundColor = [UIColor clearColor];
-        datelabel.font = boldfont;
-        
-        date.frame = CGRectMake(90,10 + booknameLabelSize.height,200,14);
-        date.text = bookdate;
-        date.lineBreakMode = NSLineBreakByWordWrapping;
-        date.numberOfLines = 0;
-        date.tag = indexPath.row;
-        date.backgroundColor = [UIColor clearColor];
-        date.font = font;
-        
-        [cell.contentView addSubview:namelabel];
-        [cell.contentView addSubview:name];
-        
-        [cell.contentView addSubview:datelabel];
-        [cell.contentView addSubview:date];
-    }
-    else if(nowView == 1)
-    {
-        NSDictionary *book = [maindata objectAtIndex:indexPath.row];
-        NSString *bookname = [book objectForKey:@"bookname"];
-        NSString *bookdate = [book objectForKey:@"date"];
-        NSString *bookplace = [book objectForKey:@"place"];
-        NSString *bookcancel = [book objectForKey:@"cancel"];
-        
-        UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
-        UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
-        CGSize maximumLabelSize = CGSizeMake(200,9999);
-        CGSize booknameLabelSize = [bookname sizeWithFont:font
-                                        constrainedToSize:maximumLabelSize
-                                            lineBreakMode:NSLineBreakByWordWrapping];
-        
-        namelabel.frame = CGRectMake(5,7,90,15);
-        namelabel.text = @"書名/作者：";
-        namelabel.lineBreakMode = NSLineBreakByWordWrapping;
-        namelabel.numberOfLines = 0;
-        namelabel.textAlignment = NSTextAlignmentRight;
-        namelabel.tag = indexPath.row;
-        namelabel.backgroundColor = [UIColor clearColor];
-        namelabel.font = boldfont;
-        
-        name.frame = CGRectMake(100,6,200,booknameLabelSize.height);
-        name.text = bookname;
-        name.lineBreakMode = NSLineBreakByWordWrapping;
-        name.numberOfLines = 0;
-        name.tag = indexPath.row;
-        name.backgroundColor = [UIColor clearColor];
-        name.font = font;
-        
-        datelabel.frame = CGRectMake(5,10 + booknameLabelSize.height,90,15);
-        datelabel.text = @"狀態：";
-        datelabel.lineBreakMode = NSLineBreakByWordWrapping;
-        datelabel.numberOfLines = 0;
-        datelabel.textAlignment = NSTextAlignmentRight;
-        datelabel.tag = indexPath.row;
-        datelabel.backgroundColor = [UIColor clearColor];
-        datelabel.font = boldfont;
-        
-        date.frame = CGRectMake(100,10 + booknameLabelSize.height,200,14);
-        date.text = bookdate;
-        date.lineBreakMode = NSLineBreakByWordWrapping;
-        date.numberOfLines = 0;
-        date.tag = indexPath.row;
-        date.backgroundColor = [UIColor clearColor];
-        date.font = font;
-        
-        placelabel.frame = CGRectMake(5,29 + booknameLabelSize.height,90,15);
-        placelabel.text = @"取書館藏地：";
-        placelabel.lineBreakMode = NSLineBreakByWordWrapping;
-        placelabel.numberOfLines = 0;
-        placelabel.textAlignment = NSTextAlignmentRight;
-        placelabel.tag = indexPath.row;
-        placelabel.backgroundColor = [UIColor clearColor];
-        placelabel.font = boldfont;
-        
-        place.frame = CGRectMake(100,29 + booknameLabelSize.height,200,14);
-        place.text = bookplace;
-        place.lineBreakMode = NSLineBreakByWordWrapping;
-        place.numberOfLines = 0;
-        place.tag = indexPath.row;
-        place.backgroundColor = [UIColor clearColor];
-        place.font = font;
-
-        cancelleabel.frame = CGRectMake(5,48 + booknameLabelSize.height,90,15);
-        cancelleabel.text = @"取消預約日：";
-        cancelleabel.lineBreakMode = NSLineBreakByWordWrapping;
-        cancelleabel.numberOfLines = 0;
-        cancelleabel.textAlignment = NSTextAlignmentRight;
-        cancelleabel.tag = indexPath.row;
-        cancelleabel.backgroundColor = [UIColor clearColor];
-        cancelleabel.font = boldfont;
-        
-        cancel.frame = CGRectMake(100,48 + booknameLabelSize.height,200,14);
-        cancel.text = bookcancel;
-        cancel.lineBreakMode = NSLineBreakByWordWrapping;
-        cancel.numberOfLines = 0;
-        cancel.tag = indexPath.row;
-        cancel.backgroundColor = [UIColor clearColor];
-        cancel.font = font;
-        
-        [cell.contentView addSubview:cancelleabel];
-        [cell.contentView addSubview:cancel];
-        
-        [cell.contentView addSubview:namelabel];
-        [cell.contentView addSubview:name];
-        
-        [cell.contentView addSubview:datelabel];
-        [cell.contentView addSubview:date];
-        
-        [cell.contentView addSubview:placelabel];
-        [cell.contentView addSubview:place];
-    }
+    namelabel.frame = CGRectMake(5,7,80,15);
+    namelabel.text = @"書名/作者：";
+    namelabel.lineBreakMode = NSLineBreakByWordWrapping;
+    namelabel.numberOfLines = 0;
+    namelabel.textAlignment = NSTextAlignmentRight;
+    namelabel.tag = indexPath.row;
+    namelabel.backgroundColor = [UIColor clearColor];
+    namelabel.font = boldfont;
+    
+    name.frame = CGRectMake(90,6,200,booknameLabelSize.height);
+    name.text = bookname;
+    name.lineBreakMode = NSLineBreakByWordWrapping;
+    name.numberOfLines = 0;
+    name.tag = indexPath.row;
+    name.backgroundColor = [UIColor clearColor];
+    name.font = font;
+    
+    datelabel.frame = CGRectMake(5,10 + booknameLabelSize.height,80,15);
+    datelabel.text = @"借書：";
+    datelabel.lineBreakMode = NSLineBreakByWordWrapping;
+    datelabel.numberOfLines = 0;
+    datelabel.textAlignment = NSTextAlignmentRight;
+    datelabel.tag = indexPath.row;
+    datelabel.backgroundColor = [UIColor clearColor];
+    datelabel.font = boldfont;
+    
+    date.frame = CGRectMake(90,10 + booknameLabelSize.height,200,14);
+    date.text = bookdate;
+    date.lineBreakMode = NSLineBreakByWordWrapping;
+    date.numberOfLines = 0;
+    date.tag = indexPath.row;
+    date.backgroundColor = [UIColor clearColor];
+    date.font = font;
+    
+    [cell.contentView addSubview:namelabel];
+    [cell.contentView addSubview:name];
+    
+    [cell.contentView addSubview:datelabel];
+    [cell.contentView addSubview:date];
+    
     return cell;
 }
 
@@ -295,16 +209,8 @@
     CGSize booknameLabelSize = [bookname sizeWithFont:nameFont
                                     constrainedToSize:maximumLabelSize
                                         lineBreakMode:NSLineBreakByWordWrapping];
-    if(nowView == 0)
-    {
-        return 12 + booknameLabelSize.height + 16 + 4;
-    }
-    else if(nowView == 1)
-    {
-        return 12 + booknameLabelSize.height + 16*3 + 4*3 + 2;
-    }
-    else
-        return 0;
+
+    return 12 + booknameLabelSize.height + 16 + 4;
 }
 
 #pragma mark - Table view delegate

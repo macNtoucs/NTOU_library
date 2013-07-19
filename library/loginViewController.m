@@ -8,7 +8,7 @@
 
 #import "loginViewController.h"
 #import "TFHpple.h"
-#import "LoginResultViewController.h"
+#import "WOLSwitchViewController.h"
 
 @interface loginViewController ()
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
@@ -30,7 +30,6 @@
 {
     self.title = @"借閱記錄查詢";
 
-    ressearchResultArray = [NSMutableArray new];
     searchResultArray = [NSMutableArray new];
     NSInteger swidth = [[UIScreen mainScreen] bounds].size.width;
         
@@ -113,116 +112,27 @@
         }
     }
 
-    LoginResultViewController * display = [[LoginResultViewController alloc]initWithStyle:UITableViewStyleGrouped];
+    WOLSwitchViewController * display = [[WOLSwitchViewController alloc]init];
 
     if([((TFHppleElement*)[tableData_resa objectAtIndex:0]).children count] == 1)
     {
-        [ressearchResultArray removeAllObjects];
         NSString *resurl = [((TFHppleElement*)[tableData_resa objectAtIndex:0]).attributes objectForKey:@"href"];
         NSString *resbookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
-        [self fetchresHistory:resbookURL];
-        display.resdata =[[NSMutableArray alloc]initWithArray:ressearchResultArray];
+        display.resfetchURL = resbookURL;
     }
     else
     {
-        display.resdata = [[NSMutableArray alloc]init];
+        display.resfetchURL = [NSString stringWithFormat:@"NULL"];
     }
     
     NSString *bookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nexturl];
-    [searchResultArray removeAllObjects];
-    [self fetchHistory:bookURL];
-    display.data =[[NSMutableArray alloc]initWithArray:searchResultArray];
+    display.fetchURL = bookURL;
     
     [self.navigationController pushViewController:display animated:YES];
     [display release];
 }
 
--(void)fetchresHistory:(NSString *)resurl{
-    NSError *error;
-    NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:resurl] encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
-    
-    TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
-    NSArray *tableData_td  = [parser searchWithXPathQuery:@"//html//body//div//form//table//tr"];
-    [ressearchResultArray removeAllObjects];
-    
-    NSMutableDictionary *book;
-    for (size_t i = 0 ; i < [tableData_td count] ; ++i){
-        TFHppleElement* buf = [tableData_td objectAtIndex:i];
-        if([[buf.attributes objectForKey:@"class"] isEqualToString:@"patFuncEntry"])
-        {
-            book = [[NSMutableDictionary alloc] init];
-            for (size_t j = 0 ; j < [buf.children count] ; ++j){
-                TFHppleElement* buf_b = [buf.children objectAtIndex:j];
-                
-                if([buf_b.attributes objectForKey:@"class"] != NULL)
-                {
-                    if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncMark"])
-                    {
-                        [book setObject:[((TFHppleElement*)[buf_b.children objectAtIndex:1]).attributes objectForKey:@"id"] forKey:@"id"];
-                    }
-                    else if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
-                    {
-                        [book setObject:[[((TFHppleElement*)[((TFHppleElement*)[buf_b.children objectAtIndex:1]).children objectAtIndex:0]).children objectAtIndex:0] content] forKey:@"bookname"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncStatus"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"date"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncPickup"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"place"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncCancel"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"cancel"];
-                    }
-                }
-            }
-            [ressearchResultArray addObject:book];
-            [book release];
-        }
-    }
-}
 
--(void)fetchHistory:(NSString *)resurl{
-    NSError *error;
-    NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:resurl] encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
-    
-    TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
-    NSArray *tableData_td  = [parser searchWithXPathQuery:@"//html//body//div//form//table//tr"];
-    [searchResultArray removeAllObjects];
-    
-    NSMutableDictionary *book;
-    for (size_t i = 0 ; i < [tableData_td count] ; ++i){
-        TFHppleElement* buf = [tableData_td objectAtIndex:i];
-        if([[buf.attributes objectForKey:@"class"] isEqualToString:@"patFuncEntry"])
-        {
-            book = [[NSMutableDictionary alloc] init];
-            for (size_t j = 0 ; j < [buf.children count] ; ++j){
-                TFHppleElement* buf_b = [buf.children objectAtIndex:j];
-
-                if([buf_b.attributes objectForKey:@"width"] != NULL && [buf_b.attributes objectForKey:@"class"] != NULL)
-                {
-                    if([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"30%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
-                    {
-                        [book setObject:[[((TFHppleElement*)[buf_b.children objectAtIndex:0]).children objectAtIndex:0] content] forKey:@"bookname"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"20%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncAuthor"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"auther"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"15%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncDate"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"date"];
-                    }
-                }
-            }
-            [searchResultArray addObject:book];
-            [book release];
-        }
-    }
-    // NSLog(@"%@",searchResultArray);
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)_textField {
     [_textField resignFirstResponder];

@@ -13,7 +13,6 @@
     UITextField *accounttextField;
     UITextField *passWordtextField;
     NSMutableArray *searchResultArray;
-    NSMutableArray *ressearchResultArray;
 }
 
 @end
