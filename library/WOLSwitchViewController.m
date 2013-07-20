@@ -9,6 +9,7 @@
 #import "WOLSwitchViewController.h"
 #import "LoginResResultViewController.h"
 #import "LoginResultViewController.h"
+#import "MBProgressHUD.h"
 
 @interface WOLSwitchViewController ()
 @end
@@ -32,10 +33,22 @@
     loginresViewController.fetchURL = resfetchURL;
     loginresViewController.switchviewcontroller = self;
     
-    [loginViewController fetchHistory];
-    [loginresViewController fetchresHistory];
-    [self.view addSubview:self.loginViewController.view];
-    
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Show the HUD in the main tread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // No need to hod onto (retain)
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+            hud.labelText = @"Loading";
+        });
+        
+        [loginViewController fetchHistory];
+        [loginresViewController fetchresHistory];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            [self.view addSubview:self.loginViewController.view];
+        });
+    });
+
     UIBarButtonItem *menuButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"預約"
                                   style:UIBarButtonItemStyleBordered

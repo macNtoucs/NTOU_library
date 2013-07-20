@@ -83,68 +83,54 @@
 }
 
 -(void)fetchresHistory{
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        // Show the HUD in the main tread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // No need to hod onto (retain)
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
-            hud.labelText = @"Loading";
-        });
-        
-        NSError *error;
-        NSData* bookdata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:fetchURL] encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
-        
-        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:bookdata];
-        NSArray *tableData_td  = [parser searchWithXPathQuery:@"//html//body//div//form//table//tr"];
-        [maindata removeAllObjects];
-        
-        NSMutableDictionary *book;
-        for (size_t i = 0 ; i < [tableData_td count] ; ++i){
-            TFHppleElement* buf = [tableData_td objectAtIndex:i];
-            if([[buf.attributes objectForKey:@"class"] isEqualToString:@"patFuncEntry"])
-            {
-                book = [[NSMutableDictionary alloc] init];
-                for (size_t j = 0 ; j < [buf.children count] ; ++j){
-                    TFHppleElement* buf_b = [buf.children objectAtIndex:j];
-                    
-                    if([buf_b.attributes objectForKey:@"class"] != NULL)
+    NSError *error;
+    NSData* bookdata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:fetchURL] encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+    
+    TFHpple* parser = [[TFHpple alloc] initWithHTMLData:bookdata];
+    NSArray *tableData_td  = [parser searchWithXPathQuery:@"//html//body//div//form//table//tr"];
+    [maindata removeAllObjects];
+    
+    NSMutableDictionary *book;
+    for (size_t i = 0 ; i < [tableData_td count] ; ++i){
+        TFHppleElement* buf = [tableData_td objectAtIndex:i];
+        if([[buf.attributes objectForKey:@"class"] isEqualToString:@"patFuncEntry"])
+        {
+            book = [[NSMutableDictionary alloc] init];
+            for (size_t j = 0 ; j < [buf.children count] ; ++j){
+                TFHppleElement* buf_b = [buf.children objectAtIndex:j];
+                
+                if([buf_b.attributes objectForKey:@"class"] != NULL)
+                {
+                    if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncMark"])
                     {
-                        if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncMark"])
-                        {
-                            [book setObject:[((TFHppleElement*)[buf_b.children objectAtIndex:1]).attributes objectForKey:@"id"] forKey:@"id"];
-                        }
-                        else if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
-                        {
-                            NSString *nameb = [[((TFHppleElement*)[((TFHppleElement*)[buf_b.children objectAtIndex:1]).children objectAtIndex:0]).children objectAtIndex:0] content];
-                            nameb = [nameb substringFromIndex:1];
-                            [book setObject:nameb forKey:@"bookname"];
-                        }
-                        else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncStatus"])
-                        {
-                            NSString *dateb = [[buf_b.children objectAtIndex:0] content];
-                            dateb = [dateb substringFromIndex:1];
-                            [book setObject:dateb forKey:@"date"];
-                        }
-                        else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncPickup"])
-                        {
-                            [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"place"];
-                        }
-                        else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncCancel"])
-                        {
-                            [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"cancel"];
-                        }
+                        [book setObject:[((TFHppleElement*)[buf_b.children objectAtIndex:1]).attributes objectForKey:@"id"] forKey:@"id"];
+                    }
+                    else if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
+                    {
+                        NSString *nameb = [[((TFHppleElement*)[((TFHppleElement*)[buf_b.children objectAtIndex:1]).children objectAtIndex:0]).children objectAtIndex:0] content];
+                        nameb = [nameb substringFromIndex:1];
+                        [book setObject:nameb forKey:@"bookname"];
+                    }
+                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncStatus"])
+                    {
+                        NSString *dateb = [[buf_b.children objectAtIndex:0] content];
+                        dateb = [dateb substringFromIndex:1];
+                        [book setObject:dateb forKey:@"date"];
+                    }
+                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncPickup"])
+                    {
+                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"place"];
+                    }
+                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncCancel"])
+                    {
+                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"cancel"];
                     }
                 }
-                [maindata addObject:book];
-                [book release];
             }
+            [maindata addObject:book];
+            [book release];
         }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-            [self.tableView reloadData];
-        });
-    });
+    }
 }
 
 - (void)allselect
@@ -256,9 +242,6 @@
         NSData *responseData = [NSURLConnection sendSynchronousRequest:request
                                                      returningResponse:&urlResponse
                                                                  error:&error];
-        [self fetchresHistory];
-        [self cleanselectindexs];
-        [self allcancel];
     }
     else if(buttonIndex == [acsheet cancelButtonIndex])
     {
@@ -275,10 +258,30 @@
         NSData *responseData = [NSURLConnection sendSynchronousRequest:request
                                                      returningResponse:&urlResponse
                                                                  error:&error];
+    }
+    
+    [self performSelector:@selector(reloadtable) withObject:nil afterDelay:2.0];
+}
+
+-(void)reloadtable
+{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Show the HUD in the main tread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // No need to hod onto (retain)
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+            hud.labelText = @"Loading";
+        });
+        
         [self fetchresHistory];
         [self cleanselectindexs];
         [self allcancel];
-    }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            [self.tableView reloadData];
+        });
+    });
 }
 
 - (void)showActionToolbar:(BOOL)show
@@ -324,7 +327,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *MyIdentifier = [NSString stringWithFormat:@"Cell%d",indexPath.row];
+    NSDictionary *book = [maindata objectAtIndex:indexPath.row];
+    NSString *bookname = [book objectForKey:@"bookname"];
+    NSString *bookdate = [book objectForKey:@"date"];
+    NSString *bookplace = [book objectForKey:@"place"];
+    NSString *bookcancel = [book objectForKey:@"cancel"];
+    NSString *MyIdentifier = [NSString stringWithFormat:@"Cell%d%@",indexPath.row,bookname];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     UILabel *name = nil;
     UILabel *date = nil;
@@ -340,6 +348,7 @@
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier] autorelease];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        
         name = [[UILabel alloc] init];
         date = [[UILabel alloc] init];
         namelabel = [[UILabel alloc] init];
@@ -349,12 +358,6 @@
         cancel = [[UILabel alloc] init];
         cancelleabel = [[UILabel alloc] init];
     }
-    
-    NSDictionary *book = [maindata objectAtIndex:indexPath.row];
-    NSString *bookname = [book objectForKey:@"bookname"];
-    NSString *bookdate = [book objectForKey:@"date"];
-    NSString *bookplace = [book objectForKey:@"place"];
-    NSString *bookcancel = [book objectForKey:@"cancel"];
     
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
     UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
