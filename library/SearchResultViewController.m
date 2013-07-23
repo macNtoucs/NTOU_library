@@ -11,13 +11,18 @@
 #import "MBProgressHUD.h"
 
 @interface SearchResultViewController ()
-
+@property (nonatomic,strong) NSString *urlName;
+@property (nonatomic,strong) NSString *urlHead;
+@property (nonatomic) NSInteger urlLength;
 @end
 
 @implementation SearchResultViewController
 @synthesize mainview;
 @synthesize data;
 @synthesize inputtext;
+@synthesize urlName;
+@synthesize urlHead;
+@synthesize urlLength;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -63,6 +68,7 @@
         
         
         NSError *error;
+        
         //  設定url
         NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083/search*cht/X?SEARCH=%@&SORT=D",inputtext];
         url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -136,7 +142,27 @@
                         NSString *pagestr = ((TFHppleElement*)[((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).children objectAtIndex:0]).content;
                         if([pagestr isEqualToString:@"下頁"])
                         {
-                            nextpage_url = [((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).attributes objectForKey:@"href"];
+                            ///search~S0*cht?/X{u54C8}&SORT=D/X{u54C8}&SORT=D&SUBKEY=%E5%93%88/1%2C1508%2C1508%2CB/browse
+                            NSString *nstr = [((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).attributes objectForKey:@"href"];
+                            NSRange nrang = [nstr rangeOfString:@"SUBKEY="];
+                            
+                            //截取 %E5%93%88/1%2C1508%2C1508%2CB/browse
+                            NSString *buf = [nstr substringFromIndex:(nrang.location + nrang.length)];
+                            
+                            nrang = [buf rangeOfString:@"/"];
+                            //截取 %E5%93%88
+                            urlName = [buf substringToIndex:nrang.location];
+                            
+                            buf = [buf substringFromIndex:(nrang.location + 1)];
+                            nrang = [buf rangeOfString:@"/"];
+                            //截取 1%2C1508%2C1508%2CB
+                            buf = [buf substringToIndex:nrang.location];
+                            
+                            urlLength = [nstr length];
+                            urlLength -= 7; //去掉/browse後的原網址長度
+                            NSLog(@"%@",[nstr substringToIndex:urlLength]);
+                            urlHead = [NSString stringWithFormat:@"/search~S0*cht?/X%@&SORT=D/X%@&SORT=D&SUBKEY=%@/%@",urlName,urlName,urlName,buf];
+                            nextpage_url = [NSString stringWithFormat:@"%@/browse",urlHead];
                             break;
                         }
                         else
@@ -156,6 +182,8 @@
     }while(i < [tableData_page count]);
     //NSLog(@"%@",tableData_td);
     
+    
+    //過濾成只有書本資料起始的table
     NSMutableArray *tableData_book = [[NSMutableArray alloc] init];
     for(size_t b = 0 ; b < [tableData_table count]; b++)
     {
@@ -218,8 +246,15 @@
                                 NSString *bookname = ((TFHppleElement*)[((TFHppleElement*)[buf_s.children objectAtIndex:1]).children objectAtIndex:0]).content;
                                 [book setObject:bookname forKey:@"bookname"];
                                 
+                                ///search~S0*cht?/X{u54C8}{u54C8}&SORT=D/X{u54C8}{u54C8}&SORT=D&SUBKEY=%E5%93%88%E5%93%88/1%2C1507%2C1507%2CB/frameset&FF=X{u54C8}{u54C8}&SORT=D&1%2C1%2C
                                 NSString *url = [((TFHppleElement*)[buf_s.children objectAtIndex:1]).attributes objectForKey:@"href"];
-                                NSString *book_url = [[NSString alloc] initWithFormat:@"http://ocean.ntou.edu.tw:1083/%@",url];
+                                url = [url substringFromIndex:(urlLength - 1)];
+                                NSRange nrang = [url rangeOfString:@"SORT="];
+                                //SORT=D&1%2C1%2C
+                                NSString *buf = [url substringFromIndex:nrang.location];
+                                
+                                url = [NSString stringWithFormat:@"%@/frameset&FF=X%@&%@",urlHead,urlName,buf];
+                                NSString *book_url = [[NSString alloc] initWithFormat:@"http://ocean.ntou.edu.tw:1083%@",url];
                                 [book setObject:book_url forKey:@"book_url"];
                                 
                                 NSInteger tcase = 0;

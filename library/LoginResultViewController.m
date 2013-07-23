@@ -25,7 +25,7 @@
     self = [super initWithStyle:style];
     if (self) {
         NSInteger screenheight = [[UIScreen mainScreen] bounds].size.height;
-        self.view.frame = CGRectMake(0, 0, 320,screenheight - 20);
+        self.view.frame = CGRectMake(0, 0, 320,screenheight - 100);
     }
     return self;
 }
@@ -34,6 +34,17 @@
 {
     maindata = [[NSMutableArray alloc] init];
     [super viewDidLoad];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if (!(self.isMovingToParentViewController || self.isBeingPresented))
+    {
+        if([maindata count] != 0)
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -72,6 +83,10 @@
                     else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"15%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncDate"])
                     {
                         [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"date"];
+                    }
+                    else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"25%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncDetails"])
+                    {
+                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"details"];
                     }
                 }
             }
@@ -112,10 +127,8 @@
     UILabel *date = nil;
     UILabel *namelabel = nil;
     UILabel *datelabel = nil;
-    UILabel *place = nil;
-    UILabel *placelabel = nil;
-    UILabel *cancel = nil;
-    UILabel *cancelleabel = nil;
+    UILabel *details = nil;
+    UILabel *detailsleabel = nil;
 
 
     if (cell == nil)
@@ -127,15 +140,14 @@
         date = [[UILabel alloc] init];
         namelabel = [[UILabel alloc] init];
         datelabel = [[UILabel alloc] init];
-        place = [[UILabel alloc] init];
-        placelabel = [[UILabel alloc] init];
-        cancel = [[UILabel alloc] init];
-        cancelleabel = [[UILabel alloc] init];
+        details = [[UILabel alloc] init];
+        detailsleabel = [[UILabel alloc] init];
     }
 
     NSDictionary *book = [maindata objectAtIndex:indexPath.row];
     NSString *bookname = [book objectForKey:@"bookname"];
     NSString *bookdate = [book objectForKey:@"date"];
+    NSString *bookdetails = [book objectForKey:@"details"];
 
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
     UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
@@ -178,11 +190,31 @@
     date.backgroundColor = [UIColor clearColor];
     date.font = font;
     
+    detailsleabel.frame = CGRectMake(5,29 + booknameLabelSize.height,80,15);
+    detailsleabel.text = @"細節：";
+    detailsleabel.lineBreakMode = NSLineBreakByWordWrapping;
+    detailsleabel.numberOfLines = 0;
+    detailsleabel.textAlignment = NSTextAlignmentRight;
+    detailsleabel.tag = indexPath.row;
+    detailsleabel.backgroundColor = [UIColor clearColor];
+    detailsleabel.font = boldfont;
+    
+    details.frame = CGRectMake(90,29 + booknameLabelSize.height,200,14);
+    details.text = bookdetails;
+    details.lineBreakMode = NSLineBreakByWordWrapping;
+    details.numberOfLines = 0;
+    details.tag = indexPath.row;
+    details.backgroundColor = [UIColor clearColor];
+    details.font = font;
+    
     [cell.contentView addSubview:namelabel];
     [cell.contentView addSubview:name];
     
     [cell.contentView addSubview:datelabel];
     [cell.contentView addSubview:date];
+    
+    [cell.contentView addSubview:detailsleabel];
+    [cell.contentView addSubview:details];
     
     return cell;
 }
@@ -198,7 +230,7 @@
                                     constrainedToSize:maximumLabelSize
                                         lineBreakMode:NSLineBreakByWordWrapping];
 
-    return 12 + booknameLabelSize.height + 16 + 4;
+    return 12 + booknameLabelSize.height + 16 + 4 + 19;
 }
 
 #pragma mark - Table view delegate

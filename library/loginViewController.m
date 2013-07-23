@@ -77,7 +77,7 @@
 
 -(void)Login{
     /*NSString *finalPost = [[NSString alloc]initWithFormat:@"code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",accounttextField.text,passWordtextField.text];*/
-    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=09957038&pin=O100281072&submit.x=37&submit.y=23&submit=submit"];
+    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=0996A020&pin=P123850476&submit.x=37&submit.y=23&submit=submit"];
 
     NSHTTPURLResponse *urlResponse = nil;
     NSError *error = [[[NSError alloc] init]autorelease];
@@ -94,9 +94,13 @@
     /*
     NSDictionary *dictionary = [urlResponse allHeaderFields];
     NSLog(@"%@",[dictionary description]);*/
+    NSString *respath = [Responseurl path];
+    respath = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",respath];
+    NSString *dataURL_buf = [respath substringFromIndex:([respath length] - 3)];
     
     NSError *reserror;
-    NSData* data = [[NSString stringWithContentsOfURL:Responseurl encoding:NSUTF8StringEncoding error:&reserror] dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *dataURL = [NSString stringWithContentsOfURL:Responseurl encoding:NSUTF8StringEncoding error:&reserror];
+    NSData* data = [dataURL dataUsingEncoding:NSUTF8StringEncoding];
     
     TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
     NSArray *tableData_a  = [parser searchWithXPathQuery:@"//html//body//table//tr//td//div//a"];
@@ -114,15 +118,50 @@
 
     WOLSwitchViewController * display = [[WOLSwitchViewController alloc]init];
 
-    if([((TFHppleElement*)[tableData_resa objectAtIndex:0]).children count] == 1)
+    
+    if ([dataURL_buf isEqualToString:@"top"])   //首頁，只有預約或借出
+    {
+        if([((TFHppleElement*)[tableData_resa objectAtIndex:0]).children count] == 1)
+        {
+            NSString *resurl = [((TFHppleElement*)[tableData_resa objectAtIndex:0]).attributes objectForKey:@"href"];
+            NSString *stringname = [[((TFHppleElement*)[tableData_resa objectAtIndex:0]).children objectAtIndex:0] content];
+            stringname = [stringname substringFromIndex:([stringname length] - 5)];
+            NSString *webURL = nil;
+            
+            if([stringname isEqualToString:@"目前已借出"])
+            {
+                webURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
+                display.outfetchURL = webURL;
+                display.resfetchURL = [NSString stringWithFormat:@"NULL"];
+            }
+            else if([stringname isEqualToString:@"(預約)."])
+            {
+                webURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
+                display.resfetchURL = webURL;
+                display.outfetchURL = [NSString stringWithFormat:@"NULL"];
+            }        
+        }
+        else
+        {
+            display.outfetchURL = [NSString stringWithFormat:@"NULL"];
+            display.resfetchURL = [NSString stringWithFormat:@"NULL"];
+        }
+    }
+    else if ([dataURL_buf isEqualToString:@"lds"])  //預約畫面，同時有預約及借出
     {
         NSString *resurl = [((TFHppleElement*)[tableData_resa objectAtIndex:0]).attributes objectForKey:@"href"];
-        NSString *resbookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
-        display.resfetchURL = resbookURL;
+        NSString *webURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
+        
+        display.outfetchURL = webURL;
+        display.resfetchURL = respath;
     }
-    else
+    else if ([dataURL_buf isEqualToString:@"ems"])  //借出畫面，同時有預約及借出
     {
-        display.resfetchURL = [NSString stringWithFormat:@"NULL"];
+        NSString *resurl = [((TFHppleElement*)[tableData_resa objectAtIndex:0]).attributes objectForKey:@"href"];
+        NSString *webURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
+
+        display.outfetchURL = respath;
+        display.resfetchURL = webURL;
     }
     
     NSString *bookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nexturl];

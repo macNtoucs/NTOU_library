@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1800D587179BE79100B27FEB /* LoginOutResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1800D586179BE79100B27FEB /* LoginOutResultViewController.m */; };
 		18046A3017866FCB009813D8 /* LoginResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A2F17866FCB009813D8 /* LoginResultViewController.m */; };
 		18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18060522177C2E1500BD690D /* BookDetailViewController.m */; };
 		1806452217990F1A00D6808A /* WOLSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1806452017990F1A00D6808A /* WOLSwitchViewController.m */; };
@@ -41,6 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1800D585179BE79100B27FEB /* LoginOutResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginOutResultViewController.h; sourceTree = "<group>"; };
+		1800D586179BE79100B27FEB /* LoginOutResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginOutResultViewController.m; sourceTree = "<group>"; };
 		18046A2E17866FCB009813D8 /* LoginResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResultViewController.h; sourceTree = "<group>"; };
 		18046A2F17866FCB009813D8 /* LoginResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResultViewController.m; sourceTree = "<group>"; };
 		18060521177C2E1500BD690D /* BookDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailViewController.h; sourceTree = "<group>"; };
@@ -131,12 +134,14 @@
 			children = (
 				180B00291783DB790071E12D /* loginViewController.h */,
 				180B002A1783DB790071E12D /* loginViewController.m */,
-				18046A2E17866FCB009813D8 /* LoginResultViewController.h */,
-				18046A2F17866FCB009813D8 /* LoginResultViewController.m */,
 				1806452517990F8300D6808A /* WOLSwitchViewController.h */,
 				1806452017990F1A00D6808A /* WOLSwitchViewController.m */,
+				18046A2E17866FCB009813D8 /* LoginResultViewController.h */,
+				18046A2F17866FCB009813D8 /* LoginResultViewController.m */,
 				180645261799113300D6808A /* LoginResResultViewController.h */,
 				180645271799113300D6808A /* LoginResResultViewController.m */,
+				1800D585179BE79100B27FEB /* LoginOutResultViewController.h */,
+				1800D586179BE79100B27FEB /* LoginOutResultViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 				1808605D17968D27009D8F9E /* RBookViewController.m in Sources */,
 				1806452217990F1A00D6808A /* WOLSwitchViewController.m in Sources */,
 				180645281799113300D6808A /* LoginResResultViewController.m in Sources */,
+				1800D587179BE79100B27FEB /* LoginOutResultViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

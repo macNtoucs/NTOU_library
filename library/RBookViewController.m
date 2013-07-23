@@ -338,7 +338,7 @@
         {
             NSDictionary *book = [data objectAtIndex:indexPath.row];
             NSString *radio = [book objectForKey:@"radio"];
-            NSString *finalPost = [[NSString alloc]initWithFormat:@"radio=%@&code=09957038&pin=O100281072&submit.x=37&submit.y=23&submit=submit",radio];
+            NSString *finalPost = [[NSString alloc]initWithFormat:@"radio=%@&code=0996A020&pin=P123850476&submit.x=37&submit.y=23&submit=submit",radio];
             NSHTTPURLResponse *urlResponse = nil;
             NSError *error = [[[NSError alloc] init]autorelease];
             NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];

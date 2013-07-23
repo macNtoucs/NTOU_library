@@ -43,11 +43,9 @@
     bookdetail = [[NSMutableDictionary alloc] init];
     book_count = 0;
     NSError *error;
-    //  設定url
-    NSString *url = [NSString stringWithFormat:@"%@",bookurl];
-    //url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
     // 設定丟出封包，由data來接
-    NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:bookurl]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
     
     //設定 parser讀取data，並透過Xpath得到想要的資料位置
     TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];

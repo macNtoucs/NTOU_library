@@ -1,17 +1,17 @@
 //
-//  LoginResResultViewController.m
+//  LoginOutResultViewController.m
 //  library
 //
-//  Created by apple on 13/7/19.
+//  Created by apple on 13/7/21.
 //  Copyright (c) 2013年 NTOUcs_MAC. All rights reserved.
 //
 
-#import "LoginResResultViewController.h"
+#import "LoginOutResultViewController.h"
 #import "TFHpple.h"
 #import "WOLSwitchViewController.h"
 #import "MBProgressHUD.h"
 
-@interface LoginResResultViewController ()
+@interface LoginOutResultViewController ()
 @property (nonatomic, strong) NSMutableArray *selectindexs;
 @property (nonatomic,retain) NSMutableArray *maindata;
 @property (nonatomic, strong) UIToolbar *actionToolbar;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation LoginResResultViewController
+@implementation LoginOutResultViewController
 @synthesize selectindexs;
 @synthesize maindata;
 @synthesize fetchURL;
@@ -48,7 +48,7 @@
     self.actionToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 137, 320, 44)];
     
     UIBarButtonItem *flexiblespace_l = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-    flexiblespace_l.width = 12.0; 
+    flexiblespace_l.width = 12.0;
     
     UIBarButtonItem *allselectButton =[[UIBarButtonItem alloc]
                                        initWithTitle:@"全   選"
@@ -61,10 +61,10 @@
     flexiblespace_m.width = 12.0;
     
     UIBarButtonItem *finishButton =[[UIBarButtonItem alloc]
-                                    initWithTitle:@"取消預約"
+                                    initWithTitle:@"續   借"
                                     style:UIBarButtonItemStyleBordered
                                     target:self
-                                    action:@selector(cancelSelectResBook)];
+                                    action:@selector(keepSelectResBook)];
     finishButton.width = 110.0;
     
     UIBarButtonItem *flexiblespace_r = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
@@ -72,7 +72,7 @@
     
     [actionToolbar setItems:[NSArray arrayWithObjects:flexiblespace_l,allselectButton,flexiblespace_m,finishButton,flexiblespace_r, nil]];
     actionToolbar.barStyle = UIBarStyleDefault;
-
+    
     [super viewDidLoad];
 }
 
@@ -93,10 +93,10 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)fetchresHistory{
+-(void)fetchoutHistory{
     NSError *error;
     NSData* bookdata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:fetchURL] encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
- 
+    
     [self fetchout:bookdata];
 }
 
@@ -119,27 +119,41 @@
                 {
                     if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncMark"])
                     {
-                        [book setObject:[((TFHppleElement*)[buf_b.children objectAtIndex:1]).attributes objectForKey:@"id"] forKey:@"id"];
+                        [book setObject:[((TFHppleElement*)[buf_b.children objectAtIndex:0]).attributes objectForKey:@"value"] forKey:@"value"];
+                        [book setObject:[((TFHppleElement*)[buf_b.children objectAtIndex:0]).attributes objectForKey:@"id"] forKey:@"id"];
                     }
                     else if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
                     {
-                        NSString *nameb = [[((TFHppleElement*)[((TFHppleElement*)[buf_b.children objectAtIndex:1]).children objectAtIndex:0]).children objectAtIndex:0] content];
+                        NSString *nameb = [[((TFHppleElement*)[((TFHppleElement*)[buf_b.children objectAtIndex:0]).children objectAtIndex:0]).children objectAtIndex:0] content];
                         nameb = [nameb substringFromIndex:1];
                         [book setObject:nameb forKey:@"bookname"];
                     }
                     else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncStatus"])
                     {
                         NSString *dateb = [[buf_b.children objectAtIndex:0] content];
+                        NSString *datek = [NSString stringWithFormat:@"NULL"];
+                        if([buf_b.children count] > 1)
+                        {
+                            for(int i = 1 ; i < [buf_b.children count] ; i++)
+                            {
+                                if([((TFHppleElement*)[buf_b.children objectAtIndex:i]).attributes objectForKey:@"class"] != NULL)
+                                    if([[((TFHppleElement*)[buf_b.children objectAtIndex:i]).attributes objectForKey:@"class"] isEqualToString:@"patFuncRenewCount"])
+                                    {
+                                        datek = [[((TFHppleElement*)[buf_b.children objectAtIndex:i]).children objectAtIndex:0]content];
+                                    }
+                            }
+                        }
                         dateb = [dateb substringFromIndex:1];
                         [book setObject:dateb forKey:@"date"];
+                        [book setObject:datek forKey:@"keep"];
                     }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncPickup"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"place"];
+                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncBarcode"])
+                    {   //條碼
+                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"barcode"];
                     }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncCancel"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"cancel"];
+                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncCallNo"])
+                    {   //索書號
+                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"callno"];
                     }
                 }
             }
@@ -168,15 +182,15 @@
     }
 }
 
--(void)cancelSelectResBook
+-(void)keepSelectResBook
 {
     if([selectindexs count] == 0)
     {
-        UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"請選擇欲取消的預約"
-                                                              message:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:@"好"
-                                                    otherButtonTitles:nil];
+        UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"請選擇欲續借的紀錄"
+                                                         message:nil
+                                                        delegate:self
+                                               cancelButtonTitle:@"好"
+                                               otherButtonTitles:nil];
         [alerts show];
     }
     NSString *cancelbook = [[NSString alloc] init];
@@ -184,11 +198,12 @@
         NSIndexPath *index = [selectindexs objectAtIndex:i];
         NSDictionary *book = [maindata objectAtIndex:index.row];
         NSString *buf = [book objectForKey:@"id"];
-        cancelbook = [NSString stringWithFormat:@"%@&%@=on",cancelbook,buf];
+        NSString *value = [book objectForKey:@"value"];
+        cancelbook = [NSString stringWithFormat:@"%@&%@=%@",cancelbook,buf,value];
     }
     
     //取消已選取館藏
-    NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_pickup&requestUpdateHoldsSome=取消已選取館藏%@&currentsortorder=current_pickup",cancelbook];
+    NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_checkout&requestRenewSome=續借選取館藏%@&currentsortorder=current_checkout",cancelbook];
     
     NSHTTPURLResponse *urlResponse = nil;
     NSError *error = [[[NSError alloc] init]autorelease];
@@ -209,7 +224,7 @@
         title = [[((TFHppleElement*)[tableData_t objectAtIndex:0]).children objectAtIndex:0] content];
         title = [title substringFromIndex:1];//濾掉/n
     }
-    if([title isEqualToString:@"The following hold(s) will be cancelled or updated, would you like to proceed?"])
+    if([title isEqualToString:@"The following item(s) will be renewed, would you like to proceed?"])
     {
         NSString *msg = nil;
         for (size_t j = 0 ; j < [tableData_b count] ; ++j){
@@ -221,13 +236,13 @@
                 msg = [NSString stringWithFormat:@"%@,\n'%@'",msg,book];
         }
         
-        msg = [NSString stringWithFormat:@"確定要取消以下書本的預約？\n%@",msg];
+        msg = [NSString stringWithFormat:@"確定要續借以下書本？\n%@",msg];
         acsheet = [[UIActionSheet alloc]
-                            initWithTitle:msg
-                                 delegate:self
-                        cancelButtonTitle:@"取消"
+                   initWithTitle:msg
+                   delegate:self
+                   cancelButtonTitle:@"取消"
                    destructiveButtonTitle:@"確定"
-                        otherButtonTitles:nil];
+                   otherButtonTitles:nil];
         [acsheet showFromToolbar:actionToolbar];
     }
 }
@@ -240,14 +255,14 @@
         NSIndexPath *index = [selectindexs objectAtIndex:i];
         NSDictionary *book = [maindata objectAtIndex:index.row];
         NSString *buf = [book objectForKey:@"id"];
-        NSString *bookid = [buf substringFromIndex:6];
-        cancelbook = [NSString stringWithFormat:@"%@&loc%@=&%@=on",cancelbook,bookid,buf];
+        NSString *value = [book objectForKey:@"value"];
+        cancelbook = [NSString stringWithFormat:@"%@&%@=%@",cancelbook,buf,value];
     }
-
+    
     if(buttonIndex == [acsheet destructiveButtonIndex])
     {
         //是
-        NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_pickup&updateholdssome=是%@&currentsortorder=current_pickup",cancelbook];
+        NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_checkout%@&currentsortorder=current_checkout&renewsome=是",cancelbook];
         
         NSHTTPURLResponse *urlResponse = nil;
         NSError *error = [[[NSError alloc] init]autorelease];
@@ -257,13 +272,13 @@
         [request addValue:@"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" forHTTPHeaderField:@"Accept"];
         [request setHTTPBody:[finalPost dataUsingEncoding:NSUTF8StringEncoding]];
         responseData = [NSURLConnection sendSynchronousRequest:request
-                                                     returningResponse:&urlResponse
-                                                                 error:&error];
+                                            returningResponse:&urlResponse
+                                                        error:&error];
     }
     else if(buttonIndex == [acsheet cancelButtonIndex])
     {
         //沒有
-        NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_pickup&donothing=沒有%@&currentsortorder=current_pickup",cancelbook];
+        NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_checkout%@&currentsortorder=current_checkout&donothing=沒有",cancelbook];
         
         NSHTTPURLResponse *urlResponse = nil;
         NSError *error = [[[NSError alloc] init]autorelease];
@@ -273,8 +288,8 @@
         [request addValue:@"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" forHTTPHeaderField:@"Accept"];
         [request setHTTPBody:[finalPost dataUsingEncoding:NSUTF8StringEncoding]];
         responseData = [NSURLConnection sendSynchronousRequest:request
-                                                     returningResponse:&urlResponse
-                                                                 error:&error];
+                                            returningResponse:&urlResponse
+                                                        error:&error];
     }
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -331,7 +346,7 @@
 {
     if([maindata count] == 0)
     {
-        return [NSString stringWithFormat:@"沒有預約記錄"];
+        return [NSString stringWithFormat:@"沒有借出記錄"];
     }
     else
         return NULL;
@@ -342,19 +357,20 @@
     NSDictionary *book = [maindata objectAtIndex:indexPath.row];
     NSString *bookname = [book objectForKey:@"bookname"];
     NSString *bookdate = [book objectForKey:@"date"];
-    NSString *bookplace = [book objectForKey:@"place"];
-    NSString *bookcancel = [book objectForKey:@"cancel"];
+    NSString *bookbarcode = [book objectForKey:@"barcode"];
+    NSString *bookcallno = [book objectForKey:@"callno"];
+    NSString *bookkeep = [book objectForKey:@"keep"];
     NSString *MyIdentifier = [NSString stringWithFormat:@"Cell%d%@",indexPath.row,bookname];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     UILabel *name = nil;
     UILabel *date = nil;
     UILabel *namelabel = nil;
     UILabel *datelabel = nil;
-    UILabel *place = nil;
-    UILabel *placelabel = nil;
-    UILabel *cancel = nil;
-    UILabel *cancelleabel = nil;
-    
+    UILabel *barcode = nil;
+    UILabel *barcodelabel = nil;
+    UILabel *callno = nil;
+    UILabel *callnoleabel = nil;
+    UILabel *keeplabel = nil;
     
     if (cell == nil)
     {
@@ -365,10 +381,11 @@
         date = [[UILabel alloc] init];
         namelabel = [[UILabel alloc] init];
         datelabel = [[UILabel alloc] init];
-        place = [[UILabel alloc] init];
-        placelabel = [[UILabel alloc] init];
-        cancel = [[UILabel alloc] init];
-        cancelleabel = [[UILabel alloc] init];
+        barcode = [[UILabel alloc] init];
+        barcodelabel = [[UILabel alloc] init];
+        callno = [[UILabel alloc] init];
+        callnoleabel = [[UILabel alloc] init];
+        keeplabel = [[UILabel alloc] init];
     }
     
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
@@ -395,7 +412,24 @@
     name.backgroundColor = [UIColor clearColor];
     name.font = font;
     
-    datelabel.frame = CGRectMake(5,10 + booknameLabelSize.height,90,15);
+    barcodelabel.frame = CGRectMake(5,10 + booknameLabelSize.height,90,15);
+    barcodelabel.text = @"條碼：";
+    barcodelabel.lineBreakMode = NSLineBreakByWordWrapping;
+    barcodelabel.numberOfLines = 0;
+    barcodelabel.textAlignment = NSTextAlignmentRight;
+    barcodelabel.tag = indexPath.row;
+    barcodelabel.backgroundColor = [UIColor clearColor];
+    barcodelabel.font = boldfont;
+    
+    barcode.frame = CGRectMake(100,10 + booknameLabelSize.height,180,14);
+    barcode.text = bookbarcode;
+    barcode.lineBreakMode = NSLineBreakByWordWrapping;
+    barcode.numberOfLines = 0;
+    barcode.tag = indexPath.row;
+    barcode.backgroundColor = [UIColor clearColor];
+    barcode.font = font;
+
+    datelabel.frame = CGRectMake(5,29 + booknameLabelSize.height,90,15);
     datelabel.text = @"狀態：";
     datelabel.lineBreakMode = NSLineBreakByWordWrapping;
     datelabel.numberOfLines = 0;
@@ -404,7 +438,7 @@
     datelabel.backgroundColor = [UIColor clearColor];
     datelabel.font = boldfont;
     
-    date.frame = CGRectMake(100,10 + booknameLabelSize.height,180,14);
+    date.frame = CGRectMake(100,29 + booknameLabelSize.height,180,14);
     date.text = bookdate;
     date.lineBreakMode = NSLineBreakByWordWrapping;
     date.numberOfLines = 0;
@@ -412,42 +446,40 @@
     date.backgroundColor = [UIColor clearColor];
     date.font = font;
     
-    placelabel.frame = CGRectMake(5,29 + booknameLabelSize.height,90,15);
-    placelabel.text = @"取書館藏地：";
-    placelabel.lineBreakMode = NSLineBreakByWordWrapping;
-    placelabel.numberOfLines = 0;
-    placelabel.textAlignment = NSTextAlignmentRight;
-    placelabel.tag = indexPath.row;
-    placelabel.backgroundColor = [UIColor clearColor];
-    placelabel.font = boldfont;
+    NSInteger keep = 0;
+    if (![bookkeep isEqualToString:@"NULL"]) {
+        keep = 19;
+        keeplabel.frame = CGRectMake(100,29 + keep + booknameLabelSize.height,180,14);
+        keeplabel.text = bookkeep;
+        keeplabel.lineBreakMode = NSLineBreakByWordWrapping;
+        keeplabel.numberOfLines = 0;
+        keeplabel.tag = indexPath.row;
+        keeplabel.textColor = [UIColor redColor];
+        keeplabel.backgroundColor = [UIColor clearColor];
+        keeplabel.font = font;
+        
+        [cell.contentView addSubview:keeplabel];
+    }
     
-    place.frame = CGRectMake(100,29 + booknameLabelSize.height,180,14);
-    place.text = bookplace;
-    place.lineBreakMode = NSLineBreakByWordWrapping;
-    place.numberOfLines = 0;
-    place.tag = indexPath.row;
-    place.backgroundColor = [UIColor clearColor];
-    place.font = font;
+    callnoleabel.frame = CGRectMake(5,48 + keep + booknameLabelSize.height,90,15);
+    callnoleabel.text = @"索書號：";
+    callnoleabel.lineBreakMode = NSLineBreakByWordWrapping;
+    callnoleabel.numberOfLines = 0;
+    callnoleabel.textAlignment = NSTextAlignmentRight;
+    callnoleabel.tag = indexPath.row;
+    callnoleabel.backgroundColor = [UIColor clearColor];
+    callnoleabel.font = boldfont;
     
-    cancelleabel.frame = CGRectMake(5,48 + booknameLabelSize.height,90,15);
-    cancelleabel.text = @"取消預約日：";
-    cancelleabel.lineBreakMode = NSLineBreakByWordWrapping;
-    cancelleabel.numberOfLines = 0;
-    cancelleabel.textAlignment = NSTextAlignmentRight;
-    cancelleabel.tag = indexPath.row;
-    cancelleabel.backgroundColor = [UIColor clearColor];
-    cancelleabel.font = boldfont;
+    callno.frame = CGRectMake(100,48 + keep + booknameLabelSize.height,180,14);
+    callno.text = bookcallno;
+    callno.lineBreakMode = NSLineBreakByWordWrapping;
+    callno.numberOfLines = 0;
+    callno.tag = indexPath.row;
+    callno.backgroundColor = [UIColor clearColor];
+    callno.font = font;
     
-    cancel.frame = CGRectMake(100,48 + booknameLabelSize.height,180,14);
-    cancel.text = bookcancel;
-    cancel.lineBreakMode = NSLineBreakByWordWrapping;
-    cancel.numberOfLines = 0;
-    cancel.tag = indexPath.row;
-    cancel.backgroundColor = [UIColor clearColor];
-    cancel.font = font;
-    
-    [cell.contentView addSubview:cancelleabel];
-    [cell.contentView addSubview:cancel];
+    [cell.contentView addSubview:callnoleabel];
+    [cell.contentView addSubview:callno];
     
     [cell.contentView addSubview:namelabel];
     [cell.contentView addSubview:name];
@@ -455,9 +487,9 @@
     [cell.contentView addSubview:datelabel];
     [cell.contentView addSubview:date];
     
-    [cell.contentView addSubview:placelabel];
-    [cell.contentView addSubview:place];
-    
+    [cell.contentView addSubview:barcodelabel];
+    [cell.contentView addSubview:barcode];
+        
     return cell;
 }
 
@@ -465,6 +497,7 @@
 {
     NSDictionary *book = [maindata objectAtIndex:indexPath.row];
     NSString *bookname = [book objectForKey:@"bookname"];
+    NSString *bookkeep = [book objectForKey:@"keep"];
     
     UIFont *nameFont = [UIFont fontWithName:@"Helvetica" size:14.0];
     CGSize maximumLabelSize = CGSizeMake(200,9999);
@@ -472,7 +505,10 @@
                                     constrainedToSize:maximumLabelSize
                                         lineBreakMode:NSLineBreakByWordWrapping];
     
-    return 12 + booknameLabelSize.height + 16*3 + 4*3;
+    if([bookkeep isEqualToString:@"NULL"])
+        return 12 + booknameLabelSize.height + 16*3 + 4*3;
+    else
+        return 12 + booknameLabelSize.height + 16*3 + 4*3 + 18;
 }
 
 #pragma mark - Table view delegate

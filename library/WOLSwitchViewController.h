@@ -12,11 +12,14 @@
 
 @class LoginResultViewController;
 @class LoginResResultViewController;
+@class LoginOutResultViewController;
 @interface WOLSwitchViewController : UIViewController
 @property (nonatomic,retain) NSString *resfetchURL;
+@property (nonatomic,retain) NSString *outfetchURL;
 @property (nonatomic,retain) NSString *fetchURL;
 @property (strong, nonatomic) LoginResultViewController *loginViewController;
 @property (strong, nonatomic) LoginResResultViewController *loginresViewController;
+@property (strong, nonatomic) LoginOutResultViewController *loginoutViewController;
 
 @end
 
