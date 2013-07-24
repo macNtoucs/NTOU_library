@@ -10,10 +10,7 @@
 #import "MainViewController.h"
 
 @class MainViewController;
-@interface SearchResultViewController : UITableViewController{
-    NSMutableArray *data;
-    NSString *nextpage_url;
-}
+@interface SearchResultViewController : UITableViewController
 
 @property (strong, nonatomic) MainViewController *mainview;
 @property (nonatomic,retain) NSMutableArray *data;

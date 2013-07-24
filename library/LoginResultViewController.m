@@ -9,7 +9,7 @@
 #import "LoginResultViewController.h"
 #import "TFHpple.h"
 #import "WOLSwitchViewController.h"
-
+#import "BookDetailViewController.h"
 @interface LoginResultViewController ()
 @property (nonatomic,retain) NSMutableArray *maindata;
 
@@ -74,6 +74,8 @@
                 {
                     if([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"30%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
                     {
+                        NSString *buf = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",[((TFHppleElement*)[buf_b.children objectAtIndex:0]).attributes objectForKey:@"href"]];
+                        [book setObject:buf forKey:@"bookurl"];
                         [book setObject:[[((TFHppleElement*)[buf_b.children objectAtIndex:0]).children objectAtIndex:0] content] forKey:@"bookname"];
                     }
                     else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"20%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncAuthor"])
@@ -165,7 +167,7 @@
     namelabel.backgroundColor = [UIColor clearColor];
     namelabel.font = boldfont;
     
-    name.frame = CGRectMake(90,6,200,booknameLabelSize.height);
+    name.frame = CGRectMake(90,6,180,booknameLabelSize.height);
     name.text = bookname;
     name.lineBreakMode = NSLineBreakByWordWrapping;
     name.numberOfLines = 0;
@@ -182,7 +184,7 @@
     datelabel.backgroundColor = [UIColor clearColor];
     datelabel.font = boldfont;
     
-    date.frame = CGRectMake(90,10 + booknameLabelSize.height,200,14);
+    date.frame = CGRectMake(90,10 + booknameLabelSize.height,180,14);
     date.text = bookdate;
     date.lineBreakMode = NSLineBreakByWordWrapping;
     date.numberOfLines = 0;
@@ -199,7 +201,7 @@
     detailsleabel.backgroundColor = [UIColor clearColor];
     detailsleabel.font = boldfont;
     
-    details.frame = CGRectMake(90,29 + booknameLabelSize.height,200,14);
+    details.frame = CGRectMake(90,29 + booknameLabelSize.height,180,14);
     details.text = bookdetails;
     details.lineBreakMode = NSLineBreakByWordWrapping;
     details.numberOfLines = 0;
@@ -216,6 +218,7 @@
     [cell.contentView addSubview:detailsleabel];
     [cell.contentView addSubview:details];
     
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
@@ -237,14 +240,12 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    NSUInteger row = [indexPath row];
+    
+    BookDetailViewController *detail = [[BookDetailViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    detail.bookurl = [[maindata objectAtIndex:row] objectForKey:@"bookurl"];
+    
+    [switchviewcontroller.navigationController pushViewController:detail animated:YES];
 }
 
 @end

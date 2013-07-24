@@ -231,10 +231,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d",indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     NSUInteger section = indexPath.section;
     NSUInteger row = indexPath.row;
+
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d%d",row,section];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     UILabel *presslabel = nil;
     UILabel *press = nil;
     UILabel *namelabel = nil;

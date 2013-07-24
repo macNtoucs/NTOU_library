@@ -121,8 +121,6 @@
 				913BD9151754963D00145B80 /* MainViewController.m */,
 				913BD92A17587BFC00145B80 /* SearchResultViewController.h */,
 				913BD92B17587BFC00145B80 /* SearchResultViewController.m */,
-				18060521177C2E1500BD690D /* BookDetailViewController.h */,
-				18060522177C2E1500BD690D /* BookDetailViewController.m */,
 				1808605B17968D27009D8F9E /* RBookViewController.h */,
 				1808605C17968D27009D8F9E /* RBookViewController.m */,
 			);
@@ -207,6 +205,8 @@
 				180B002D1783FF380071E12D /* MBProgressHUD.m */,
 				180B00261783D6B70071E12D /* switchController.h */,
 				180B00271783D6B70071E12D /* switchController.m */,
+				18060521177C2E1500BD690D /* BookDetailViewController.h */,
+				18060522177C2E1500BD690D /* BookDetailViewController.m */,
 				180C05A41786C3A00042ACFE /* about */,
 				18046A3117867004009813D8 /* Search */,
 				18046A3217867028009813D8 /* Login */,

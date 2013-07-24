@@ -14,6 +14,7 @@
 @property (nonatomic,strong) NSString *urlName;
 @property (nonatomic,strong) NSString *urlHead;
 @property (nonatomic) NSInteger urlLength;
+@property (nonatomic,strong) NSMutableDictionary *pageData;
 @end
 
 @implementation SearchResultViewController
@@ -23,6 +24,7 @@
 @synthesize urlName;
 @synthesize urlHead;
 @synthesize urlLength;
+@synthesize pageData;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,6 +36,7 @@
 
 - (void)viewDidLoad
 {
+    pageData = [[NSMutableDictionary alloc] init];
     UILabel *titleView = (UILabel *)self.navigationItem.titleView;
     titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.backgroundColor = [UIColor clearColor];
@@ -101,16 +104,19 @@
         
         NSError *error;
         //  設定url
-        NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nextpage_url];
-        //url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        // 設定丟出封包，由data來接
-        NSData* urldata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
-        
-        //設定 parser讀取data，並透過Xpath得到想要的資料位置
-        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
-        
-        [self getcontent:parser];
-        
+        NSString *nextpage_url = [pageData objectForKey:@"nextpage"];
+        if(nextpage_url != NULL)
+        {
+            NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nextpage_url];
+            //url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            // 設定丟出封包，由data來接
+            NSData* urldata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+            
+            //設定 parser讀取data，並透過Xpath得到想要的資料位置
+            TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
+            
+            [self getcontent:parser];
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
             [self.tableView reloadData];
@@ -128,6 +134,8 @@
     //截取每頁網址
     size_t i = 0;
     TFHppleElement* buf_page;
+    if([pageData objectForKey:@"nextpage"] != NULL)
+        [pageData removeObjectForKey:@"nextpage"];
     do{
         buf_page = [tableData_page objectAtIndex:i];
         
@@ -136,7 +144,7 @@
             if([[buf_page.attributes objectForKey:@"align"] isEqualToString:@"center"] && [[buf_page.attributes objectForKey:@"class"]isEqualToString:@"browsePager"] && [[buf_page.attributes objectForKey:@"colspan"] isEqualToString:@"5"])
             {
                 for(int pagecount = 0 ; pagecount < [buf_page.children count] ; pagecount++)
-                {  //searchResultPage
+                {  //searchResultPag
                     if([((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).tagName isEqualToString:@"a"])
                     {
                         NSString *pagestr = ((TFHppleElement*)[((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).children objectAtIndex:0]).content;
@@ -162,11 +170,10 @@
                             urlLength -= 7; //去掉/browse後的原網址長度
                             NSLog(@"%@",[nstr substringToIndex:urlLength]);
                             urlHead = [NSString stringWithFormat:@"/search~S0*cht?/X%@&SORT=D/X%@&SORT=D&SUBKEY=%@/%@",urlName,urlName,urlName,buf];
-                            nextpage_url = [NSString stringWithFormat:@"%@/browse",urlHead];
+                            NSString *urlbuf = [NSString stringWithFormat:@"%@/browse",urlHead];
+                            [pageData setObject:urlbuf forKey:@"nextpage"];
                             break;
                         }
-                        else
-                            nextpage_url = NULL;
                         /*
                          if([searchResultPage objectForKey:pagestr] == NULL)
                          {
@@ -315,6 +322,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSString *nextpage_url = [pageData objectForKey:@"nextpage"];
+
     if(nextpage_url != NULL)  //後面還有書
         return [data count]+1;
     else
