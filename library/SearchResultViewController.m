@@ -8,14 +8,23 @@
 
 #import "SearchResultViewController.h"
 #import "BookDetailViewController.h"
+#import "MBProgressHUD.h"
 
 @interface SearchResultViewController ()
-
+@property (nonatomic,strong) NSString *urlName;
+@property (nonatomic,strong) NSString *urlHead;
+@property (nonatomic) NSInteger urlLength;
+@property (nonatomic,strong) NSMutableDictionary *pageData;
 @end
 
 @implementation SearchResultViewController
 @synthesize mainview;
 @synthesize data;
+@synthesize inputtext;
+@synthesize urlName;
+@synthesize urlHead;
+@synthesize urlLength;
+@synthesize pageData;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -27,6 +36,7 @@
 
 - (void)viewDidLoad
 {
+    pageData = [[NSMutableDictionary alloc] init];
     UILabel *titleView = (UILabel *)self.navigationItem.titleView;
     titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.backgroundColor = [UIColor clearColor];
@@ -38,6 +48,8 @@
     
     self.navigationItem.titleView = titleView;
     [titleView release];
+    
+    [self search];
 
     [super viewDidLoad];
     
@@ -46,6 +58,253 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void)search{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Show the HUD in the main tread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // No need to hod onto (retain)
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+            hud.labelText = @"Loading";
+        });
+        
+        
+        NSError *error;
+        
+        //  設定url
+        NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083/search*cht/X?SEARCH=%@&SORT=D",inputtext];
+        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        // 設定丟出封包，由data來接
+        NSData* urldata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+        
+        //設定 parser讀取data，並透過Xpath得到想要的資料位置
+        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
+        
+        [self getcontent:parser];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            [self.tableView reloadData];
+        });
+    });
+    
+    // NSLog(@"%@",searchResultArray);
+    
+}
+
+-(void)nextpage{
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Show the HUD in the main tread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // No need to hod onto (retain)
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+            hud.labelText = @"Loading";
+        });
+        
+        NSError *error;
+        //  設定url
+        NSString *nextpage_url = [pageData objectForKey:@"nextpage"];
+        if(nextpage_url != NULL)
+        {
+            NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nextpage_url];
+            //url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            // 設定丟出封包，由data來接
+            NSData* urldata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+            
+            //設定 parser讀取data，並透過Xpath得到想要的資料位置
+            TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
+            
+            [self getcontent:parser];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            [self.tableView reloadData];
+        });
+    });
+}
+
+-(void)getcontent:(TFHpple *)parser{
+    //取書
+    NSArray *tableData_table  = [parser searchWithXPathQuery:@"//html//body//table//tr//td//table//tr//td//table"];
+    //取頁
+    NSArray *tableData_page  = [parser searchWithXPathQuery:@"//html//body//table//tr//td"];
+    //<td align=​"center" class=​"browsePager" colspan=​"5">
+    
+    //截取每頁網址
+    size_t i = 0;
+    TFHppleElement* buf_page;
+    if([pageData objectForKey:@"nextpage"] != NULL)
+        [pageData removeObjectForKey:@"nextpage"];
+    do{
+        buf_page = [tableData_page objectAtIndex:i];
+        
+        if([buf_page.attributes objectForKey:@"align"] != NULL||[buf_page.attributes objectForKey:@"class"] != NULL||[buf_page.attributes objectForKey:@"colspan"] != NULL)
+        {
+            if([[buf_page.attributes objectForKey:@"align"] isEqualToString:@"center"] && [[buf_page.attributes objectForKey:@"class"]isEqualToString:@"browsePager"] && [[buf_page.attributes objectForKey:@"colspan"] isEqualToString:@"5"])
+            {
+                for(int pagecount = 0 ; pagecount < [buf_page.children count] ; pagecount++)
+                {  //searchResultPag
+                    if([((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).tagName isEqualToString:@"a"])
+                    {
+                        NSString *pagestr = ((TFHppleElement*)[((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).children objectAtIndex:0]).content;
+                        if([pagestr isEqualToString:@"下頁"])
+                        {
+                            ///search~S0*cht?/X{u54C8}&SORT=D/X{u54C8}&SORT=D&SUBKEY=%E5%93%88/1%2C1508%2C1508%2CB/browse
+                            NSString *nstr = [((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).attributes objectForKey:@"href"];
+                            NSRange nrang = [nstr rangeOfString:@"SUBKEY="];
+                            
+                            //截取 %E5%93%88/1%2C1508%2C1508%2CB/browse
+                            NSString *buf = [nstr substringFromIndex:(nrang.location + nrang.length)];
+                            
+                            nrang = [buf rangeOfString:@"/"];
+                            //截取 %E5%93%88
+                            urlName = [buf substringToIndex:nrang.location];
+                            
+                            buf = [buf substringFromIndex:(nrang.location + 1)];
+                            nrang = [buf rangeOfString:@"/"];
+                            //截取 1%2C1508%2C1508%2CB
+                            buf = [buf substringToIndex:nrang.location];
+                            
+                            urlLength = [nstr length];
+                            urlLength -= 7; //去掉/browse後的原網址長度
+                            NSLog(@"%@",[nstr substringToIndex:urlLength]);
+                            urlHead = [NSString stringWithFormat:@"/search~S0*cht?/X%@&SORT=D/X%@&SORT=D&SUBKEY=%@/%@",urlName,urlName,urlName,buf];
+                            NSString *urlbuf = [NSString stringWithFormat:@"%@/browse",urlHead];
+                            [pageData setObject:urlbuf forKey:@"nextpage"];
+                            break;
+                        }
+                        /*
+                         if([searchResultPage objectForKey:pagestr] == NULL)
+                         {
+                         NSString *href = [((TFHppleElement*)[buf_page.children objectAtIndex:pagecount]).attributes objectForKey:@"href"];
+                         [searchResultPage setObject:href forKey:pagestr];
+                         }*/
+                    }
+                }
+                break;
+            }
+        }
+        i++;
+    }while(i < [tableData_page count]);
+    //NSLog(@"%@",tableData_td);
+    
+    
+    //過濾成只有書本資料起始的table
+    NSMutableArray *tableData_book = [[NSMutableArray alloc] init];
+    for(size_t b = 0 ; b < [tableData_table count]; b++)
+    {
+        TFHppleElement* buf_book = [tableData_table objectAtIndex:b];
+        
+        if([buf_book.attributes objectForKey:@"width"] != NULL||[buf_book.attributes objectForKey:@"border"] != NULL||[buf_book.attributes objectForKey:@"cellspacing"] != NULL||[buf_book.attributes objectForKey:@"cellpadding"] != NULL)
+        {
+            if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"100%"] && [[buf_book.attributes objectForKey:@"border"]isEqualToString:@"0"] && [[buf_book.attributes objectForKey:@"cellspacing"]isEqualToString:@"0"] && [[buf_book.attributes objectForKey:@"cellpadding"] isEqualToString:@"0"])
+            {   [tableData_book addObject:buf_book];}
+        }
+    }
+    
+    //截取書的資料
+    NSMutableDictionary *book;
+    for (size_t b = 0 ; b < [tableData_book count] ; ++b){
+        book = [[NSMutableDictionary alloc] init];
+        TFHppleElement* buf_book = [tableData_book objectAtIndex:b];
+        
+        NSInteger s = 0;
+        do{
+            //搜索 <tr valign="top"> 中的所有td
+            TFHppleElement* buf_search = [((TFHppleElement*)[buf_book.children objectAtIndex:0]).children objectAtIndex:s];
+            
+            if([buf_search.tagName isEqualToString:@"td"]){
+                if([buf_search.attributes objectForKey:@"width"] != NULL && [buf_search.attributes objectForKey:@"align"] != NULL  && [buf_search.attributes objectForKey:@"rowspan"] != NULL)
+                {   //圖片搜索
+                    if([[buf_search.attributes objectForKey:@"width"] isEqualToString:@"11%"] && [[buf_search.attributes objectForKey:@"align"]isEqualToString:@"center"] && [[buf_search.attributes objectForKey:@"rowspan"] isEqualToString:@"2"])
+                    {
+                        if([((TFHppleElement*)[buf_search.children objectAtIndex:1]).tagName isEqualToString:@"a"])
+                        {   //有圖片
+                            NSString *image = [((TFHppleElement*)[((TFHppleElement*)[buf_search.children objectAtIndex:1]).children objectAtIndex:0]).attributes objectForKey:@"src"];
+                            NSData *imagedata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:image]];
+                            UIImage *book_img = [[UIImage alloc] initWithData:imagedata];
+                            [book setObject:book_img forKey:@"image"];
+                            
+                            NSString *image_url = [((TFHppleElement*)[buf_search.children objectAtIndex:1]).attributes objectForKey:@"href"];
+                            [book setObject:image_url forKey:@"image_url"];
+                        }
+                        else
+                        {   //沒有圖片
+                            NSString *image = @"http://static.findbook.tw/image/book/1419879251/large";
+                            NSData *imagedata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:image]];
+                            UIImage *book_img = [[UIImage alloc] initWithData:imagedata];
+                            [book setObject:book_img forKey:@"image"];
+                            
+                            NSString *image_url = [[NSString alloc] initWithFormat:@"NULL"];
+                            [book setObject:image_url forKey:@"image_url"];
+                        }
+                    }
+                }
+                else if([buf_search.attributes objectForKey:@"width"] != NULL && [buf_search.attributes objectForKey:@"align"] != NULL  && [buf_search.attributes objectForKey:@"class"] != NULL)
+                {   //標題欄位搜索
+                    if([[buf_search.attributes objectForKey:@"width"] isEqualToString:@"57%"] && [[buf_search.attributes objectForKey:@"align"]isEqualToString:@"left"] && [[buf_search.attributes objectForKey:@"class"] isEqualToString:@"briefcitDetail"])
+                    {
+                        for(size_t name = 0; name < [buf_search.children count] ; name ++)
+                        {
+                            TFHppleElement *buf_s = [buf_search.children objectAtIndex:name];
+                            if([buf_s.tagName isEqualToString:@"span"] && [[buf_s.attributes objectForKey:@"class"] isEqualToString:@"briefcitTitle"])
+                            {   //搜尋書名
+                                NSString *bookname = ((TFHppleElement*)[((TFHppleElement*)[buf_s.children objectAtIndex:1]).children objectAtIndex:0]).content;
+                                [book setObject:bookname forKey:@"bookname"];
+                                
+                                ///search~S0*cht?/X{u54C8}{u54C8}&SORT=D/X{u54C8}{u54C8}&SORT=D&SUBKEY=%E5%93%88%E5%93%88/1%2C1507%2C1507%2CB/frameset&FF=X{u54C8}{u54C8}&SORT=D&1%2C1%2C
+                                NSString *url = [((TFHppleElement*)[buf_s.children objectAtIndex:1]).attributes objectForKey:@"href"];
+                                url = [url substringFromIndex:(urlLength - 1)];
+                                NSRange nrang = [url rangeOfString:@"SORT="];
+                                //SORT=D&1%2C1%2C
+                                NSString *buf = [url substringFromIndex:nrang.location];
+                                
+                                url = [NSString stringWithFormat:@"%@/frameset&FF=X%@&%@",urlHead,urlName,buf];
+                                NSString *book_url = [[NSString alloc] initWithFormat:@"http://ocean.ntou.edu.tw:1083%@",url];
+                                [book setObject:book_url forKey:@"book_url"];
+                                
+                                NSInteger tcase = 0;
+                                //搜尋作者及出版社
+                                for(size_t au = name+1 ; au < [buf_search.children count] ; au++)
+                                {
+                                    TFHppleElement *buf_a = [buf_search.children objectAtIndex:au];
+                                    if([buf_a.tagName isEqualToString:@"text"] && ![buf_a.content isEqualToString:@"\n"])
+                                    {
+                                        if(tcase == 0)
+                                        {   //單存作者 或 作者＋出版社
+                                            NSString *auther = [buf_a.content substringFromIndex:1];//濾掉/n
+                                            [book setObject:auther forKey:@"auther"];
+                                        }
+                                        else if(tcase == 1)
+                                        {   //出版社
+                                            NSString *press = [buf_a.content substringFromIndex:1];//濾掉/n
+                                            [book setObject:press forKey:@"press"];
+                                        }
+                                        tcase++;
+                                    }
+                                    else if([buf_a.tagName isEqualToString:@"span"])
+                                        break;
+                                }
+                                
+                                if(tcase == 1)
+                                {   //auther部分 存了作者及出版社
+                                    NSString *press = [[NSString alloc] initWithFormat:@"NULL"];
+                                    [book setObject:press forKey:@"press"];
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            s++;
+        }while(s < [((TFHppleElement*)[buf_book.children objectAtIndex:0]).children count]);
+        
+        [data addObject:book];
+        [book release];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,7 +322,9 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(mainview.nextpage_url != NULL)  //後面還有書
+    NSString *nextpage_url = [pageData objectForKey:@"nextpage"];
+
+    if(nextpage_url != NULL)  //後面還有書
         return [data count]+1;
     else
         return [data count];
@@ -94,7 +355,7 @@
         NSDictionary *book = [data objectAtIndex:indexPath.row];
         NSString *bookname = [book objectForKey:@"bookname"];
         NSString *book_url = [book objectForKey:@"book_url"];
-        NSString *image = [book objectForKey:@"image"];
+        UIImage *image = [book objectForKey:@"image"];
         NSString *image_url = [book objectForKey:@"image_url"];
         NSString *auther = [book objectForKey:@"auther"];
         NSString *press = [book objectForKey:@"press"];
@@ -118,9 +379,7 @@
         if(imageY < 6)
             imageY = 6;
         
-        NSData *imagedata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:image]];
-        UIImage *book_img = [[UIImage alloc] initWithData:imagedata];
-        UIImageView *imageview = [[UIImageView alloc] initWithImage:book_img];
+        UIImageView *imageview = [[UIImageView alloc] initWithImage:image];
         imageview.frame = CGRectMake(10,imageY,60,80);
         [cell.contentView addSubview:imageview];
         
@@ -166,23 +425,24 @@
     {
         NSString *MyIdentifier = @"moreArticles";
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+        UILabel *morelabel = nil;
         if (cell == nil)
         {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier] autorelease];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
-            UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
             
-            UILabel *morelabel = [[UILabel alloc] init];
-            morelabel.frame = CGRectMake(20,6,200,20);
-            morelabel.tag = indexPath.row;
-            morelabel.backgroundColor = [UIColor clearColor];
-            morelabel.font = boldfont;
-            morelabel.textColor = [UIColor brownColor];
-            morelabel.text = @"載入更多...";
-            
-            [cell.contentView addSubview:morelabel];
+            morelabel = [[UILabel alloc] init];
         }
+        UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
         
+        morelabel.frame = CGRectMake(20,6,200,20);
+        morelabel.tag = indexPath.row;
+        morelabel.backgroundColor = [UIColor clearColor];
+        morelabel.font = boldfont;
+        morelabel.textColor = [UIColor brownColor];
+        morelabel.text = @"載入更多...";
+        
+        [cell.contentView addSubview:morelabel];
         return cell;
     }
 }
@@ -276,10 +536,7 @@
     }
     else
     {
-        [mainview nextpage];
-        [data removeAllObjects];
-        data = [[NSMutableArray alloc]initWithArray:[mainview searchResultArray]];
-        [self.tableView reloadData];
+        [self nextpage];
     }
 }
 

@@ -8,7 +8,7 @@
 
 #import "BookDetailViewController.h"
 #import "TFHpple.h"
-#import "resBookViewController.h"
+#import "RBookViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 @interface BookDetailViewController ()
@@ -43,11 +43,9 @@
     bookdetail = [[NSMutableDictionary alloc] init];
     book_count = 0;
     NSError *error;
-    //  設定url
-    NSString *url = [NSString stringWithFormat:@"%@",bookurl];
-    //url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
     // 設定丟出封包，由data來接
-    NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:bookurl]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
     
     //設定 parser讀取data，並透過Xpath得到想要的資料位置
     TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
@@ -65,7 +63,8 @@
     NSString *book_resurl = NULL;
 
     book_name = [[NSString alloc] init];
-    
+    book_press = [[NSString alloc] init];
+
     for(size_t s = 0 ; s < [tableData_name count] ; s++)
     {
         TFHppleElement* buf_s = [tableData_name objectAtIndex:s];   //取最外層的strong
@@ -77,7 +76,7 @@
                 if([((TFHppleElement*)[buf_s.children objectAtIndex:0]).content isEqualToString:@"書名"])
                 {   //截取書名
                     buf_s = [tableData_name objectAtIndex:s+1];
-                    for(size_t sn = 0 ; sn < [tableData_name count] ; sn++)
+                    for(size_t sn = 0 ; sn < [buf_s.children count] ; sn++)
                     {
                         TFHppleElement* buf_names = [buf_s.children objectAtIndex:sn];
                         if([buf_names.tagName isEqualToString:@"strong"] || [buf_names.tagName isEqualToString:@"a"])
@@ -100,23 +99,23 @@
                 else if([((TFHppleElement*)[buf_s.children objectAtIndex:0]).content isEqualToString:@"出版項"])
                 {//截取出版項
                     buf_s = [tableData_name objectAtIndex:s+1];
-                    for(size_t sn = 0 ; sn < [tableData_name count] ; sn++)
+                    for(size_t sn = 0 ; sn < [buf_s.children count] ; sn++)
                     {
                         TFHppleElement* buf_press = [buf_s.children objectAtIndex:sn];
-                        if([buf_press.tagName isEqualToString:@"text"])
+ 
+                        if([buf_press.tagName isEqualToString:@"a"])
+                        {
+                            book_press = [book_press stringByAppendingString:((TFHppleElement*)[buf_press.children objectAtIndex:0]).content];
+                        }
+                        else if ([buf_press.tagName isEqualToString:@"text"])
                         {
                             if(![buf_press.content isEqualToString:@"\n"])
                             {
-                                NSString *buf_p = buf_press.content;
-                                book_press = [[NSString alloc] initWithString:[buf_p substringFromIndex:1]]; //濾掉/n
-                                break;
+                                NSString *buf_p = [buf_press.content stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]]; //濾掉\n
+                                book_press = [book_press stringByAppendingString:buf_p];
                             }
                         }
-                        else if([buf_press.tagName isEqualToString:@"a"])
-                        {
-                            book_press = ((TFHppleElement*)[buf_press.children objectAtIndex:0]).content;
-                            break;
-                        }
+                        
                     }
                     break;
                 }
@@ -232,10 +231,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d",indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     NSUInteger section = indexPath.section;
     NSUInteger row = indexPath.row;
+
+    NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d%d",row,section];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     UILabel *presslabel = nil;
     UILabel *press = nil;
     UILabel *namelabel = nil;
@@ -422,18 +422,21 @@
 
         button.frame = CGRectMake(110,6,100,18);
         button.text = @"預        借";
+        button.textColor = [UIColor whiteColor];
         button.tag = indexPath.row;
         button.backgroundColor = [UIColor clearColor];
         button.font = buttonfont;
         
         [cell.contentView addSubview:button];
         //cell.backgroundColor = [UIColor brownColor];
-        
+
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.cornerRadius = 6; // 圆角的弧度
         gradient.masksToBounds = YES;
         gradient.frame = CGRectMake(0,0,300,30);
-        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor brownColor] CGColor], nil]; // 由上到下由白色渐变为蓝色
+        gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor whiteColor] CGColor], (id)[[UIColor brownColor] CGColor], (id)[[UIColor brownColor] CGColor], nil]; // 由上到下由白色渐变为蓝色
+        //阴影
+        
         [cell.contentView.layer insertSublayer:gradient atIndex:0];
     }
     return cell;
@@ -489,7 +492,7 @@
 
     if(section == 2)
     {
-        resBookViewController * display = [[resBookViewController alloc]init];
+        RBookViewController * display = [[RBookViewController alloc]initWithStyle:UITableViewStyleGrouped];
         display.resurl = [bookdetail objectForKey:@"resurl"];
         [self.navigationController pushViewController:display animated:YES];
     }

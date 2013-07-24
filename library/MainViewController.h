@@ -21,5 +21,4 @@
 @property (strong, nonatomic) NSMutableArray *searchResultArray;
 @property (nonatomic) NSInteger maxpage;
 
--(void)nextpage;
 @end

@@ -8,7 +8,7 @@
 
 #import "loginViewController.h"
 #import "TFHpple.h"
-#import "SearchResultViewController.h"
+#import "WOLSwitchViewController.h"
 
 @interface loginViewController ()
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad
 {
-    self.title = @"借閱歷史";
+    self.title = @"借閱記錄查詢";
 
     searchResultArray = [NSMutableArray new];
     NSInteger swidth = [[UIScreen mainScreen] bounds].size.width;
@@ -76,7 +76,9 @@
 }
 
 -(void)Login{
-    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",accounttextField.text,passWordtextField.text] ;
+    /*NSString *finalPost = [[NSString alloc]initWithFormat:@"code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",accounttextField.text,passWordtextField.text];*/
+    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=0996A020&pin=P123850476&submit.x=37&submit.y=23&submit=submit"];
+
     NSHTTPURLResponse *urlResponse = nil;
     NSError *error = [[[NSError alloc] init]autorelease];
     NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
@@ -88,31 +90,88 @@
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request
                                                  returningResponse:&urlResponse
                                                              error:&error];
-    
+    NSURL *Responseurl = [urlResponse URL];
+    /*
     NSDictionary *dictionary = [urlResponse allHeaderFields];
-    NSLog(@"%@",[dictionary description]);
-    [self fetchHistory];
-}
-
--(void)fetchHistory{
-    NSError *error;
-    NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083/patroninfo~S0*cht/1036223/readinghistory"];
-    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"%@",[dictionary description]);*/
+    NSString *respath = [Responseurl path];
+    respath = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",respath];
+    NSString *dataURL_buf = [respath substringFromIndex:([respath length] - 3)];
+    
+    NSError *reserror;
+    NSString *dataURL = [NSString stringWithContentsOfURL:Responseurl encoding:NSUTF8StringEncoding error:&reserror];
+    NSData* data = [dataURL dataUsingEncoding:NSUTF8StringEncoding];
     
     TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
-    NSArray *tableData_td  = [parser searchWithXPathQuery:@"//html//body//div//form//table//tr//td//a"];
-    [searchResultArray removeAllObjects];
-    for (size_t i = 0 ; i < [tableData_td count] ; ++i){
-        TFHppleElement* buf = [tableData_td objectAtIndex:i];
-        [searchResultArray addObject:[[buf.children objectAtIndex:0] content]];
+    NSArray *tableData_a  = [parser searchWithXPathQuery:@"//html//body//table//tr//td//div//a"];
+    NSArray *tableData_resa  = [parser searchWithXPathQuery:@"//html//body//table//tr//td//div//div//a"];
+    
+    NSString *nexturl = nil;
+    for (size_t i = 0 ; i < [tableData_a count] ; ++i){
+        TFHppleElement* buf = [tableData_a objectAtIndex:i];
+        if([((TFHppleElement*)[buf.children objectAtIndex:0]).content isEqualToString:@"查詢我的借閱歷史紀錄"])
+        {
+            nexturl = [buf.attributes objectForKey:@"href"];
+            break;
+        }
     }
-    // NSLog(@"%@",searchResultArray);
-    SearchResultViewController * display = [[SearchResultViewController alloc]initWithStyle:UITableViewStylePlain];
-    display.data =[[NSMutableArray alloc]initWithArray:searchResultArray];
+
+    WOLSwitchViewController * display = [[WOLSwitchViewController alloc]init];
+
+    
+    if ([dataURL_buf isEqualToString:@"top"])   //首頁，只有預約或借出
+    {
+        if([((TFHppleElement*)[tableData_resa objectAtIndex:0]).children count] == 1)
+        {
+            NSString *resurl = [((TFHppleElement*)[tableData_resa objectAtIndex:0]).attributes objectForKey:@"href"];
+            NSString *stringname = [[((TFHppleElement*)[tableData_resa objectAtIndex:0]).children objectAtIndex:0] content];
+            stringname = [stringname substringFromIndex:([stringname length] - 5)];
+            NSString *webURL = nil;
+            
+            if([stringname isEqualToString:@"目前已借出"])
+            {
+                webURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
+                display.outfetchURL = webURL;
+                display.resfetchURL = [NSString stringWithFormat:@"NULL"];
+            }
+            else if([stringname isEqualToString:@"(預約)."])
+            {
+                webURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
+                display.resfetchURL = webURL;
+                display.outfetchURL = [NSString stringWithFormat:@"NULL"];
+            }        
+        }
+        else
+        {
+            display.outfetchURL = [NSString stringWithFormat:@"NULL"];
+            display.resfetchURL = [NSString stringWithFormat:@"NULL"];
+        }
+    }
+    else if ([dataURL_buf isEqualToString:@"lds"])  //預約畫面，同時有預約及借出
+    {
+        NSString *resurl = [((TFHppleElement*)[tableData_resa objectAtIndex:0]).attributes objectForKey:@"href"];
+        NSString *webURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
+        
+        display.outfetchURL = webURL;
+        display.resfetchURL = respath;
+    }
+    else if ([dataURL_buf isEqualToString:@"ems"])  //借出畫面，同時有預約及借出
+    {
+        NSString *resurl = [((TFHppleElement*)[tableData_resa objectAtIndex:0]).attributes objectForKey:@"href"];
+        NSString *webURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",resurl];
+
+        display.outfetchURL = respath;
+        display.resfetchURL = webURL;
+    }
+    
+    NSString *bookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nexturl];
+    display.fetchURL = bookURL;
+    
     [self.navigationController pushViewController:display animated:YES];
     [display release];
 }
+
+
 
 - (BOOL)textFieldShouldReturn:(UITextField *)_textField {
     [_textField resignFirstResponder];

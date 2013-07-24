@@ -7,12 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1800D587179BE79100B27FEB /* LoginOutResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1800D586179BE79100B27FEB /* LoginOutResultViewController.m */; };
 		18046A3017866FCB009813D8 /* LoginResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A2F17866FCB009813D8 /* LoginResultViewController.m */; };
 		18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18060522177C2E1500BD690D /* BookDetailViewController.m */; };
-		1806452217990F1A00D6808A /* WOLSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1806452017990F1A00D6808A /* WOLSwitchViewController.m */; };
-		180645281799113300D6808A /* LoginResResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180645271799113300D6808A /* LoginResResultViewController.m */; };
-		1808605D17968D27009D8F9E /* RBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1808605C17968D27009D8F9E /* RBookViewController.m */; };
+		18081485177D8E0A001E5506 /* resBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18081484177D8E0A001E5506 /* resBookViewController.m */; };
 		180B00281783D6B70071E12D /* switchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B00271783D6B70071E12D /* switchController.m */; };
 		180B002B1783DB790071E12D /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B002A1783DB790071E12D /* loginViewController.m */; };
 		180B002E1783FF380071E12D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B002D1783FF380071E12D /* MBProgressHUD.m */; };
@@ -21,9 +18,6 @@
 		180C05AC1786C3A00042ACFE /* opentime.png in Resources */ = {isa = PBXBuildFile; fileRef = 180C05A71786C3A00042ACFE /* opentime.png */; };
 		180C05AD1786C3A00042ACFE /* OpenTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180C05A91786C3A00042ACFE /* OpenTimeViewController.m */; };
 		180C05AE1786C3A00042ACFE /* OpenTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */; };
-		9053DE911786CFAC0015E837 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9053DE901786CFAC0015E837 /* NewsViewController.m */; };
-		90BEAC17178D49D000B8CE03 /* LibraryFloor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAC16178D49D000B8CE03 /* LibraryFloor.plist */; };
-		90BEAC1A178D4CDC00B8CE03 /* floorInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */; };
 		913BD8F8175494E400145B80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F7175494E400145B80 /* UIKit.framework */; };
 		913BD8FA175494E400145B80 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F9175494E400145B80 /* Foundation.framework */; };
 		913BD8FC175494E400145B80 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8FB175494E400145B80 /* CoreGraphics.framework */; };
@@ -42,18 +36,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1800D585179BE79100B27FEB /* LoginOutResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginOutResultViewController.h; sourceTree = "<group>"; };
-		1800D586179BE79100B27FEB /* LoginOutResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginOutResultViewController.m; sourceTree = "<group>"; };
 		18046A2E17866FCB009813D8 /* LoginResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResultViewController.h; sourceTree = "<group>"; };
 		18046A2F17866FCB009813D8 /* LoginResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResultViewController.m; sourceTree = "<group>"; };
 		18060521177C2E1500BD690D /* BookDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailViewController.h; sourceTree = "<group>"; };
 		18060522177C2E1500BD690D /* BookDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDetailViewController.m; sourceTree = "<group>"; };
-		1806452017990F1A00D6808A /* WOLSwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WOLSwitchViewController.m; sourceTree = "<group>"; };
-		1806452517990F8300D6808A /* WOLSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOLSwitchViewController.h; sourceTree = "<group>"; };
-		180645261799113300D6808A /* LoginResResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResResultViewController.h; sourceTree = "<group>"; };
-		180645271799113300D6808A /* LoginResResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResResultViewController.m; sourceTree = "<group>"; };
-		1808605B17968D27009D8F9E /* RBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBookViewController.h; sourceTree = "<group>"; };
-		1808605C17968D27009D8F9E /* RBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBookViewController.m; sourceTree = "<group>"; };
+		18081483177D8E0A001E5506 /* resBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resBookViewController.h; sourceTree = "<group>"; };
+		18081484177D8E0A001E5506 /* resBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = resBookViewController.m; sourceTree = "<group>"; };
 		180B00261783D6B70071E12D /* switchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = switchController.h; sourceTree = "<group>"; };
 		180B00271783D6B70071E12D /* switchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = switchController.m; sourceTree = "<group>"; };
 		180B00291783DB790071E12D /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
@@ -67,11 +55,6 @@
 		180C05A81786C3A00042ACFE /* OpenTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenTimeViewController.h; sourceTree = "<group>"; };
 		180C05A91786C3A00042ACFE /* OpenTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenTimeViewController.m; sourceTree = "<group>"; };
 		180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OpenTimeViewController.xib; sourceTree = "<group>"; };
-		9053DE8F1786CFAC0015E837 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
-		9053DE901786CFAC0015E837 /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
-		90BEAC16178D49D000B8CE03 /* LibraryFloor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LibraryFloor.plist; path = about/LibraryFloor.plist; sourceTree = "<group>"; };
-		90BEAC18178D4CDC00B8CE03 /* floorInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = floorInfoViewController.h; sourceTree = "<group>"; };
-		90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = floorInfoViewController.m; sourceTree = "<group>"; };
 		913BD8F4175494E400145B80 /* library.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = library.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		913BD8F7175494E400145B80 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		913BD8F9175494E400145B80 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -121,8 +104,10 @@
 				913BD9151754963D00145B80 /* MainViewController.m */,
 				913BD92A17587BFC00145B80 /* SearchResultViewController.h */,
 				913BD92B17587BFC00145B80 /* SearchResultViewController.m */,
-				1808605B17968D27009D8F9E /* RBookViewController.h */,
-				1808605C17968D27009D8F9E /* RBookViewController.m */,
+				18060521177C2E1500BD690D /* BookDetailViewController.h */,
+				18060522177C2E1500BD690D /* BookDetailViewController.m */,
+				18081483177D8E0A001E5506 /* resBookViewController.h */,
+				18081484177D8E0A001E5506 /* resBookViewController.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -132,14 +117,8 @@
 			children = (
 				180B00291783DB790071E12D /* loginViewController.h */,
 				180B002A1783DB790071E12D /* loginViewController.m */,
-				1806452517990F8300D6808A /* WOLSwitchViewController.h */,
-				1806452017990F1A00D6808A /* WOLSwitchViewController.m */,
 				18046A2E17866FCB009813D8 /* LoginResultViewController.h */,
 				18046A2F17866FCB009813D8 /* LoginResultViewController.m */,
-				180645261799113300D6808A /* LoginResResultViewController.h */,
-				180645271799113300D6808A /* LoginResResultViewController.m */,
-				1800D585179BE79100B27FEB /* LoginOutResultViewController.h */,
-				1800D586179BE79100B27FEB /* LoginOutResultViewController.m */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -153,10 +132,6 @@
 				180C05A81786C3A00042ACFE /* OpenTimeViewController.h */,
 				180C05A91786C3A00042ACFE /* OpenTimeViewController.m */,
 				180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */,
-				9053DE8F1786CFAC0015E837 /* NewsViewController.h */,
-				9053DE901786CFAC0015E837 /* NewsViewController.m */,
-				90BEAC18178D4CDC00B8CE03 /* floorInfoViewController.h */,
-				90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */,
 			);
 			path = about;
 			sourceTree = "<group>";
@@ -205,8 +180,6 @@
 				180B002D1783FF380071E12D /* MBProgressHUD.m */,
 				180B00261783D6B70071E12D /* switchController.h */,
 				180B00271783D6B70071E12D /* switchController.m */,
-				18060521177C2E1500BD690D /* BookDetailViewController.h */,
-				18060522177C2E1500BD690D /* BookDetailViewController.m */,
 				180C05A41786C3A00042ACFE /* about */,
 				18046A3117867004009813D8 /* Search */,
 				18046A3217867028009813D8 /* Login */,
@@ -219,7 +192,6 @@
 			isa = PBXGroup;
 			children = (
 				913BD8FF175494E400145B80 /* library-Info.plist */,
-				90BEAC16178D49D000B8CE03 /* LibraryFloor.plist */,
 				913BD900175494E400145B80 /* InfoPlist.strings */,
 				913BD903175494E400145B80 /* main.m */,
 				913BD905175494E400145B80 /* library-Prefix.pch */,
@@ -287,7 +259,6 @@
 				913BD90E175494E400145B80 /* Default-568h@2x.png in Resources */,
 				180C05AC1786C3A00042ACFE /* opentime.png in Resources */,
 				180C05AE1786C3A00042ACFE /* OpenTimeViewController.xib in Resources */,
-				90BEAC17178D49D000B8CE03 /* LibraryFloor.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,18 +277,13 @@
 				913BD9231754A61000145B80 /* XPathQuery.m in Sources */,
 				913BD92C17587BFC00145B80 /* SearchResultViewController.m in Sources */,
 				18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */,
+				18081485177D8E0A001E5506 /* resBookViewController.m in Sources */,
 				180B00281783D6B70071E12D /* switchController.m in Sources */,
 				180B002B1783DB790071E12D /* loginViewController.m in Sources */,
 				180B002E1783FF380071E12D /* MBProgressHUD.m in Sources */,
 				18046A3017866FCB009813D8 /* LoginResultViewController.m in Sources */,
 				180C05AB1786C3A00042ACFE /* AboutViewController.m in Sources */,
 				180C05AD1786C3A00042ACFE /* OpenTimeViewController.m in Sources */,
-				9053DE911786CFAC0015E837 /* NewsViewController.m in Sources */,
-				90BEAC1A178D4CDC00B8CE03 /* floorInfoViewController.m in Sources */,
-				1808605D17968D27009D8F9E /* RBookViewController.m in Sources */,
-				1806452217990F1A00D6808A /* WOLSwitchViewController.m in Sources */,
-				180645281799113300D6808A /* LoginResResultViewController.m in Sources */,
-				1800D587179BE79100B27FEB /* LoginOutResultViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,7 +312,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Lin ching-chi (JJY99JB76X)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -367,7 +332,6 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "A96366A8-47B7-4DCC-B182-33ED1AB30121";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
