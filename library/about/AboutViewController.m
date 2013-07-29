@@ -10,6 +10,7 @@
 #import "OpenTimeViewController.h"
 #import "NewsViewController.h"
 #import "floorInfoViewController.h"
+#import "ServiceInfoViewController.h"
 
 @interface AboutViewController ()
 
@@ -192,7 +193,11 @@
                 }
                 case 2:
                 {
-                    
+                    ServiceInfoViewController *ServiceInfo = [[ServiceInfoViewController alloc] init];
+                    ServiceInfo.title=@"聯絡資訊";
+                    [self.navigationController pushViewController:ServiceInfo  animated:YES];
+                    [ServiceInfo release];
+                    break;
                     break;
                 }
                 default:

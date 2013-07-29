@@ -22,6 +22,8 @@
 		180C05AD1786C3A00042ACFE /* OpenTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180C05A91786C3A00042ACFE /* OpenTimeViewController.m */; };
 		180C05AE1786C3A00042ACFE /* OpenTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */; };
 		9053DE911786CFAC0015E837 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9053DE901786CFAC0015E837 /* NewsViewController.m */; };
+		90B632AC17A2542300143CAF /* ServiceInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90B632AB17A2542300143CAF /* ServiceInfoViewController.m */; };
+		90B632B317A2753700143CAF /* Service.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90B632B217A2753700143CAF /* Service.plist */; };
 		90BEAC17178D49D000B8CE03 /* LibraryFloor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAC16178D49D000B8CE03 /* LibraryFloor.plist */; };
 		90BEAC1A178D4CDC00B8CE03 /* floorInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */; };
 		913BD8F8175494E400145B80 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD8F7175494E400145B80 /* UIKit.framework */; };
@@ -69,6 +71,9 @@
 		180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OpenTimeViewController.xib; sourceTree = "<group>"; };
 		9053DE8F1786CFAC0015E837 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		9053DE901786CFAC0015E837 /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		90B632AA17A2542300143CAF /* ServiceInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceInfoViewController.h; sourceTree = "<group>"; };
+		90B632AB17A2542300143CAF /* ServiceInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceInfoViewController.m; sourceTree = "<group>"; };
+		90B632B217A2753700143CAF /* Service.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Service.plist; sourceTree = "<group>"; };
 		90BEAC16178D49D000B8CE03 /* LibraryFloor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LibraryFloor.plist; path = about/LibraryFloor.plist; sourceTree = "<group>"; };
 		90BEAC18178D4CDC00B8CE03 /* floorInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = floorInfoViewController.h; sourceTree = "<group>"; };
 		90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = floorInfoViewController.m; sourceTree = "<group>"; };
@@ -157,6 +162,8 @@
 				9053DE901786CFAC0015E837 /* NewsViewController.m */,
 				90BEAC18178D4CDC00B8CE03 /* floorInfoViewController.h */,
 				90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */,
+				90B632AA17A2542300143CAF /* ServiceInfoViewController.h */,
+				90B632AB17A2542300143CAF /* ServiceInfoViewController.m */,
 			);
 			path = about;
 			sourceTree = "<group>";
@@ -226,6 +233,7 @@
 				913BD909175494E400145B80 /* Default.png */,
 				913BD90B175494E400145B80 /* Default@2x.png */,
 				913BD90D175494E400145B80 /* Default-568h@2x.png */,
+				90B632B217A2753700143CAF /* Service.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -288,6 +296,7 @@
 				180C05AC1786C3A00042ACFE /* opentime.png in Resources */,
 				180C05AE1786C3A00042ACFE /* OpenTimeViewController.xib in Resources */,
 				90BEAC17178D49D000B8CE03 /* LibraryFloor.plist in Resources */,
+				90B632B317A2753700143CAF /* Service.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -318,6 +327,7 @@
 				1806452217990F1A00D6808A /* WOLSwitchViewController.m in Sources */,
 				180645281799113300D6808A /* LoginResResultViewController.m in Sources */,
 				1800D587179BE79100B27FEB /* LoginOutResultViewController.m in Sources */,
+				90B632AC17A2542300143CAF /* ServiceInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>title</key>
+		<string>圖書服務</string>
+		<key>tel</key>
+		<string>02-2462-2192 轉 1187</string>
+		<key>email</key>
+		<string>lit@mail.ntou.edu.tw</string>
+		<key>fax</key>
+		<string>02-2462-4651</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>資訊服務</string>
+		<key>tel</key>
+		<string>02-2462-2192 轉 1171</string>
+		<key>email</key>
+		<string>staff@mail.ntou.edu.tw</string>
+		<key>fax</key>
+		<string>02-2463-1208</string>
+	</dict>
+	<dict>
+		<key>title</key>
+		<string>地址</string>
+		<key>add</key>
+		<string>基隆市中正區北寧路2號</string>
+	</dict>
+</array>
+</plist>
