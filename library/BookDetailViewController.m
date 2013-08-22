@@ -492,9 +492,23 @@
 
     if(section == 2)
     {
-        RBookViewController * display = [[RBookViewController alloc]initWithStyle:UITableViewStyleGrouped];
-        display.resurl = [bookdetail objectForKey:@"resurl"];
-        [self.navigationController pushViewController:display animated:YES];
+        NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+        if(account == NULL)
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"未登陸帳戶"
+                                                            message:@"請至 更多 >> 帳戶登錄 進行登錄"
+                                                           delegate:self
+                                                  cancelButtonTitle:@"好"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+        else
+        {
+            NSLog(@"%@ %@",[account objectForKey:@"account"],[account objectForKey:@"passWord"]);
+            RBookViewController * display = [[RBookViewController alloc]initWithStyle:UITableViewStyleGrouped];
+            display.resurl = [bookdetail objectForKey:@"resurl"];
+            [self.navigationController pushViewController:display animated:YES];
+        }
     }
 }
 

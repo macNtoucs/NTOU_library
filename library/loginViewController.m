@@ -32,7 +32,7 @@
 
     searchResultArray = [NSMutableArray new];
     NSInteger swidth = [[UIScreen mainScreen] bounds].size.width;
-        
+        /*
     accounttextField = [[UITextField alloc] initWithFrame:CGRectMake(swidth/2 - 100,50, 200, 30)];
     accounttextField.borderStyle = UITextBorderStyleRoundedRect;
     accounttextField.font = [UIFont systemFontOfSize:15];
@@ -47,7 +47,7 @@
     passWordtextField.secureTextEntry = YES;
     passWordtextField.placeholder = @"密碼";
     passWordtextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    
+    */
     UIButton *Loginbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [Loginbutton addTarget:self
                     action:@selector(Login)
@@ -77,7 +77,19 @@
 
 -(void)Login{
     /*NSString *finalPost = [[NSString alloc]initWithFormat:@"code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",accounttextField.text,passWordtextField.text];*/
-    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=0996A020&pin=P123850476&submit.x=37&submit.y=23&submit=submit"];
+    NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+    if(account == NULL)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"未登陸帳戶"
+                                                        message:@"請至 更多 >> 帳戶登錄 進行登錄"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好"
+                                              otherButtonTitles:nil];
+        [alert show];
+        return;
+    }
+
+    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",[account objectForKey:@"account"],[account objectForKey:@"passWord"]];
 
     NSHTTPURLResponse *urlResponse = nil;
     NSError *error = [[[NSError alloc] init]autorelease];

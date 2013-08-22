@@ -21,6 +21,7 @@
 		180C05AC1786C3A00042ACFE /* opentime.png in Resources */ = {isa = PBXBuildFile; fileRef = 180C05A71786C3A00042ACFE /* opentime.png */; };
 		180C05AD1786C3A00042ACFE /* OpenTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180C05A91786C3A00042ACFE /* OpenTimeViewController.m */; };
 		180C05AE1786C3A00042ACFE /* OpenTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */; };
+		180EADDE17C5FE8C00DD2871 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180EADDD17C5FE8C00DD2871 /* AccountViewController.m */; };
 		9053DE911786CFAC0015E837 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9053DE901786CFAC0015E837 /* NewsViewController.m */; };
 		90BEAC17178D49D000B8CE03 /* LibraryFloor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAC16178D49D000B8CE03 /* LibraryFloor.plist */; };
 		90BEAC1A178D4CDC00B8CE03 /* floorInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */; };
@@ -67,6 +68,8 @@
 		180C05A81786C3A00042ACFE /* OpenTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenTimeViewController.h; sourceTree = "<group>"; };
 		180C05A91786C3A00042ACFE /* OpenTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenTimeViewController.m; sourceTree = "<group>"; };
 		180C05AA1786C3A00042ACFE /* OpenTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OpenTimeViewController.xib; sourceTree = "<group>"; };
+		180EADDC17C5FE8C00DD2871 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
+		180EADDD17C5FE8C00DD2871 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
 		9053DE8F1786CFAC0015E837 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
 		9053DE901786CFAC0015E837 /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
 		90BEAC16178D49D000B8CE03 /* LibraryFloor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = LibraryFloor.plist; path = about/LibraryFloor.plist; sourceTree = "<group>"; };
@@ -157,6 +160,8 @@
 				9053DE901786CFAC0015E837 /* NewsViewController.m */,
 				90BEAC18178D4CDC00B8CE03 /* floorInfoViewController.h */,
 				90BEAC19178D4CDC00B8CE03 /* floorInfoViewController.m */,
+				180EADDC17C5FE8C00DD2871 /* AccountViewController.h */,
+				180EADDD17C5FE8C00DD2871 /* AccountViewController.m */,
 			);
 			path = about;
 			sourceTree = "<group>";
@@ -318,6 +323,7 @@
 				1806452217990F1A00D6808A /* WOLSwitchViewController.m in Sources */,
 				180645281799113300D6808A /* LoginResResultViewController.m in Sources */,
 				1800D587179BE79100B27FEB /* LoginOutResultViewController.m in Sources */,
+				180EADDE17C5FE8C00DD2871 /* AccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

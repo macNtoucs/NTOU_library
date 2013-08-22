@@ -18,6 +18,8 @@
 
 -(void)setView
 {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"NTOULibraryAccount"];
+
     MainViewController* view1 = [[MainViewController alloc] initWithNibName:nil bundle:nil];
     UITabBarItem *item1 = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:1];
     view1.tabBarItem = item1;

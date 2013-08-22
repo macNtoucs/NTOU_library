@@ -34,7 +34,10 @@
     self.selectedSnack = NSNotFound;
     data = [[NSMutableArray alloc] init];
     //帳密寫死
-    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=09957038&pin=O100281072&submit.x=37&submit.y=23&submit=submit"];
+    
+    NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+    
+    NSString *finalPost = [[NSString alloc]initWithFormat:@"code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",[account objectForKey:@"account"],[account objectForKey:@"passWord"]];
     NSHTTPURLResponse *urlResponse = nil;
     NSError *error = [[[NSError alloc] init]autorelease];
     NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];

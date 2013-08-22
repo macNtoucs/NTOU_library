@@ -15,6 +15,7 @@
 @property (nonatomic,strong) NSString *urlHead;
 @property (nonatomic) NSInteger urlLength;
 @property (nonatomic,strong) NSMutableDictionary *pageData;
+@property (nonatomic) BOOL start;
 @end
 
 @implementation SearchResultViewController
@@ -25,6 +26,7 @@
 @synthesize urlHead;
 @synthesize urlLength;
 @synthesize pageData;
+@synthesize start;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -36,6 +38,7 @@
 
 - (void)viewDidLoad
 {
+    start = NO;
     pageData = [[NSMutableDictionary alloc] init];
     UILabel *titleView = (UILabel *)self.navigationItem.titleView;
     titleView = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -85,7 +88,9 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            start = YES;
             [self.tableView reloadData];
+            start = NO;
         });
     });
     
@@ -119,7 +124,9 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+            start = YES;
             [self.tableView reloadData];
+            start = NO;
         });
     });
 }
@@ -326,13 +333,44 @@
 
     if(nextpage_url != NULL)  //後面還有書
         return [data count]+1;
+    else if ([data count] == 0 && start == YES) //沒有查獲的館藏
+        return 1;
     else
         return [data count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{    
-    if(indexPath.row < [data count])
+{
+    NSInteger screenwidth = [[UIScreen mainScreen] bounds].size.width;
+    UIFont *boldfont = [UIFont boldSystemFontOfSize:18.0];
+    
+    if ([data count] == 0)  //沒有查獲的館藏
+    {
+        NSString *MyIdentifier = @"nobookArticles";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+        UILabel *nolabel = nil;
+        if (cell == nil)
+        {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier] autorelease];
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
+            
+            nolabel = [[UILabel alloc] init];
+        }
+        
+        CGSize maximumLabelSize = CGSizeMake(200,9999);
+        CGSize booknameLabelSize = [[NSString stringWithFormat:@"沒有查獲的館藏"] sizeWithFont:boldfont
+                                        constrainedToSize:maximumLabelSize
+                                            lineBreakMode:NSLineBreakByWordWrapping];
+        nolabel.frame = CGRectMake((screenwidth - booknameLabelSize.width)/2,11,booknameLabelSize.width,20);
+        nolabel.tag = indexPath.row;
+        nolabel.backgroundColor = [UIColor clearColor];
+        nolabel.font = boldfont;
+        nolabel.text = @"沒有查獲的館藏";
+        
+        [cell.contentView addSubview:nolabel];
+        return cell;
+    }
+    else if(indexPath.row < [data count])
     {
         NSString *CellIdentifier = [NSString stringWithFormat:@"Cell%d",indexPath.row];
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -433,9 +471,11 @@
             
             morelabel = [[UILabel alloc] init];
         }
-        UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
-        
-        morelabel.frame = CGRectMake(20,6,200,20);
+        CGSize maximumLabelSize = CGSizeMake(200,9999);
+        CGSize booknameLabelSize = [[NSString stringWithFormat:@"載入更多..."] sizeWithFont:boldfont
+                                                                      constrainedToSize:maximumLabelSize
+                                                                          lineBreakMode:NSLineBreakByWordWrapping];
+        morelabel.frame = CGRectMake((screenwidth - booknameLabelSize.width)/2,7,booknameLabelSize.width,20);
         morelabel.tag = indexPath.row;
         morelabel.backgroundColor = [UIColor clearColor];
         morelabel.font = boldfont;
@@ -449,6 +489,8 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if([data count] == 0)  //沒有查獲的館藏
+        return 40.0;
     if(indexPath.row < [data count])
     {
         NSDictionary *book = [data objectAtIndex:indexPath.row];
@@ -479,7 +521,7 @@
         return ( height > imageheight )? height : imageheight;
     }
     else
-        return 32;
+        return 32.0;
 }
 
 
@@ -527,6 +569,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger row = [indexPath row];
+    if ([data count] == 0)  //沒有查獲的館藏
+        return;
     if(row < [data count])
     {
         BookDetailViewController *detail = [[BookDetailViewController alloc] initWithStyle:UITableViewStyleGrouped];
