@@ -32,19 +32,19 @@
 {
     NSInteger swidth = [[UIScreen mainScreen] bounds].size.width;
     
-    accounttextField = [[UITextField alloc] initWithFrame:CGRectMake(swidth/2 - 100,50, 200, 30)];
+    accounttextField = [[UITextField alloc] initWithFrame:CGRectMake(swidth/2 - 125,50, 250, 30)];
     accounttextField.borderStyle = UITextBorderStyleRoundedRect;
     accounttextField.font = [UIFont systemFontOfSize:15];
     accounttextField.delegate = self;
-    accounttextField.placeholder = @"學號";
+    accounttextField.placeholder = @"學號、敎職員證號 或 本館借書證號";
     accounttextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
-    passWordtextField = [[UITextField alloc] initWithFrame:CGRectMake(swidth/2 - 100,90, 200, 30)];
+    passWordtextField = [[UITextField alloc] initWithFrame:CGRectMake(swidth/2 - 125,90, 250, 30)];
     passWordtextField.borderStyle = UITextBorderStyleRoundedRect;
     passWordtextField.font = [UIFont systemFontOfSize:15];
     passWordtextField.delegate = self;
     passWordtextField.secureTextEntry = YES;
-    passWordtextField.placeholder = @"密碼";
+    passWordtextField.placeholder = @"密碼 (預設為 身分證字號)";
     passWordtextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     
     UIButton *Loginbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -71,7 +71,7 @@
     NSString *notice1 = [NSString stringWithFormat:@"* 重複登錄不論成功失敗，皆會刪除之前的記錄"];
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:18.0];
     CGSize Notice1LabelSize = [notice1 sizeWithFont:font
-                                constrainedToSize:CGSizeMake(215,9999)
+                                constrainedToSize:CGSizeMake(280,9999)
                                     lineBreakMode:NSLineBreakByWordWrapping];
     UILabel *notice1Label = [[UILabel alloc] init];
     notice1Label.text = notice1;
@@ -80,6 +80,31 @@
     notice1Label.font = font;
     notice1Label.lineBreakMode = NSLineBreakByWordWrapping;
     notice1Label.numberOfLines = 0;
+    
+    NSString *notice2 = [NSString stringWithFormat:@"* 登入使用以下網址適用的帳號："];
+    CGSize Notice2LabelSize = [notice2 sizeWithFont:font
+                                  constrainedToSize:CGSizeMake(280,9999)
+                                      lineBreakMode:NSLineBreakByWordWrapping];
+    UILabel *notice2Label = [[UILabel alloc] init];
+    notice2Label.text = notice2;
+    notice2Label.frame = CGRectMake((swidth - Notice2LabelSize.width)/2,270,Notice2LabelSize.width,Notice2LabelSize.height);
+    notice2Label.backgroundColor = [UIColor clearColor];
+    notice2Label.font = font;
+    notice2Label.lineBreakMode = NSLineBreakByWordWrapping;
+    notice2Label.numberOfLines = 0;
+    
+    NSString *notice3 = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083/patroninfo*cht"];
+    CGSize Notice3LabelSize = [notice3 sizeWithFont:font
+                                  constrainedToSize:CGSizeMake(280,9999)
+                                      lineBreakMode:NSLineBreakByWordWrapping];
+    UILabel *notice3Label = [[UILabel alloc] init];
+    notice3Label.text = notice3;
+    notice3Label.frame = CGRectMake((swidth - Notice3LabelSize.width)/2,290,Notice3LabelSize.width,Notice3LabelSize.height);
+    notice3Label.backgroundColor = [UIColor clearColor];
+    notice3Label.font = font;
+    notice3Label.lineBreakMode = NSLineBreakByWordWrapping;
+    notice3Label.numberOfLines = 0;
+
     
     /*
     NSString *notice2 = [NSString stringWithFormat:@"* 若輸入錯誤，會刪除原先的登陸資訊"];
@@ -98,7 +123,8 @@
     [self.view addSubview:Loginbutton];
     [self.view addSubview:LoginAccount];
     [self.view addSubview:notice1Label];
-    //[self.view addSubview:notice2Label];
+    [self.view addSubview:notice2Label];
+    [self.view addSubview:notice3Label];
 
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTap)];
     tapRecognizer.delegate  = self;

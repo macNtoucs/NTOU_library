@@ -87,6 +87,7 @@
         //  設定url
         NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083/search*cht/X?SEARCH=%@&SORT=D",inputtext];
         url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
         // 設定丟出封包，由data來接
         NSData* urldata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
         
@@ -295,6 +296,38 @@
                                 [book setObject:bookname forKey:@"bookname"];
                                 
                                 NSString *url = [((TFHppleElement*)[buf_s.children objectAtIndex:1]).attributes objectForKey:@"href"];
+                                if(urlLength == 0)  //未有下一頁，無法利用下一頁連結去存取所需資料
+                                {
+                                    ///search~S0*cht?/X{u54C8}&SORT=DZ/X{u54C8}&SORT=DZ&extended=0&SUBKEY=%E5%93%88/1%2C1515%2C1515%2CB/frameset&FF=X{u54C8}&SORT=DZ&1%2C1%2C
+                                    NSString *nstr = [NSString stringWithString:url];
+                                    NSRange nrang = [nstr rangeOfString:@"SUBKEY="];
+                                    
+                                    //截取 %E5%93%88/1%2C1515%2C1515%2CB/frameset&FF=X{u54C8}&SORT=DZ&1%2C1%2C
+                                    NSString *buf = [nstr substringFromIndex:(nrang.location + nrang.length)];
+                                    
+                                    nrang = [buf rangeOfString:@"/"];
+                                    //截取 %E5%93%88
+                                    NSString *urlName = [buf substringToIndex:nrang.location];
+                                    
+                                    //1%2C1515%2C1515%2CB/frameset&FF=X{u54C8}&SORT=DZ&1%2C1%2C
+                                    buf = [buf substringFromIndex:(nrang.location + 1)];
+                                    
+                                    nrang = [buf rangeOfString:@"/"];
+                                    //截取 1%2C1508%2C1508%2CB
+                                    buf = [buf substringToIndex:nrang.location];
+                                    
+                                    nrang = [nstr rangeOfString:@"frameset"];
+                                    urlLength = (nrang.location - 1);
+                                    NSLog(@"%@",[nstr substringToIndex:urlLength]);
+                                    
+                                    NSString *urlHead = [NSString stringWithFormat:@"/search~S0*cht?/X%@&SORT=D/X%@&SORT=D&SUBKEY=%@/%@",urlName,urlName,urlName,buf];
+                                    
+                                    [urlData removeAllObjects];
+                                    [urlData setObject:urlHead forKey:@"urlHead"];
+                                    [urlData setObject:urlName forKey:@"urlName"];
+                                }
+                                
+
                                 url = [url substringFromIndex:(urlLength - 1)];
                                 
                                 NSRange nrang = [url rangeOfString:@"SORT="];
