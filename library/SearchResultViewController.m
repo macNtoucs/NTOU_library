@@ -11,22 +11,24 @@
 #import "MBProgressHUD.h"
 
 @interface SearchResultViewController ()
-@property (nonatomic,strong) NSString *urlName;
-@property (nonatomic,strong) NSString *urlHead;
+@property (nonatomic,strong) NSMutableDictionary *urlData;
 @property (nonatomic) NSInteger urlLength;
 @property (nonatomic,strong) NSMutableDictionary *pageData;
 @property (nonatomic) BOOL start;
+@property (nonatomic) NSInteger book_count;
+@property (nonatomic,strong) NSMutableArray *tableData_book;
 @end
 
 @implementation SearchResultViewController
+@synthesize urlData;
 @synthesize mainview;
 @synthesize data;
 @synthesize inputtext;
-@synthesize urlName;
-@synthesize urlHead;
 @synthesize urlLength;
 @synthesize pageData;
 @synthesize start;
+@synthesize book_count;
+@synthesize tableData_book;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -38,8 +40,12 @@
 
 - (void)viewDidLoad
 {
+    book_count = 10;    //一開始先載入10筆資料
     start = NO;
     pageData = [[NSMutableDictionary alloc] init];
+    tableData_book = [[NSMutableArray alloc] init];
+    urlData = [[NSMutableDictionary alloc] init];
+    
     UILabel *titleView = (UILabel *)self.navigationItem.titleView;
     titleView = [[UILabel alloc] initWithFrame:CGRectZero];
     titleView.backgroundColor = [UIColor clearColor];
@@ -50,10 +56,13 @@
     [titleView sizeToFit];
     
     self.navigationItem.titleView = titleView;
-    [titleView release];
+
+    //配合nagitive和tabbar的圖片變動tableview的大小
+    //nagitive 52 - 44 = 8 、 tabbar 55 - 49 = 6
+    [self.tableView setContentInset:UIEdgeInsetsMake(8,0,6,0)];
     
     [self search];
-
+    
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -84,7 +93,8 @@
         //設定 parser讀取data，並透過Xpath得到想要的資料位置
         TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
         
-        [self getcontent:parser];
+        [self getBooksNextUrl:parser];
+        [self getContentTotal:10 To:book_count];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
@@ -107,21 +117,35 @@
             hud.labelText = @"Loading";
         });
         
-        NSError *error;
-        //  設定url
-        NSString *nextpage_url = [pageData objectForKey:@"nextpage"];
-        if(nextpage_url != NULL)
+        NSInteger read_count = 10;  //預設每次讀10筆
+
+        if(book_count%50 == 10) //到下一頁
         {
-            NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nextpage_url];
-            //url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-            // 設定丟出封包，由data來接
-            NSData* urldata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+            NSError *error;
+            NSString *nextpage_url = [pageData objectForKey:@"nextpage"];
             
-            //設定 parser讀取data，並透過Xpath得到想要的資料位置
-            TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
-            
-            [self getcontent:parser];
+            if(nextpage_url != NULL)
+            {
+                NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nextpage_url];
+                //url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                // 設定丟出封包，由data來接
+                NSData* urldata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+                
+                //設定 parser讀取data，並透過Xpath得到想要的資料位置
+                TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
+                
+                [self getBooksNextUrl:parser];
+                
+                if([tableData_book count] < 10) //修正書本筆數
+                {
+                    book_count = book_count - 10 + [tableData_book count];
+                    read_count = [tableData_book count];
+                }
+            }
         }
+        
+        [self getContentTotal:read_count To:book_count];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
             start = YES;
@@ -131,18 +155,21 @@
     });
 }
 
--(void)getcontent:(TFHpple *)parser{
+//取得新網頁的資料
+-(void)getBooksNextUrl:(TFHpple *)parser
+{
     //取書
     NSArray *tableData_table  = [parser searchWithXPathQuery:@"//html//body//table//tr//td//table//tr//td//table"];
     //取頁
     NSArray *tableData_page  = [parser searchWithXPathQuery:@"//html//body//table//tr//td"];
     //<td align=​"center" class=​"browsePager" colspan=​"5">
     
+    if([pageData objectForKey:@"nextpage"] != NULL)
+        [pageData removeObjectForKey:@"nextpage"];
+    
     //截取每頁網址
     size_t i = 0;
     TFHppleElement* buf_page;
-    if([pageData objectForKey:@"nextpage"] != NULL)
-        [pageData removeObjectForKey:@"nextpage"];
     do{
         buf_page = [tableData_page objectAtIndex:i];
         
@@ -166,7 +193,7 @@
                             
                             nrang = [buf rangeOfString:@"/"];
                             //截取 %E5%93%88
-                            urlName = [buf substringToIndex:nrang.location];
+                            NSString *urlName = [buf substringToIndex:nrang.location];
                             
                             buf = [buf substringFromIndex:(nrang.location + 1)];
                             nrang = [buf rangeOfString:@"/"];
@@ -175,9 +202,14 @@
                             
                             urlLength = [nstr length];
                             urlLength -= 7; //去掉/browse後的原網址長度
-                            NSLog(@"%@",[nstr substringToIndex:urlLength]);
-                            urlHead = [NSString stringWithFormat:@"/search~S0*cht?/X%@&SORT=D/X%@&SORT=D&SUBKEY=%@/%@",urlName,urlName,urlName,buf];
+                            //NSLog(@"%@",[nstr substringToIndex:urlLength]);
+                            NSString *urlHead = [NSString stringWithFormat:@"/search~S0*cht?/X%@&SORT=D/X%@&SORT=D&SUBKEY=%@/%@",urlName,urlName,urlName,buf];
                             NSString *urlbuf = [NSString stringWithFormat:@"%@/browse",urlHead];
+                            
+                            [urlData removeAllObjects];
+                            [urlData setObject:urlHead forKey:@"urlHead"];
+                            [urlData setObject:urlName forKey:@"urlName"];
+                            
                             [pageData setObject:urlbuf forKey:@"nextpage"];
                             break;
                         }
@@ -196,9 +228,9 @@
     }while(i < [tableData_page count]);
     //NSLog(@"%@",tableData_td);
     
-    
+    [tableData_book removeAllObjects];  //消除上一頁的紀錄
+
     //過濾成只有書本資料起始的table
-    NSMutableArray *tableData_book = [[NSMutableArray alloc] init];
     for(size_t b = 0 ; b < [tableData_table count]; b++)
     {
         TFHppleElement* buf_book = [tableData_table objectAtIndex:b];
@@ -209,10 +241,12 @@
             {   [tableData_book addObject:buf_book];}
         }
     }
-    
-    //截取書的資料
+}
+
+//截取書的資料(書名、作者、圖片...etc)
+-(void)getContentTotal:(NSInteger)count To:(NSInteger)end_book{
     NSMutableDictionary *book;
-    for (size_t b = 0 ; b < [tableData_book count] ; ++b){
+    for (size_t b = end_book - count ; b < end_book ; ++b){
         book = [[NSMutableDictionary alloc] init];
         TFHppleElement* buf_book = [tableData_book objectAtIndex:b];
         
@@ -237,7 +271,7 @@
                             [book setObject:image_url forKey:@"image_url"];
                         }
                         else
-                        {   //沒有圖片
+                        {   //沒有圖片，使用圖書館預設的 沒有圖片 的網址
                             NSString *image = @"http://static.findbook.tw/image/book/1419879251/large";
                             NSData *imagedata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:image]];
                             UIImage *book_img = [[UIImage alloc] initWithData:imagedata];
@@ -260,12 +294,14 @@
                                 NSString *bookname = ((TFHppleElement*)[((TFHppleElement*)[buf_s.children objectAtIndex:1]).children objectAtIndex:0]).content;
                                 [book setObject:bookname forKey:@"bookname"];
                                 
-                                ///search~S0*cht?/X{u54C8}{u54C8}&SORT=D/X{u54C8}{u54C8}&SORT=D&SUBKEY=%E5%93%88%E5%93%88/1%2C1507%2C1507%2CB/frameset&FF=X{u54C8}{u54C8}&SORT=D&1%2C1%2C
                                 NSString *url = [((TFHppleElement*)[buf_s.children objectAtIndex:1]).attributes objectForKey:@"href"];
                                 url = [url substringFromIndex:(urlLength - 1)];
+                                
                                 NSRange nrang = [url rangeOfString:@"SORT="];
                                 //SORT=D&1%2C1%2C
                                 NSString *buf = [url substringFromIndex:nrang.location];
+                                NSString *urlHead = [urlData objectForKey:@"urlHead"];
+                                NSString *urlName = [urlData objectForKey:@"urlName"];
                                 
                                 url = [NSString stringWithFormat:@"%@/frameset&FF=X%@&%@",urlHead,urlName,buf];
                                 NSString *book_url = [[NSString alloc] initWithFormat:@"http://ocean.ntou.edu.tw:1083%@",url];
@@ -580,6 +616,7 @@
     }
     else
     {
+        book_count += 10;
         [self nextpage];
     }
 }

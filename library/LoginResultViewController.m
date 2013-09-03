@@ -33,6 +33,11 @@
 - (void)viewDidLoad
 {
     maindata = [[NSMutableArray alloc] init];
+    
+    //配合nagitive和tabbar的圖片變動tableview的大小
+    //nagitive 52 - 44 = 8 、 tabbar 55 - 49 = 6
+    [self.tableView setContentInset:UIEdgeInsetsMake(8,0,6,0)];
+    
     [super viewDidLoad];
 }
 

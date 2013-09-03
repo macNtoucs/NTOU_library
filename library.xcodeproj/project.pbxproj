@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		1800D587179BE79100B27FEB /* LoginOutResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1800D586179BE79100B27FEB /* LoginOutResultViewController.m */; };
+		1801AB8617D5844500E98621 /* Library_NTU.png in Resources */ = {isa = PBXBuildFile; fileRef = 1801AB8517D5844500E98621 /* Library_NTU.png */; };
 		18046A3017866FCB009813D8 /* LoginResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18046A2F17866FCB009813D8 /* LoginResultViewController.m */; };
 		18060523177C2E1500BD690D /* BookDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18060522177C2E1500BD690D /* BookDetailViewController.m */; };
 		1806452217990F1A00D6808A /* WOLSwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1806452017990F1A00D6808A /* WOLSwitchViewController.m */; };
 		180645281799113300D6808A /* LoginResResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180645271799113300D6808A /* LoginResResultViewController.m */; };
+		1806C56B17D1DE8A0074BB34 /* title_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1806C56A17D1DE8A0074BB34 /* title_background.jpg */; };
+		1806C56D17D1E7E70074BB34 /* tabbar_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1806C56C17D1E7E70074BB34 /* tabbar_background.jpg */; };
 		1808605D17968D27009D8F9E /* RBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1808605C17968D27009D8F9E /* RBookViewController.m */; };
 		180B00281783D6B70071E12D /* switchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B00271783D6B70071E12D /* switchController.m */; };
 		180B002B1783DB790071E12D /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 180B002A1783DB790071E12D /* loginViewController.m */; };
@@ -45,6 +48,7 @@
 /* Begin PBXFileReference section */
 		1800D585179BE79100B27FEB /* LoginOutResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginOutResultViewController.h; sourceTree = "<group>"; };
 		1800D586179BE79100B27FEB /* LoginOutResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginOutResultViewController.m; sourceTree = "<group>"; };
+		1801AB8517D5844500E98621 /* Library_NTU.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Library_NTU.png; sourceTree = "<group>"; };
 		18046A2E17866FCB009813D8 /* LoginResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResultViewController.h; sourceTree = "<group>"; };
 		18046A2F17866FCB009813D8 /* LoginResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResultViewController.m; sourceTree = "<group>"; };
 		18060521177C2E1500BD690D /* BookDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDetailViewController.h; sourceTree = "<group>"; };
@@ -53,6 +57,8 @@
 		1806452517990F8300D6808A /* WOLSwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WOLSwitchViewController.h; sourceTree = "<group>"; };
 		180645261799113300D6808A /* LoginResResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResResultViewController.h; sourceTree = "<group>"; };
 		180645271799113300D6808A /* LoginResResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResResultViewController.m; sourceTree = "<group>"; };
+		1806C56A17D1DE8A0074BB34 /* title_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = title_background.jpg; sourceTree = "<group>"; };
+		1806C56C17D1E7E70074BB34 /* tabbar_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tabbar_background.jpg; sourceTree = "<group>"; };
 		1808605B17968D27009D8F9E /* RBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBookViewController.h; sourceTree = "<group>"; };
 		1808605C17968D27009D8F9E /* RBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBookViewController.m; sourceTree = "<group>"; };
 		180B00261783D6B70071E12D /* switchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = switchController.h; sourceTree = "<group>"; };
@@ -198,6 +204,9 @@
 		913BD8FD175494E400145B80 /* library */ = {
 			isa = PBXGroup;
 			children = (
+				1806C56C17D1E7E70074BB34 /* tabbar_background.jpg */,
+				1806C56A17D1DE8A0074BB34 /* title_background.jpg */,
+				1801AB8517D5844500E98621 /* Library_NTU.png */,
 				913BD9211754A61000145B80 /* XPathQuery.h */,
 				913BD9221754A61000145B80 /* XPathQuery.m */,
 				913BD91B1754A5DE00145B80 /* TFHpple.h */,
@@ -293,6 +302,9 @@
 				180C05AC1786C3A00042ACFE /* opentime.png in Resources */,
 				180C05AE1786C3A00042ACFE /* OpenTimeViewController.xib in Resources */,
 				90BEAC17178D49D000B8CE03 /* LibraryFloor.plist in Resources */,
+				1806C56B17D1DE8A0074BB34 /* title_background.jpg in Resources */,
+				1806C56D17D1E7E70074BB34 /* tabbar_background.jpg in Resources */,
+				1801AB8617D5844500E98621 /* Library_NTU.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,8 +364,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Lin ching-chi (JJY99JB76X)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ching-chi Lin (46873356PM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ching-chi Lin (46873356PM)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -367,13 +379,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "A96366A8-47B7-4DCC-B182-33ED1AB30121";
+				PROVISIONING_PROFILE = "71A65A17-4614-4323-B115-BA6F2CCD8132";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71A65A17-4614-4323-B115-BA6F2CCD8132";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -389,19 +402,22 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: ching-chi Lin (46873356PM)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: ching-chi Lin (46873356PM)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "${SDK_DIR}/usr/include/libxml2";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",
 				);
+				PROVISIONING_PROFILE = "71A65A17-4614-4323-B115-BA6F2CCD8132";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71A65A17-4614-4323-B115-BA6F2CCD8132";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

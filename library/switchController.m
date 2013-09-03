@@ -20,12 +20,17 @@
 {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"NTOULibraryAccount"];
 
+    UIImage *image = [UIImage imageNamed:@"title_background.jpg"];
     MainViewController* view1 = [[MainViewController alloc] initWithNibName:nil bundle:nil];
     UITabBarItem *item1 = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:1];
     view1.tabBarItem = item1;
     view1.switchviewcontroller = self;
     [item1 release];
     UINavigationController * nav1 = [[UINavigationController alloc]initWithRootViewController:view1];
+    if ([nav1.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [nav1.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    }
+    nav1.navigationBar.tintColor = [UIColor brownColor];
     [view1 release];
     
     loginViewController* view2 = [[loginViewController alloc] initWithNibName:nil bundle:nil];
@@ -33,6 +38,11 @@
     view2.tabBarItem = item2;
     [item2 release];
     UINavigationController * nav2 = [[UINavigationController alloc]initWithRootViewController:view2];
+    if ([nav2.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [nav2.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        nav2.navigationBar.tintColor = [UIColor blackColor];
+    }
+    nav2.navigationBar.tintColor = [UIColor brownColor];
     [view2 release];
     
     AboutViewController* view3;
@@ -41,17 +51,18 @@
     view3.tabBarItem = item3;
     [item3 release];
     UINavigationController * nav3 = [[UINavigationController alloc]initWithRootViewController:view3];
-    //[nav3 pushViewController:view3 animated:NO];
+    if ([nav3.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)] ) {
+        [nav3.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    }
+    nav3.navigationBar.tintColor = [UIColor brownColor];
     [view3 release];
-    /*
-    UINavigationController * nav3 = [[UINavigationController alloc]init];
-    [nav3 pushViewController:view3 animated:NO];
-    */
 
     if (!self.viewControllers) {
         [self.viewControllers release];
     }
+    UIImage *tabbarimage = [UIImage imageNamed:@"tabbar_background.jpg"];
     [self setViewControllers:[NSArray arrayWithObjects:nav1,nav2,nav3,nil] animated:NO];
+    [self.tabBar setBackgroundImage:tabbarimage];
     
     [nav1 release];
     [nav2 release];

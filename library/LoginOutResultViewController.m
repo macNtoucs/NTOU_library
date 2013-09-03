@@ -45,7 +45,7 @@
     maindata = [[NSMutableArray alloc] init];
     self.tableView.allowsMultipleSelection = YES;
     
-    self.actionToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 137, 320, 44)];
+    self.actionToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 137 - 6, 320, 44)];
     
     UIBarButtonItem *flexiblespace_l = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     flexiblespace_l.width = 12.0;
@@ -72,6 +72,10 @@
     
     [actionToolbar setItems:[NSArray arrayWithObjects:flexiblespace_l,allselectButton,flexiblespace_m,finishButton,flexiblespace_r, nil]];
     actionToolbar.barStyle = UIBarStyleDefault;
+    
+    //配合nagitive和tabbar的圖片變動tableview的大小
+    //nagitive 52 - 44 = 8 、 tabbar 55 - 49 = 6
+    [self.tableView setContentInset:UIEdgeInsetsMake(8,0,6,0)];
     
     [super viewDidLoad];
 }

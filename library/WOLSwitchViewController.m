@@ -53,19 +53,19 @@
     
     UIButton *historyButton =[UIButton buttonWithType:UIButtonTypeCustom];
     [historyButton addTarget:self action:@selector(historyswitchViews) forControlEvents:UIControlEventTouchUpInside];
-    [historyButton setFrame:CGRectMake(20, 5, 120, 40)];
+    [historyButton setFrame:CGRectMake(20, 8, 120, 40)];
     [historyButton setTitle:@"借閱歷史" forState:UIControlStateNormal];
     [menuView addSubview:historyButton];
 
     UIButton *outButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [outButton addTarget:self action:@selector(resswitchViews) forControlEvents:UIControlEventTouchUpInside];
-    outButton.frame= CGRectMake(230, 5, 60, 40);
+    outButton.frame= CGRectMake(230, 8, 60, 40);
     [outButton setTitle:@"預約" forState:UIControlStateNormal];
     [menuView addSubview:outButton];
     
     UIButton *resButton =[UIButton buttonWithType:UIButtonTypeCustom];
     [resButton addTarget:self action:@selector(outswitchViews) forControlEvents:UIControlEventTouchUpInside];
-    [resButton setFrame:CGRectMake(150, 5, 60, 40)];
+    [resButton setFrame:CGRectMake(150, 8, 60, 40)];
     [resButton setTitle:@"借出" forState:UIControlStateNormal];
     [menuView addSubview:resButton];
     

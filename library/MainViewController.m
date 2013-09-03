@@ -24,7 +24,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        mainView = [[UIView alloc]initWithFrame:CGRectMake(0, 20, 320, 460)];
+        NSInteger sheight = [[UIScreen mainScreen] bounds].size.height;
+        mainView = [[UIView alloc]initWithFrame:CGRectMake(0, 52 + 50, 320, sheight - 52 - 20 - 49)];
     }
     return self;
 }
@@ -67,18 +68,41 @@
 
 
 -(void)search{
-    SearchResultViewController * display = [[SearchResultViewController alloc]initWithStyle:UITableViewStylePlain];
-    display.data = [[NSMutableArray alloc] init];
-    display.mainview = self;
-    display.inputtext = textField.text;
-    [self.navigationController pushViewController:display animated:YES];
-    [display release];
+    [self backgroundTap];
+    if(textField.text == NULL)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"關鍵字為空白"
+                                                        message:@"請輸入欲查詢的關鍵字！"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好"
+                                              otherButtonTitles:nil];
+        [alert show];
+    }
+    else{
+        SearchResultViewController * display = [[SearchResultViewController alloc]initWithStyle:UITableViewStylePlain];
+        display.data = [[NSMutableArray alloc] init];
+        display.mainview = self;
+        display.inputtext = textField.text;
+        [self.navigationController pushViewController:display animated:YES];
+        [display release];
+    }
 }
 
 
 - (void)viewDidLoad
 {
-    self.title = @"館藏查詢";
+    //self.title = @"國立海洋大學圖書館";
+    UILabel *StitleView = (UILabel *)self.navigationItem.titleView;
+    StitleView = [[UILabel alloc] initWithFrame:CGRectZero];
+    StitleView.backgroundColor = [UIColor clearColor];
+    StitleView.font = [UIFont boldSystemFontOfSize:20.0];
+    //StitleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    StitleView.textColor = [UIColor whiteColor]; // Change to desired color
+    StitleView.text = @"國立海洋大學圖書館";
+    [StitleView sizeToFit];
+    
+    self.navigationItem.titleView = StitleView;
+    [StitleView release];
     
     searchResultArray = [NSMutableArray new];
     NSInteger swidth = [[UIScreen mainScreen] bounds].size.width;
@@ -94,12 +118,19 @@
     [button addTarget:self
                action:@selector(search)
      forControlEvents:UIControlEventTouchDown];
-    [button setTitle:@"search" forState:UIControlStateNormal];
-    button.frame = CGRectMake(swidth/2 - 80, 120.0, 160.0, 30.0);    
+    [button setTitle:@"搜尋" forState:UIControlStateNormal];
+    button.frame = CGRectMake(swidth/2 - 80, 100.0, 160.0, 30.0);
+    [button setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+
+    UIImage *Library = [UIImage imageNamed:@"Library_NTU.png"];
+    UIImageView *NTU_Library = [[UIImageView alloc] initWithFrame:CGRectMake(swidth/2 - Library.size.width/4,150, Library.size.width/2, Library.size.height/2)];
+    [NTU_Library setImage:Library];
     
+    [mainView addSubview:NTU_Library];
     [mainView addSubview:textField];
     [mainView addSubview:button];
-
+    mainView.backgroundColor = [[UIColor alloc]initWithRed:232.0/255.0 green:225.0/255.0 blue:208.0/255.0 alpha:0.5];
     self.view = mainView;
     
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTap)];

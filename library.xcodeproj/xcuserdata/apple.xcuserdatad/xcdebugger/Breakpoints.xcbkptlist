@@ -398,11 +398,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "334"
-         endingLineNumber = "334"
+         startingLineNumber = "370"
+         endingLineNumber = "370"
          landmarkName = "-tableView:numberOfRowsInSection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -411,11 +411,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "373"
-         endingLineNumber = "373"
+         startingLineNumber = "409"
+         endingLineNumber = "409"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -424,11 +424,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "583"
-         endingLineNumber = "583"
+         startingLineNumber = "620"
+         endingLineNumber = "620"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -437,11 +437,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "577"
-         endingLineNumber = "577"
+         startingLineNumber = "613"
+         endingLineNumber = "613"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -450,11 +450,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "579"
-         endingLineNumber = "579"
+         startingLineNumber = "615"
+         endingLineNumber = "615"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -463,11 +463,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "471"
-         endingLineNumber = "471"
+         startingLineNumber = "507"
+         endingLineNumber = "507"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -476,11 +476,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "471"
-         endingLineNumber = "471"
+         startingLineNumber = "507"
+         endingLineNumber = "507"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -554,11 +554,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/loginViewController.m"
-         timestampString = "395906103.361689"
+         timestampString = "399824127.505079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "36"
-         endingLineNumber = "36"
+         startingLineNumber = "50"
+         endingLineNumber = "50"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -567,11 +567,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/MainViewController.m"
-         timestampString = "394710510.581533"
+         timestampString = "399822072.610102"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "40"
-         endingLineNumber = "40"
+         startingLineNumber = "41"
+         endingLineNumber = "41"
          landmarkName = "-backgroundTap"
          landmarkType = "5">
       </FileBreakpoint>
@@ -606,11 +606,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResultViewController.m"
-         timestampString = "396341001.616759"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "111"
-         endingLineNumber = "111"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
          landmarkName = "-tableView:numberOfRowsInSection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -619,11 +619,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResultViewController.m"
-         timestampString = "396341001.616759"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "136"
-         endingLineNumber = "136"
+         startingLineNumber = "141"
+         endingLineNumber = "141"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -632,11 +632,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "102"
-         endingLineNumber = "102"
+         startingLineNumber = "112"
+         endingLineNumber = "112"
          landmarkName = "-nextpage"
          landmarkType = "5">
       </FileBreakpoint>
@@ -645,77 +645,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "106"
-         endingLineNumber = "106"
+         startingLineNumber = "116"
+         endingLineNumber = "116"
          landmarkName = "-nextpage"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "115"
-         endingLineNumber = "115"
-         landmarkName = "-nextpage"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "123"
-         endingLineNumber = "123"
-         landmarkName = "-nextpage"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "136"
-         endingLineNumber = "136"
-         landmarkName = "-getcontent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "146"
-         endingLineNumber = "146"
-         landmarkName = "-getcontent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "138"
-         endingLineNumber = "138"
-         landmarkName = "-getcontent:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -957,11 +892,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "301"
-         endingLineNumber = "301"
+         startingLineNumber = "305"
+         endingLineNumber = "305"
          landmarkName = "-showActionToolbar:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1009,11 +944,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "482"
-         endingLineNumber = "482"
+         startingLineNumber = "486"
+         endingLineNumber = "486"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1022,11 +957,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "191"
-         endingLineNumber = "191"
+         startingLineNumber = "195"
+         endingLineNumber = "195"
          landmarkName = "-cancelSelectResBook"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1035,11 +970,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "212"
-         endingLineNumber = "212"
+         startingLineNumber = "216"
+         endingLineNumber = "216"
          landmarkName = "-cancelSelectResBook"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1048,11 +983,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "247"
-         endingLineNumber = "247"
+         startingLineNumber = "251"
+         endingLineNumber = "251"
          landmarkName = "-actionSheet:didDismissWithButtonIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1061,11 +996,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "224"
-         endingLineNumber = "224"
+         startingLineNumber = "228"
+         endingLineNumber = "228"
          landmarkName = "-cancelSelectResBook"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1074,11 +1009,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "263"
-         endingLineNumber = "263"
+         startingLineNumber = "267"
+         endingLineNumber = "267"
          landmarkName = "-actionSheet:didDismissWithButtonIndex:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1087,11 +1022,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResultViewController.m"
-         timestampString = "396249611.971898"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "46"
-         endingLineNumber = "46"
+         startingLineNumber = "51"
+         endingLineNumber = "51"
          landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1100,11 +1035,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResultViewController.m"
-         timestampString = "396245878.708666"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "43"
-         endingLineNumber = "43"
+         startingLineNumber = "48"
+         endingLineNumber = "48"
          landmarkName = "-viewWillAppear:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1126,11 +1061,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginOutResultViewController.m"
-         timestampString = "396255925.369939"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "98"
-         endingLineNumber = "98"
+         startingLineNumber = "102"
+         endingLineNumber = "102"
          landmarkName = "-fetchoutHistory"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1139,11 +1074,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginOutResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "357"
-         endingLineNumber = "357"
+         startingLineNumber = "361"
+         endingLineNumber = "361"
          landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1152,11 +1087,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginOutResultViewController.m"
-         timestampString = "396255925.369939"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "103"
-         endingLineNumber = "103"
+         startingLineNumber = "107"
+         endingLineNumber = "107"
          landmarkName = "-fetchout:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1165,11 +1100,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginOutResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "337"
-         endingLineNumber = "337"
+         startingLineNumber = "341"
+         endingLineNumber = "341"
          landmarkName = "-numberOfSectionsInTableView:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1178,11 +1113,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginOutResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "342"
-         endingLineNumber = "342"
+         startingLineNumber = "346"
+         endingLineNumber = "346"
          landmarkName = "-tableView:numberOfRowsInSection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1191,11 +1126,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginOutResultViewController.m"
-         timestampString = "396256194.026487"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "347"
-         endingLineNumber = "347"
+         startingLineNumber = "351"
+         endingLineNumber = "351"
          landmarkName = "-tableView:titleForHeaderInSection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1230,12 +1165,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "214"
-         endingLineNumber = "214"
-         landmarkName = "-getcontent:"
+         startingLineNumber = "248"
+         endingLineNumber = "248"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1243,12 +1178,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "160"
-         endingLineNumber = "160"
-         landmarkName = "-getcontent:"
+         startingLineNumber = "300"
+         endingLineNumber = "300"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1256,42 +1191,16 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "179"
-         endingLineNumber = "179"
-         landmarkName = "-getcontent:"
+         startingLineNumber = "308"
+         endingLineNumber = "308"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "266"
-         endingLineNumber = "266"
-         landmarkName = "-getcontent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "272"
-         endingLineNumber = "272"
-         landmarkName = "-getcontent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
+         shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/BookDetailViewController.m"
@@ -1308,11 +1217,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "79"
-         endingLineNumber = "79"
+         startingLineNumber = "88"
+         endingLineNumber = "88"
          landmarkName = "-search"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1321,11 +1230,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "80"
-         endingLineNumber = "80"
+         startingLineNumber = "89"
+         endingLineNumber = "89"
          landmarkName = "-search"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1334,11 +1243,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "82"
-         endingLineNumber = "82"
+         startingLineNumber = "91"
+         endingLineNumber = "91"
          landmarkName = "-search"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1347,11 +1256,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "85"
-         endingLineNumber = "85"
+         startingLineNumber = "94"
+         endingLineNumber = "94"
          landmarkName = "-search"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1360,12 +1269,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "171"
-         endingLineNumber = "171"
-         landmarkName = "-getcontent:"
+         startingLineNumber = "350"
+         endingLineNumber = "350"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1373,38 +1282,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "181"
-         endingLineNumber = "181"
-         landmarkName = "-getcontent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "314"
-         endingLineNumber = "314"
-         landmarkName = "-getcontent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "315"
-         endingLineNumber = "315"
-         landmarkName = "-getcontent:"
+         startingLineNumber = "351"
+         endingLineNumber = "351"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1412,11 +1295,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResultViewController.m"
-         timestampString = "396341002.457019"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "79"
-         endingLineNumber = "79"
+         startingLineNumber = "84"
+         endingLineNumber = "84"
          landmarkName = "-fetchHistory"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1425,11 +1308,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResultViewController.m"
-         timestampString = "396341003.931297"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "78"
-         endingLineNumber = "78"
+         startingLineNumber = "83"
+         endingLineNumber = "83"
          landmarkName = "-fetchHistory"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1438,20 +1321,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResultViewController.m"
-         timestampString = "396341115.688737"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "243"
-         endingLineNumber = "243"
-         landmarkName = "-tableView:didSelectRowAtIndexPath:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/LoginResultViewController.m"
-         timestampString = "396341118.152248"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "248"
@@ -1464,11 +1334,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/LoginResultViewController.m"
-         timestampString = "396341121.482186"
+         timestampString = "399825179.866099"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "245"
-         endingLineNumber = "245"
+         startingLineNumber = "253"
+         endingLineNumber = "253"
+         landmarkName = "-tableView:didSelectRowAtIndexPath:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/LoginResultViewController.m"
+         timestampString = "399825179.866099"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "250"
+         endingLineNumber = "250"
          landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1502,12 +1385,12 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "library/MainViewController.m"
-         timestampString = "398849355.909807"
+         filePath = "library/SearchResultViewController.m"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "74"
-         endingLineNumber = "74"
+         startingLineNumber = "102"
+         endingLineNumber = "102"
          landmarkName = "-search"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1516,12 +1399,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "92"
-         endingLineNumber = "92"
-         landmarkName = "-search"
+         startingLineNumber = "247"
+         endingLineNumber = "247"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1529,12 +1412,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "201"
-         endingLineNumber = "201"
-         landmarkName = "-getcontent:"
+         startingLineNumber = "249"
+         endingLineNumber = "249"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1542,12 +1425,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "213"
-         endingLineNumber = "213"
-         landmarkName = "-getcontent:"
+         startingLineNumber = "264"
+         endingLineNumber = "264"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1555,12 +1438,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "215"
-         endingLineNumber = "215"
-         landmarkName = "-getcontent:"
+         startingLineNumber = "348"
+         endingLineNumber = "348"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1568,12 +1451,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "230"
-         endingLineNumber = "230"
-         landmarkName = "-getcontent:"
+         startingLineNumber = "271"
+         endingLineNumber = "271"
+         landmarkName = "-getContentTotal:To:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1581,37 +1464,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "312"
-         endingLineNumber = "312"
-         landmarkName = "-getcontent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "237"
-         endingLineNumber = "237"
-         landmarkName = "-getcontent:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "336"
-         endingLineNumber = "336"
+         startingLineNumber = "372"
+         endingLineNumber = "372"
          landmarkName = "-tableView:numberOfRowsInSection:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1620,11 +1477,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/SearchResultViewController.m"
-         timestampString = "398851164.254173"
+         timestampString = "399824541.346359"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "492"
-         endingLineNumber = "492"
+         startingLineNumber = "528"
+         endingLineNumber = "528"
          landmarkName = "-tableView:heightForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1633,11 +1490,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/loginViewController.m"
-         timestampString = "398856839.877464"
+         timestampString = "399824127.505079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "121"
-         endingLineNumber = "121"
+         startingLineNumber = "198"
+         endingLineNumber = "198"
          landmarkName = "-Login"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1646,12 +1503,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/about/AccountViewController.m"
-         timestampString = "398860281.381391"
+         timestampString = "399823969.569826"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "126"
-         endingLineNumber = "126"
-         landmarkName = "-Login"
+         startingLineNumber = "194"
+         endingLineNumber = "194"
+         landmarkName = "-LoginAccount:passWord:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1659,12 +1516,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/about/AccountViewController.m"
-         timestampString = "398860281.381391"
+         timestampString = "399823969.569826"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "141"
-         endingLineNumber = "141"
-         landmarkName = "-Login"
+         startingLineNumber = "213"
+         endingLineNumber = "213"
+         landmarkName = "-LoginAccount:passWord:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1672,11 +1529,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/about/AccountViewController.m"
-         timestampString = "398860281.381391"
+         timestampString = "399005535.143136"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "32"
-         endingLineNumber = "32"
+         startingLineNumber = "33"
+         endingLineNumber = "33"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1685,25 +1542,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/about/AboutViewController.m"
-         timestampString = "398859115.261708"
+         timestampString = "399824838.634574"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "158"
-         endingLineNumber = "158"
-         landmarkName = "@interface AboutViewController()"
-         landmarkType = "2">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "library/about/AccountViewController.m"
-         timestampString = "398860281.381391"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "107"
-         endingLineNumber = "107"
-         landmarkName = "-Login"
+         startingLineNumber = "190"
+         endingLineNumber = "190"
+         landmarkName = "-tableView:didSelectRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -1711,11 +1555,24 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/about/AccountViewController.m"
-         timestampString = "398860281.381391"
+         timestampString = "399823969.569826"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "90"
-         endingLineNumber = "90"
+         startingLineNumber = "174"
+         endingLineNumber = "174"
+         landmarkName = "-LoginAccount:passWord:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/about/AccountViewController.m"
+         timestampString = "399823969.569826"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "107"
+         endingLineNumber = "107"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1724,11 +1581,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/loginViewController.m"
-         timestampString = "398856821.450148"
+         timestampString = "399824127.505079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "81"
-         endingLineNumber = "81"
+         startingLineNumber = "158"
+         endingLineNumber = "158"
          landmarkName = "-Login"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1737,11 +1594,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/loginViewController.m"
-         timestampString = "398856902.247692"
+         timestampString = "399824127.505079"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "33"
-         endingLineNumber = "33"
+         startingLineNumber = "47"
+         endingLineNumber = "47"
          landmarkName = "-viewDidLoad"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1763,11 +1620,63 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/about/AccountViewController.m"
-         timestampString = "398860373.659878"
+         timestampString = "399823969.569826"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "174"
-         endingLineNumber = "174"
+         startingLineNumber = "228"
+         endingLineNumber = "228"
+         landmarkName = "-LoginAccount:passWord:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/about/AccountViewController.m"
+         timestampString = "399823969.569826"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "78"
+         endingLineNumber = "78"
+         landmarkName = "-viewDidLoad"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/MainViewController.m"
+         timestampString = "399822072.610102"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "71"
+         endingLineNumber = "71"
+         landmarkName = "-search"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/about/AccountViewController.m"
+         timestampString = "399823969.569826"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "241"
+         endingLineNumber = "241"
+         landmarkName = "-LoginAccount:passWord:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/about/AccountViewController.m"
+         timestampString = "399823969.569826"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "133"
+         endingLineNumber = "133"
          landmarkName = "-Login"
          landmarkType = "5">
       </FileBreakpoint>
@@ -1776,12 +1685,103 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "library/about/AccountViewController.m"
-         timestampString = "398860281.381391"
+         timestampString = "399823969.569826"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "75"
-         endingLineNumber = "75"
+         startingLineNumber = "239"
+         endingLineNumber = "239"
+         landmarkName = "-LoginAccount:passWord:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/loginViewController.m"
+         timestampString = "399824127.505079"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "71"
+         endingLineNumber = "71"
          landmarkName = "-viewDidLoad"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/SearchResultViewController.m"
+         timestampString = "399824541.346359"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "306"
+         endingLineNumber = "306"
+         landmarkName = "-getContentTotal:To:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/SearchResultViewController.m"
+         timestampString = "399824541.346359"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "293"
+         endingLineNumber = "293"
+         landmarkName = "-getContentTotal:To:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/SearchResultViewController.m"
+         timestampString = "399824541.346359"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "294"
+         endingLineNumber = "294"
+         landmarkName = "-getContentTotal:To:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/SearchResultViewController.m"
+         timestampString = "399824541.346359"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "612"
+         endingLineNumber = "612"
+         landmarkName = "-tableView:didSelectRowAtIndexPath:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/BookDetailViewController.m"
+         timestampString = "399819054.266446"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "234"
+         endingLineNumber = "234"
+         landmarkName = "-tableView:cellForRowAtIndexPath:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "library/BookDetailViewController.m"
+         timestampString = "399819092.431214"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "276"
+         endingLineNumber = "276"
+         landmarkName = "-tableView:cellForRowAtIndexPath:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

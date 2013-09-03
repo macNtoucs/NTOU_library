@@ -23,7 +23,6 @@
 {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-        self.title=@"關於";
         // Custom initialization
     }
     return self;
@@ -31,9 +30,27 @@
 
 - (void)viewDidLoad
 {
-    self.title = @"關於圖書館";
+    //self.title = @"關於圖書館";
+    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
+    titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+    titleView.backgroundColor = [UIColor clearColor];
+    titleView.font = [UIFont boldSystemFontOfSize:20.0];
+    //titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    titleView.textColor = [UIColor whiteColor]; // Change to desired color
+    titleView.text = @"關於圖書館";
+    [titleView sizeToFit];
+
+    self.navigationItem.titleView = titleView;
+    [titleView release];
+    
     loginaccount = [[AccountViewController alloc] init];
     loginaccount.title=@"帳戶登錄";
+    
+    self.view.backgroundColor = [[UIColor alloc]initWithRed:232.0/255.0 green:225.0/255.0 blue:208.0/255.0 alpha:0.5];
+    
+    //配合nagitive和tabbar的圖片變動tableview的大小
+    //nagitive 52 - 44 = 8 、 tabbar 55 - 49 = 6
+    [self.tableView setContentInset:UIEdgeInsetsMake(20,0,6,0)];
     
     [super viewDidLoad];
 
@@ -71,6 +88,21 @@
             break;
     }
     
+}
+
+- (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+        case 0:
+            return NULL;
+            break;
+        case 1:
+            return NULL;
+            break;
+        default:
+            return NULL;
+            break;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

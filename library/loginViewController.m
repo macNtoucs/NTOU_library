@@ -12,10 +12,12 @@
 
 @interface loginViewController ()
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
+@property (strong, nonatomic) UILabel *LoginAccount;
 @end
 
 @implementation loginViewController
 @synthesize tapRecognizer;
+@synthesize LoginAccount;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -28,8 +30,20 @@
 
 - (void)viewDidLoad
 {
-    self.title = @"借閱記錄查詢";
+    //self.title = @"我的圖書館";
+    UILabel *LtitleView = (UILabel *)self.navigationItem.titleView;
+    LtitleView = [[UILabel alloc] initWithFrame:CGRectZero];
+    LtitleView.backgroundColor = [UIColor clearColor];
+    LtitleView.font = [UIFont boldSystemFontOfSize:20.0];
+    //LtitleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    LtitleView.textColor = [UIColor whiteColor]; // Change to desired color
+    LtitleView.text = @"我的圖書館";
+    [LtitleView sizeToFit];
+    
+    self.navigationItem.titleView = LtitleView;
+    [LtitleView release];
 
+    
     searchResultArray = [NSMutableArray new];
     NSInteger swidth = [[UIScreen mainScreen] bounds].size.width;
         /*
@@ -52,21 +66,84 @@
     [Loginbutton addTarget:self
                     action:@selector(Login)
           forControlEvents:UIControlEventTouchDown];
-    [Loginbutton setTitle:@"Login" forState:UIControlStateNormal];
-    Loginbutton.frame = CGRectMake(swidth/2 - 80, 140.0, 160.0, 30.0);
-
-    [loginView addSubview:accounttextField];
-    [loginView addSubview:passWordtextField];
-    [loginView addSubview:Loginbutton];
+    [Loginbutton setTitle:@"登入" forState:UIControlStateNormal];
+    Loginbutton.frame = CGRectMake(swidth/2 - 80, 100.0, 160.0, 30.0);
+    [Loginbutton setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+    [Loginbutton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
     
+    NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+    LoginAccount = [[UILabel alloc] init];
+    NSString *loginText = NULL;
+    if(account == NULL)
+    {
+        loginText = [NSString stringWithFormat:@"目前沒有登錄的帳戶"];
+    }
+    else
+    {
+        NSString *name = [account objectForKey:@"userName"];
+        loginText = [NSString stringWithFormat:@"- %@ 登錄中 -",name];
+    }
+    UIFont *boldfont = [UIFont boldSystemFontOfSize:18.0];
+    CGSize maximumLabelSize = CGSizeMake(320,9999);
+    CGSize AccountLabelSize = [loginText    sizeWithFont:boldfont
+                                       constrainedToSize:maximumLabelSize
+                                           lineBreakMode:NSLineBreakByWordWrapping];
+    LoginAccount.text = loginText;
+    LoginAccount.frame = CGRectMake((swidth - AccountLabelSize.width)/2,40,AccountLabelSize.width,20);
+    LoginAccount.backgroundColor = [UIColor clearColor];
+    LoginAccount.font = boldfont;
+    LoginAccount.textColor = [UIColor brownColor];
+
+    UIFont *font = [UIFont fontWithName:@"Helvetica" size:18.0];
+    CGSize titleLabelSize = [[NSString stringWithFormat:@"*查詢歷史借閱、預借、已借出紀錄"] sizeWithFont:font
+                                                                   constrainedToSize:maximumLabelSize
+                                                                       lineBreakMode:NSLineBreakByWordWrapping];
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = @"*查詢歷史借閱、預借、已借出紀錄";
+    titleLabel.frame = CGRectMake((swidth - titleLabelSize.width)/2,200,titleLabelSize.width,20);
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.font = font;
+    
+    //[loginView addSubview:accounttextField];
+    //[loginView addSubview:passWordtextField];
+    [loginView addSubview:Loginbutton];
+    [loginView addSubview:LoginAccount];
+    [loginView addSubview:titleLabel];
+    
+    loginView.backgroundColor = [[UIColor alloc]initWithRed:232.0/255.0 green:225.0/255.0 blue:208.0/255.0 alpha:0.5];
     self.view = loginView;
 	// Do any additional setup after loading the view.
     
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backgroundTap)];
     tapRecognizer.delegate  = self;
     [self.view addGestureRecognizer:tapRecognizer];
-    
-    [Loginbutton release];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+    NSString *loginText = NULL;
+    if(account == NULL)
+    {
+        loginText = [NSString stringWithFormat:@"目前沒有登錄的帳戶"];
+    }
+    else
+    {
+        NSString *name = [account objectForKey:@"userName"];
+        loginText = [NSString stringWithFormat:@"- %@ 登錄中 -",name];
+    }
+    NSInteger screenwidth = [[UIScreen mainScreen] bounds].size.width;
+    UIFont *boldfont = [UIFont boldSystemFontOfSize:18.0];
+    CGSize maximumLabelSize = CGSizeMake(200,9999);
+    CGSize AccountLabelSize = [loginText    sizeWithFont:boldfont
+                                       constrainedToSize:maximumLabelSize
+                                           lineBreakMode:NSLineBreakByWordWrapping];
+    [LoginAccount removeFromSuperview];
+    LoginAccount.text = loginText;
+    LoginAccount.frame = CGRectMake((screenwidth - AccountLabelSize.width)/2,40,AccountLabelSize.width,20);
+    [loginView addSubview:LoginAccount];
 }
 
 - (void)didReceiveMemoryWarning
