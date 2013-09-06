@@ -136,13 +136,16 @@
                 TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
                 
                 [self getBooksNextUrl:parser];
-                
-                if([tableData_book count] < 10) //修正書本筆數
-                {
-                    book_count = book_count - 10 + [tableData_book count];
-                    read_count = [tableData_book count];
-                }
             }
+        }
+        
+        NSInteger temp = [tableData_book count] - book_count%50 + 10;   //下一筆的筆數
+        if(temp < 10)
+        {
+            //修正書本筆數
+            book_count += temp;
+            read_count = temp;
+            book_count -= 10;
         }
         
         [self getContentTotal:read_count To:book_count];
@@ -400,7 +403,7 @@
 {
     NSString *nextpage_url = [pageData objectForKey:@"nextpage"];
 
-    if(nextpage_url != NULL)  //後面還有書
+    if(nextpage_url != NULL || book_count < [tableData_book count])  //後面還有書
         return [data count]+1;
     else if ([data count] == 0 && start == YES) //沒有查獲的館藏
         return 1;

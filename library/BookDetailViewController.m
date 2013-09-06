@@ -129,38 +129,53 @@
     for(size_t p = 0 ; p < [tableData_book count] ; p++)
     {
         TFHppleElement* buf_book = [tableData_book objectAtIndex:p];
-        
-        if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"28%"] && [buf_book.attributes objectForKey:@"class"] == NULL)
+        if([buf_book.attributes objectForKey:@"width"] != NULL && [buf_book.attributes objectForKey:@"class"] == NULL)
         {
-            NSString *buf = ((TFHppleElement*)[buf_book.children objectAtIndex:1]).content;
-            buf = [buf substringToIndex:[buf length]-2];    //濾掉/n
-            buf = [buf substringFromIndex:1];   //濾掉開頭空白
-            book_part1[book_count] = [[NSString alloc] initWithString:buf];
-        }
-        else if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"38%"] && [buf_book.attributes objectForKey:@"class"] == NULL)
-        {
-            for(size_t a = 0 ; a < [buf_book.children count] ; a++)
-            {
-                TFHppleElement* buf_a = [buf_book.children objectAtIndex:a];
-                if([buf_a.tagName isEqualToString:@"a"])
+            if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"28%"])
+            {   //館藏地
+                NSString *buf = NULL;
+                if([((TFHppleElement*)[buf_book.children objectAtIndex:2]).tagName isEqualToString:@"a"])
                 {
-                    book_part2[book_count] = [[NSString alloc] initWithString:((TFHppleElement*)[buf_a.children objectAtIndex:0]).content];
-                    break;
+                    buf = [[((TFHppleElement*)[buf_book.children objectAtIndex:2]).children objectAtIndex:0] content];
                 }
+                else
+                {
+                    buf = ((TFHppleElement*)[buf_book.children objectAtIndex:1]).content;
+                    buf = [buf substringToIndex:[buf length]-2];    //濾掉/n
+                    buf = [buf substringFromIndex:1];   //濾掉開頭空白
+                }
+                book_part1[book_count] = [[NSString alloc] initWithString:buf];
             }
-        }
-        else if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"12%"] && [buf_book.attributes objectForKey:@"class"] == NULL)
-        {
-            NSString *buf = ((TFHppleElement*)[buf_book.children objectAtIndex:1]).content;
-            buf = [buf substringFromIndex:1];   //濾掉開頭空白
-            book_part3[book_count] = [[NSString alloc] initWithString:buf];
-        }
-        else if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"22%"] && [buf_book.attributes objectForKey:@"class"] == NULL)
-        {
-            NSString *buf = ((TFHppleElement*)[buf_book.children objectAtIndex:1]).content;
-            buf = [buf substringFromIndex:1];   //濾掉開頭空白
-            book_part4[book_count] = [[NSString alloc] initWithString:buf];
-            book_count++;
+            else if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"38%"])
+            {   //索書號
+                NSString *numberStr = [[NSString alloc] init];
+                for(size_t a = 0 ; a < [buf_book.children count] ; a++)
+                {
+                    TFHppleElement* buf_a = [buf_book.children objectAtIndex:a];
+                    if([buf_a.tagName isEqualToString:@"a"])
+                    {
+                        numberStr = [numberStr stringByAppendingString:((TFHppleElement*)[buf_a.children objectAtIndex:0]).content];
+                    }
+                    else if([buf_a.tagName isEqualToString:@"text"])
+                    {
+                        numberStr = [numberStr stringByAppendingString:buf_a.content];
+                    }
+                }
+                book_part2[book_count] = [[NSString alloc] initWithString:numberStr];
+            }
+            else if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"12%"])
+            {   //條碼
+                NSString *buf = ((TFHppleElement*)[buf_book.children objectAtIndex:1]).content;
+                buf = [buf substringFromIndex:1];   //濾掉開頭空白
+                book_part3[book_count] = [[NSString alloc] initWithString:buf];
+            }
+            else if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"22%"])
+            {   //處理狀態
+                NSString *buf = ((TFHppleElement*)[buf_book.children objectAtIndex:1]).content;
+                buf = [buf substringFromIndex:1];   //濾掉開頭空白
+                book_part4[book_count] = [[NSString alloc] initWithString:buf];
+                book_count++;
+            }
         }
     }
     
