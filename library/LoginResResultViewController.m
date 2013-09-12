@@ -28,6 +28,7 @@
 @synthesize showing;
 @synthesize switchviewcontroller;
 @synthesize acsheet;
+@synthesize userAccountId;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -84,7 +85,7 @@
 {
     [super viewWillAppear:animated];
     
-    if (!(self.isMovingToParentViewController || self.isBeingPresented))
+    if(!(self.isMovingToParentViewController || self.isBeingPresented))
     {
         if([maindata count] != 0)
             [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];

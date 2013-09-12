@@ -255,7 +255,7 @@
     
     NSString *bookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nexturl];
     display.fetchURL = bookURL;
-    
+    display.userAccountId = [account objectForKey:@"account"];
     [self.navigationController pushViewController:display animated:YES];
     [display release];
 }

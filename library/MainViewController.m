@@ -69,7 +69,8 @@
 
 -(void)search{
     [self backgroundTap];
-    if(textField.text == NULL)
+
+    if([textField.text length] < 1)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"關鍵字為空白"
                                                         message:@"請輸入欲查詢的關鍵字！"

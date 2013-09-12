@@ -30,6 +30,7 @@
 @synthesize menuView;
 @synthesize showingView;
 @synthesize viewGoingtoshow;
+@synthesize userAccountId;
 
 - (void)viewDidLoad
 {
@@ -76,12 +77,18 @@
     loginViewController = [[LoginResultViewController alloc]initWithStyle:UITableViewStyleGrouped];
     loginresViewController = [[LoginResResultViewController alloc]initWithStyle:UITableViewStyleGrouped];
     loginoutViewController = [[LoginOutResultViewController alloc]initWithStyle:UITableViewStyleGrouped];
+    
     loginViewController.fetchURL = fetchURL;
     loginViewController.switchviewcontroller = self;
+    loginViewController.userAccountId = userAccountId;
+    
     loginresViewController.fetchURL = resfetchURL;
     loginresViewController.switchviewcontroller = self;
+    loginresViewController.userAccountId = userAccountId;
+    
     loginoutViewController.fetchURL = outfetchURL;
     loginoutViewController.switchviewcontroller = self;
+    loginoutViewController.userAccountId = userAccountId;
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         // Show the HUD in the main tread
@@ -100,6 +107,24 @@
             [self.view addSubview:self.loginViewController.view];
         });
     });
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+    NSString *userID = [account objectForKey:@"account"];
+    if(![userID isEqualToString:userAccountId])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"帳戶已更動"
+                                                        message:@"請重新登入！"
+                                                       delegate:self
+                                              cancelButtonTitle:@"好"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 -(void)historyswitchViews

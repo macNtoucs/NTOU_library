@@ -250,7 +250,7 @@
                                                     lineBreakMode:NSLineBreakByWordWrapping];
             [LoginAccount removeFromSuperview];
             LoginAccount.text = loginText;
-            LoginAccount.frame = CGRectMake((screenwidth - AccountLabelSize.width)/2,11,AccountLabelSize.width,20);
+            LoginAccount.frame = CGRectMake((screenwidth - AccountLabelSize.width)/2,20,AccountLabelSize.width,20);
             [self.view addSubview:LoginAccount];
             
             NSMutableDictionary *account = [[NSMutableDictionary alloc]init];

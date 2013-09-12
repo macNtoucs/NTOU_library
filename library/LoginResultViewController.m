@@ -19,6 +19,7 @@
 @synthesize fetchURL;
 @synthesize switchviewcontroller;
 @synthesize maindata;
+@synthesize userAccountId;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -44,7 +45,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     if (!(self.isMovingToParentViewController || self.isBeingPresented))
     {
         if([maindata count] != 0)

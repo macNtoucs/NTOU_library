@@ -28,6 +28,7 @@
 @synthesize showing;
 @synthesize switchviewcontroller;
 @synthesize acsheet;
+@synthesize userAccountId;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
