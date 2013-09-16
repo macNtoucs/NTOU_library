@@ -43,6 +43,7 @@
 		913BD9231754A61000145B80 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 913BD9221754A61000145B80 /* XPathQuery.m */; };
 		913BD9291754A80300145B80 /* libxml2.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 913BD9281754A80300145B80 /* libxml2.2.dylib */; };
 		913BD92C17587BFC00145B80 /* SearchResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 913BD92B17587BFC00145B80 /* SearchResultViewController.m */; };
+		BAFB922F17E6AE1400EB5A84 /* NYOULogo.png in Resources */ = {isa = PBXBuildFile; fileRef = BAFB922E17E6AE1400EB5A84 /* NYOULogo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,6 +106,7 @@
 		913BD9281754A80300145B80 /* libxml2.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.2.dylib; path = usr/lib/libxml2.2.dylib; sourceTree = SDKROOT; };
 		913BD92A17587BFC00145B80 /* SearchResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultViewController.h; sourceTree = "<group>"; };
 		913BD92B17587BFC00145B80 /* SearchResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResultViewController.m; sourceTree = "<group>"; };
+		BAFB922E17E6AE1400EB5A84 /* NYOULogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NYOULogo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 				1806C56C17D1E7E70074BB34 /* tabbar_background.jpg */,
 				1806C56A17D1DE8A0074BB34 /* title_background.jpg */,
 				1801AB8517D5844500E98621 /* Library_NTU.png */,
+				BAFB922E17E6AE1400EB5A84 /* NYOULogo.png */,
 				913BD9211754A61000145B80 /* XPathQuery.h */,
 				913BD9221754A61000145B80 /* XPathQuery.m */,
 				913BD91B1754A5DE00145B80 /* TFHpple.h */,
@@ -305,6 +308,7 @@
 				1806C56B17D1DE8A0074BB34 /* title_background.jpg in Resources */,
 				1806C56D17D1E7E70074BB34 /* tabbar_background.jpg in Resources */,
 				1801AB8617D5844500E98621 /* Library_NTU.png in Resources */,
+				BAFB922F17E6AE1400EB5A84 /* NYOULogo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,8 +389,8 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "71A65A17-4614-4323-B115-BA6F2CCD8132";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71A65A17-4614-4323-B115-BA6F2CCD8132";
+				PROVISIONING_PROFILE = "CA2C0AFD-230E-42D4-8C62-9E80264AD1ED";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CA2C0AFD-230E-42D4-8C62-9E80264AD1ED";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -416,8 +420,8 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PROVISIONING_PROFILE = "71A65A17-4614-4323-B115-BA6F2CCD8132";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71A65A17-4614-4323-B115-BA6F2CCD8132";
+				PROVISIONING_PROFILE = "CA2C0AFD-230E-42D4-8C62-9E80264AD1ED";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CA2C0AFD-230E-42D4-8C62-9E80264AD1ED";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

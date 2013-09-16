@@ -33,8 +33,7 @@
 {
     self.selectedSnack = NSNotFound;
     data = [[NSMutableArray alloc] init];
-    //帳密寫死
-    
+
     NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
     
     NSString *finalPost = [[NSString alloc]initWithFormat:@"code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",[account objectForKey:@"account"],[account objectForKey:@"passWord"]];
@@ -341,7 +340,9 @@
         {
             NSDictionary *book = [data objectAtIndex:indexPath.row];
             NSString *radio = [book objectForKey:@"radio"];
-            NSString *finalPost = [[NSString alloc]initWithFormat:@"radio=%@&code=0996A020&pin=P123850476&submit.x=37&submit.y=23&submit=submit",radio];
+            NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+            
+            NSString *finalPost = [[NSString alloc]initWithFormat:@"radio=%@&code=%@&pin=%@&submit.x=37&submit.y=23&submit=submit",radio,[account objectForKey:@"account"],[account objectForKey:@"passWord"]];
             NSHTTPURLResponse *urlResponse = nil;
             NSError *error = [[[NSError alloc] init]autorelease];
             NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];

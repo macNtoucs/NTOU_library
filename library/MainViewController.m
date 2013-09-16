@@ -124,8 +124,8 @@
     [button setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
 
-    UIImage *Library = [UIImage imageNamed:@"Library_NTU.png"];
-    UIImageView *NTU_Library = [[UIImageView alloc] initWithFrame:CGRectMake(swidth/2 - Library.size.width/4,150, Library.size.width/2, Library.size.height/2)];
+    UIImage *Library = [UIImage imageNamed:@"NYOULogo.png"];
+    UIImageView *NTU_Library = [[UIImageView alloc] initWithFrame:CGRectMake(swidth/2 - Library.size.width/4,180, Library.size.width/2, Library.size.height/2)];
     [NTU_Library setImage:Library];
     
     [mainView addSubview:NTU_Library];
