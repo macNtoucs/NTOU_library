@@ -95,6 +95,12 @@
         TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
         
         [self getBooksNextUrl:parser];
+
+        if([tableData_book count] < 10) //若一開始則不到10筆
+        {
+            [self getContentTotal:[tableData_book count] To:[tableData_book count]];
+            book_count = [tableData_book count];
+        }
         [self getContentTotal:10 To:book_count];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -242,7 +248,9 @@
         if([buf_book.attributes objectForKey:@"width"] != NULL||[buf_book.attributes objectForKey:@"border"] != NULL||[buf_book.attributes objectForKey:@"cellspacing"] != NULL||[buf_book.attributes objectForKey:@"cellpadding"] != NULL)
         {
             if([[buf_book.attributes objectForKey:@"width"] isEqualToString:@"100%"] && [[buf_book.attributes objectForKey:@"border"]isEqualToString:@"0"] && [[buf_book.attributes objectForKey:@"cellspacing"]isEqualToString:@"0"] && [[buf_book.attributes objectForKey:@"cellpadding"] isEqualToString:@"0"])
-            {   [tableData_book addObject:buf_book];}
+            {
+                [tableData_book addObject:buf_book];
+            }
         }
     }
 }
@@ -268,10 +276,18 @@
                         {   //有圖片
                             NSString *image = [((TFHppleElement*)[((TFHppleElement*)[buf_search.children objectAtIndex:1]).children objectAtIndex:0]).attributes objectForKey:@"src"];
                             NSData *imagedata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:image]];
+                            NSString *image_url = NULL;
+                            if(imagedata == NULL)   //死圖
+                            {
+                                image = @"http://static.findbook.tw/image/book/1419879251/large";
+                                imagedata = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:image]];
+                                image_url = [[NSString alloc] initWithFormat:@"NULL"];
+                            }
                             UIImage *book_img = [[UIImage alloc] initWithData:imagedata];
                             [book setObject:book_img forKey:@"image"];
                             
-                            NSString *image_url = [((TFHppleElement*)[buf_search.children objectAtIndex:1]).attributes objectForKey:@"href"];
+                            image_url = [((TFHppleElement*)[buf_search.children objectAtIndex:1]).attributes objectForKey:@"href"];
+                            
                             [book setObject:image_url forKey:@"image_url"];
                         }
                         else

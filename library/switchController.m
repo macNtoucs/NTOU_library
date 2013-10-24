@@ -18,8 +18,6 @@
 
 -(void)setView
 {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"NTOULibraryAccount"];
-
     UIImage *image = [UIImage imageNamed:@"title_background.jpg"];
     MainViewController* view1 = [[MainViewController alloc] initWithNibName:nil bundle:nil];
     UITabBarItem *item1 = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:1];

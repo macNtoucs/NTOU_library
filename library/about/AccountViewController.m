@@ -13,11 +13,13 @@
 @interface AccountViewController ()
 @property (strong, nonatomic) UITapGestureRecognizer *tapRecognizer;
 @property (strong, nonatomic) UILabel *LoginAccount;
+@property (strong, nonatomic) UIButton *Loginbutton;
 @end
 
 @implementation AccountViewController
 @synthesize tapRecognizer;
 @synthesize LoginAccount;
+@synthesize Loginbutton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,43 +34,10 @@
 {
     NSInteger swidth = [[UIScreen mainScreen] bounds].size.width;
     
-    accounttextField = [[UITextField alloc] initWithFrame:CGRectMake(swidth/2 - 125,50, 250, 30)];
-    accounttextField.borderStyle = UITextBorderStyleRoundedRect;
-    accounttextField.font = [UIFont systemFontOfSize:15];
-    accounttextField.delegate = self;
-    accounttextField.placeholder = @"學號、敎職員證號 或 本館借書證號";
-    accounttextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    
-    passWordtextField = [[UITextField alloc] initWithFrame:CGRectMake(swidth/2 - 125,90, 250, 30)];
-    passWordtextField.borderStyle = UITextBorderStyleRoundedRect;
-    passWordtextField.font = [UIFont systemFontOfSize:15];
-    passWordtextField.delegate = self;
-    passWordtextField.secureTextEntry = YES;
-    passWordtextField.placeholder = @"密碼 (預設為 身分證字號)";
-    passWordtextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    
-    UIButton *Loginbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [Loginbutton addTarget:self
-                    action:@selector(Login)
-          forControlEvents:UIControlEventTouchDown];
-    [Loginbutton setTitle:@"登入" forState:UIControlStateNormal];
-    Loginbutton.frame = CGRectMake(swidth/2 - 80, 140.0, 160.0, 30.0);
-    [Loginbutton setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-    [Loginbutton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-    
-    UIFont *boldfont = [UIFont boldSystemFontOfSize:18.0];
-    CGSize maximumLabelSize = CGSizeMake(320,9999);
-    CGSize AccountLabelSize = [[NSString stringWithFormat:@"目前沒有登錄的帳戶"] sizeWithFont:boldfont
-                                                                  constrainedToSize:maximumLabelSize
-                                                                      lineBreakMode:NSLineBreakByWordWrapping];
     LoginAccount = [[UILabel alloc] init];
-    LoginAccount.text = @"目前沒有登錄的帳戶";
-    LoginAccount.frame = CGRectMake((swidth - AccountLabelSize.width)/2,20,AccountLabelSize.width,20);
-    LoginAccount.backgroundColor = [UIColor clearColor];
-    LoginAccount.font = boldfont;
-    LoginAccount.textColor = [UIColor brownColor];
-    
-    NSString *notice1 = [NSString stringWithFormat:@"* 重複登錄不論成功失敗，皆會刪除之前的記錄"];
+    Loginbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+     
+    NSString *notice1 = [NSString stringWithFormat:@"* 重複登入不論成功失敗，皆會刪除之前的記錄"];
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:18.0];
     CGSize Notice1LabelSize = [notice1 sizeWithFont:font
                                 constrainedToSize:CGSizeMake(280,9999)
@@ -118,10 +87,7 @@
     notice2Label.font = font;
     */
     self.view.backgroundColor = [[UIColor alloc]initWithRed:232.0/255.0 green:225.0/255.0 blue:208.0/255.0 alpha:0.5];
-    [self.view addSubview:accounttextField];
-    [self.view addSubview:passWordtextField];
-    [self.view addSubview:Loginbutton];
-    [self.view addSubview:LoginAccount];
+
     [self.view addSubview:notice1Label];
     [self.view addSubview:notice2Label];
     [self.view addSubview:notice3Label];
@@ -131,6 +97,87 @@
     [self.view addGestureRecognizer:tapRecognizer];
     
     [super viewDidLoad];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [accounttextField removeFromSuperview];
+    [passWordtextField removeFromSuperview];
+    [LoginAccount removeFromSuperview];
+    [Loginbutton removeFromSuperview];
+    
+    Loginbutton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    NSInteger swidth = [[UIScreen mainScreen] bounds].size.width;
+    
+    UIFont *boldfont = [UIFont boldSystemFontOfSize:18.0];
+    CGSize maximumLabelSize = CGSizeMake(320,9999);
+    NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+    LoginAccount = [[UILabel alloc] init];
+    NSString *loginText = NULL;
+    if(account == NULL)
+    {
+        loginText = [NSString stringWithFormat:@"目前沒有登錄的帳戶"];
+    }
+    else
+    {
+        NSString *name = [account objectForKey:@"userName"];
+        loginText = [NSString stringWithFormat:@"- %@ 登錄中 -",name];
+    }
+    CGSize AccountLabelSize = [loginText sizeWithFont:boldfont
+                                    constrainedToSize:maximumLabelSize
+                                        lineBreakMode:NSLineBreakByWordWrapping];
+    LoginAccount = [[UILabel alloc] init];
+    LoginAccount.text = loginText;
+    LoginAccount.frame = CGRectMake((swidth - AccountLabelSize.width)/2,20,AccountLabelSize.width,20);
+    LoginAccount.backgroundColor = [UIColor clearColor];
+    LoginAccount.font = boldfont;
+    LoginAccount.textColor = [UIColor brownColor];
+
+    if(account == NULL)
+    {
+        accounttextField = [[UITextField alloc] initWithFrame:CGRectMake(swidth/2 - 125,50, 250, 30)];
+        accounttextField.borderStyle = UITextBorderStyleRoundedRect;
+        accounttextField.font = [UIFont systemFontOfSize:15];
+        accounttextField.delegate = self;
+        accounttextField.placeholder = @"學號、敎職員證號 或 本館借書證號";
+        accounttextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        
+        passWordtextField = [[UITextField alloc] initWithFrame:CGRectMake(swidth/2 - 125,90, 250, 30)];
+        passWordtextField.borderStyle = UITextBorderStyleRoundedRect;
+        passWordtextField.font = [UIFont systemFontOfSize:15];
+        passWordtextField.delegate = self;
+        passWordtextField.secureTextEntry = YES;
+        passWordtextField.placeholder = @"密碼 (預設為 身分證字號)";
+        passWordtextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        
+        [Loginbutton addTarget:self
+                        action:@selector(Login)
+              forControlEvents:UIControlEventTouchDown];
+        [Loginbutton setTitle:@"登入" forState:UIControlStateNormal];
+        Loginbutton.frame = CGRectMake(swidth/2 - 80, 140.0, 160.0, 30.0);
+        [Loginbutton setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+        [Loginbutton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+        
+        [self.view addSubview:accounttextField];
+        [self.view addSubview:passWordtextField];
+        
+    }
+    else
+    {
+        [Loginbutton addTarget:self
+                        action:@selector(Logout)
+              forControlEvents:UIControlEventTouchDown];
+        [Loginbutton setTitle:@"登出" forState:UIControlStateNormal];
+        Loginbutton.frame = CGRectMake(swidth/2 - 80, 90.0, 160.0, 30.0);
+        [Loginbutton setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+        [Loginbutton setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    }
+    
+    [self.view addSubview:Loginbutton];
+    [self.view addSubview:LoginAccount];
 }
 
 - (void)didReceiveMemoryWarning
@@ -143,6 +190,26 @@
 {
     [accounttextField resignFirstResponder];
     [passWordtextField resignFirstResponder];
+}
+
+-(void)Logout
+{
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"NTOULibraryAccount"];
+    
+    NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+    
+    if(account == NULL)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登出成功！"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"好"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    else    //發生錯誤，強制終止
+        exit(-1);
 }
 
 -(void)Login
@@ -173,7 +240,7 @@
             }
             else if(resault == 1)
             {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登陸成功！"
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"登入成功！"
                                                                 message:nil
                                                                delegate:self
                                                       cancelButtonTitle:@"好"
@@ -191,6 +258,7 @@
             }
             
             [self backgroundTap];
+            [self.navigationController popToRootViewControllerAnimated:YES];
         });
     });
 }
@@ -216,21 +284,11 @@
     NSArray *tableData_succese  = [parser searchWithXPathQuery:@"//html//body//div//div//div//form//a//img"];
     NSArray *tableData_name  = [parser searchWithXPathQuery:@"//html//body//table//tr//td//div//strong"];
     
-    NSInteger screenwidth = [[UIScreen mainScreen] bounds].size.width;
+    //NSInteger screenwidth = [[UIScreen mainScreen] bounds].size.width;
     for (size_t i = 0 ; i < [tableData_error count] ; ++i){
         TFHppleElement* buf = [tableData_error objectAtIndex:i];
         if([[buf.attributes objectForKey:@"color"] isEqualToString:@"red"] && [[buf.attributes objectForKey:@"size"] isEqualToString:@"+2"])
         {
-            UIFont *boldfont = [UIFont boldSystemFontOfSize:18.0];
-            CGSize maximumLabelSize = CGSizeMake(320,9999);
-            CGSize AccountLabelSize = [[NSString stringWithFormat:@"目前沒有登錄的帳戶"] sizeWithFont:boldfont
-                                                                           constrainedToSize:maximumLabelSize
-                                                                               lineBreakMode:NSLineBreakByWordWrapping];
-            [LoginAccount removeFromSuperview];
-            LoginAccount.text = @"目前沒有登錄的帳戶";
-            LoginAccount.frame = CGRectMake((screenwidth - AccountLabelSize.width)/2,15,AccountLabelSize.width,20);
-            [self.view addSubview:LoginAccount];
-            
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"NTOULibraryAccount"];
             return 0;
         }
@@ -242,6 +300,7 @@
         {            
             TFHppleElement* buf_name = [tableData_name objectAtIndex:0];
             NSString *name = [((TFHppleElement*)[buf_name.children objectAtIndex:0]) content];
+            /*
             NSString *loginText = [NSString stringWithFormat:@"- %@ 登錄中 -",name];
             UIFont *boldfont = [UIFont boldSystemFontOfSize:18.0];
             CGSize maximumLabelSize = CGSizeMake(320,9999);
@@ -252,7 +311,7 @@
             LoginAccount.text = loginText;
             LoginAccount.frame = CGRectMake((screenwidth - AccountLabelSize.width)/2,20,AccountLabelSize.width,20);
             [self.view addSubview:LoginAccount];
-            
+            */
             NSMutableDictionary *account = [[NSMutableDictionary alloc]init];
             [account setObject:accounttextField.text forKey:@"account"];
             [account setObject:passWordtextField.text forKey:@"passWord"];
