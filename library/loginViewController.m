@@ -253,7 +253,7 @@
         display.resfetchURL = webURL;
     }
     
-    NSString *bookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nexturl];
+    NSString *bookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nexturl]; //存入借閱記錄網址
     display.fetchURL = bookURL;
     display.userAccountId = [account objectForKey:@"account"];
     [self.navigationController pushViewController:display animated:YES];
