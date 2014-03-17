@@ -29,6 +29,7 @@
 @synthesize start;
 @synthesize book_count;
 @synthesize tableData_book;
+@synthesize sparser;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -81,20 +82,7 @@
             hud.labelText = @"Loading";
         });
         
-        
-        NSError *error;
-        
-        //  設定url
-        NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083/search*cht/X?SEARCH=%@&SORT=D",inputtext];
-        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-        // 設定丟出封包，由data來接
-        NSData* urldata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
-        
-        //設定 parser讀取data，並透過Xpath得到想要的資料位置
-        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
-        
-        [self getBooksNextUrl:parser];
+        [self getBooksNextUrl:sparser];
 
         if([tableData_book count] < 10) //若一開始則不到10筆
         {
