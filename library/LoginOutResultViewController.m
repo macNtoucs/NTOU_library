@@ -144,6 +144,7 @@
 
 -(void)keepSelectResBook
 {
+    NSString *radioVal = [NSString new];
     if([selectindexs count] == 0)
     {
         UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"請選擇欲續借的紀錄"
@@ -153,58 +154,43 @@
                                                otherButtonTitles:nil];
         [alerts show];
     }
-    NSString *cancelbook = [[NSString alloc] init];
+    int isSuccess=0;
     for (int i = 0 ; i < [selectindexs count] ; i++) {
         NSIndexPath *index = [selectindexs objectAtIndex:i];
         NSDictionary *book = [maindata objectAtIndex:index.row];
-        NSString *buf = [book objectForKey:@"id"];
-        NSString *value = [book objectForKey:@"value"];
-        cancelbook = [NSString stringWithFormat:@"%@&%@=%@",cancelbook,buf,value];
+        radioVal = [book objectForKey:@"radioValue"];
+        NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+        NSString *historyPost = [[NSString alloc]initWithFormat:@"account=%@&password=%@&radioValue=%@",[account objectForKey:@"account"],[account objectForKey:@"passWord"],radioVal];
+        NSHTTPURLResponse *urlResponse = nil;
+        NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
+        NSString * queryURL = [NSString stringWithFormat:@"http://140.121.197.135:11114/LibraryHistoryAPI/renewBook.do"];
+        [request setURL:[NSURL URLWithString:queryURL]];
+        [request setHTTPMethod:@"POST"];
+        [request setHTTPBody:[historyPost dataUsingEncoding:NSUTF8StringEncoding]];
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:request
+                                                     returningResponse:&urlResponse
+                                                                 error:nil];
+        maindata=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+        [maindata retain];
+        if ([[maindata objectForKey:@"querySuccess"] isEqualToString:@"true"]) ++isSuccess;
     }
-    
-    //取消已選取館藏
-    NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_checkout&requestRenewSome=續借選取館藏%@&currentsortorder=current_checkout",cancelbook];
-    
-    NSHTTPURLResponse *urlResponse = nil;
-    NSError *error = [[[NSError alloc] init]autorelease];
-    NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
-    [request setURL:[NSURL URLWithString:fetchURL]];
-    [request setHTTPMethod:@"POST"];
-    [request addValue:@"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" forHTTPHeaderField:@"Accept"];
-    [request setHTTPBody:[finalPost dataUsingEncoding:NSUTF8StringEncoding]];
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request
-                                                 returningResponse:&urlResponse
-                                                             error:&error];
-    TFHpple* parser = [[TFHpple alloc] initWithHTMLData:responseData];
-    NSArray *tableData_t  = [parser searchWithXPathQuery:@"//html//body//span//div"];
-    NSArray *tableData_b  = [parser searchWithXPathQuery:@"//html//body//span//form//table//tr//td//label//a"];
-    NSString *title = nil;
-    if([tableData_t count] != 0)
-    {
-        title = [[((TFHppleElement*)[tableData_t objectAtIndex:0]).children objectAtIndex:0] content];
-        title = [title substringFromIndex:1];//濾掉/n
+    if (isSuccess == [selectindexs count]){
+        UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"續借成功"
+                                                          message:nil
+                                                         delegate:self
+                                                cancelButtonTitle:@"好"
+                                                otherButtonTitles:nil];
+        [alerts show];
     }
-    if([title isEqualToString:@"The following item(s) will be renewed, would you like to proceed?"])
-    {
-        NSString *msg = nil;
-        for (size_t j = 0 ; j < [tableData_b count] ; ++j){
-            TFHppleElement* buf_b = [tableData_b objectAtIndex:j];
-            NSString *book = [[buf_b.children objectAtIndex:0] content];
-            if(j == 0)
-                msg = [NSString stringWithFormat:@"'%@'",book];
-            else
-                msg = [NSString stringWithFormat:@"%@,\n'%@'",msg,book];
-        }
-        
-        msg = [NSString stringWithFormat:@"確定要續借以下書本？\n%@",msg];
-        acsheet = [[UIActionSheet alloc]
-                   initWithTitle:msg
-                   delegate:self
-                   cancelButtonTitle:@"取消"
-                   destructiveButtonTitle:@"確定"
-                   otherButtonTitles:nil];
-        [acsheet showFromToolbar:actionToolbar];
+    else{
+        UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"續借失敗"
+                                                         message:nil
+                                                        delegate:self
+                                               cancelButtonTitle:@"好"
+                                               otherButtonTitles:nil];
+        [alerts show];
     }
+    [radioVal release];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -318,7 +304,7 @@
     NSString *bookname = [book objectForKey:@"tittle"];
     NSString *bookdate = [book objectForKey:@"status"];
    // NSString *bookbarcode = [book objectForKey:@"barcode"];
-    NSString *bookcallno = [book objectForKey:@"radioValue"];
+    //NSString *bookcallno = [book objectForKey:@"radioValue"];
    // NSString *bookkeep = [book objectForKey:@"keep"];
     NSString *MyIdentifier = [NSString stringWithFormat:@"Cell%d%@",indexPath.row,bookname];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
