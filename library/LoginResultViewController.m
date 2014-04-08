@@ -11,7 +11,8 @@
 #import "WOLSwitchViewController.h"
 #import "BookDetailViewController.h"
 @interface LoginResultViewController ()
-@property (nonatomic,retain) NSMutableArray *maindata;
+@property (nonatomic,retain) NSArray *maindata;
+@property (nonatomic, retain) NSDictionary *historyData;
 
 @end
 
@@ -20,6 +21,7 @@
 @synthesize switchviewcontroller;
 @synthesize maindata;
 @synthesize userAccountId;
+@synthesize historyData;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,7 +36,7 @@
 - (void)viewDidLoad
 {
     maindata = [[NSMutableArray alloc] init];
-    
+    historyData = [NSDictionary new];
     //配合nagitive和tabbar的圖片變動tableview的大小
     //nagitive 52 - 44 = 8 、 tabbar 55 - 49 = 6
     [self.tableView setContentInset:UIEdgeInsetsMake(8,0,6,0)];
@@ -46,11 +48,11 @@
 {
     [super viewWillAppear:animated];
 
-    if (!(self.isMovingToParentViewController || self.isBeingPresented))
+  /*  if (!(self.isMovingToParentViewController || self.isBeingPresented))
     {
         if([maindata count] != 0)
             [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-    }
+    }*/
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,49 +62,19 @@
 }
 
 -(void)fetchHistory{
-    NSError *error;
-    NSData* data = [[NSString stringWithContentsOfURL:[NSURL URLWithString:fetchURL] encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+     NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+     NSString *historyPost = [[NSString alloc]initWithFormat:@"account=%@&password=%@&segment=1",[account objectForKey:@"account"],[account objectForKey:@"passWord"]];
+    NSHTTPURLResponse *urlResponse = nil;
+    NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
+    NSString * queryURL = [NSString stringWithFormat:@"http://140.121.197.135:11114/LibraryHistoryAPI/getReadingHistory.do"];
+    [request setURL:[NSURL URLWithString:queryURL]];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[historyPost dataUsingEncoding:NSUTF8StringEncoding]];
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request
+                                                 returningResponse:&urlResponse
+                                                             error:nil];
+    maindata=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
     
-    TFHpple* parser = [[TFHpple alloc] initWithHTMLData:data];
-    NSArray *tableData_td  = [parser searchWithXPathQuery:@"//html//body//div//form//table//tr"];
-    [maindata removeAllObjects];
-    
-    NSMutableDictionary *book;
-    for (size_t i = 0 ; i < [tableData_td count] ; ++i){
-        TFHppleElement* buf = [tableData_td objectAtIndex:i];
-        if([[buf.attributes objectForKey:@"class"] isEqualToString:@"patFuncEntry"])
-        {
-            book = [[NSMutableDictionary alloc] init];
-            for (size_t j = 0 ; j < [buf.children count] ; ++j){
-                TFHppleElement* buf_b = [buf.children objectAtIndex:j];
-                
-                if([buf_b.attributes objectForKey:@"width"] != NULL && [buf_b.attributes objectForKey:@"class"] != NULL)
-                {
-                    if([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"30%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
-                    {
-                        NSString *buf = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",[((TFHppleElement*)[buf_b.children objectAtIndex:0]).attributes objectForKey:@"href"]];
-                        [book setObject:buf forKey:@"bookurl"];
-                        [book setObject:[[((TFHppleElement*)[buf_b.children objectAtIndex:0]).children objectAtIndex:0] content] forKey:@"bookname"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"20%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncAuthor"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"auther"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"15%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncDate"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"date"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"width"] isEqualToString:@"25%"] && [[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncDetails"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"details"];
-                    }
-                }
-            }
-            [maindata addObject:book];
-            [book release];
-        }
-    }
-    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -114,12 +86,13 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [maindata count];
+    [maindata retain];
+    return[maindata count];
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if([maindata count] == 0)
+   if([maindata count] == 0)
     {
         return [NSString stringWithFormat:@"沒有借閱歷史紀錄"];
     }
@@ -135,8 +108,8 @@
     UILabel *date = nil;
     UILabel *namelabel = nil;
     UILabel *datelabel = nil;
-    UILabel *details = nil;
-    UILabel *detailsleabel = nil;
+    //UILabel *details = nil;
+   // UILabel *detailsleabel = nil;
 
 
     if (cell == nil)
@@ -148,14 +121,14 @@
         date = [[UILabel alloc] init];
         namelabel = [[UILabel alloc] init];
         datelabel = [[UILabel alloc] init];
-        details = [[UILabel alloc] init];
-        detailsleabel = [[UILabel alloc] init];
+        //details = [[UILabel alloc] init];
+        //detailsleabel = [[UILabel alloc] init];
     }
 
     NSDictionary *book = [maindata objectAtIndex:indexPath.row];
-    NSString *bookname = [book objectForKey:@"bookname"];
-    NSString *bookdate = [book objectForKey:@"date"];
-    NSString *bookdetails = [book objectForKey:@"details"];
+    NSString *bookname = [book objectForKey:@"tittle"];
+    NSString *bookdate = [book objectForKey:@"borrowDate"];
+   // NSString *bookdetails = [book objectForKey:@"details"];
 
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:14.0];
     UIFont *boldfont = [UIFont boldSystemFontOfSize:14.0];
@@ -198,7 +171,7 @@
     date.backgroundColor = [UIColor clearColor];
     date.font = font;
     
-    detailsleabel.frame = CGRectMake(5,29 + booknameLabelSize.height,80,15);
+   /* detailsleabel.frame = CGRectMake(5,29 + booknameLabelSize.height,80,15);
     detailsleabel.text = @"細節：";
     detailsleabel.lineBreakMode = NSLineBreakByWordWrapping;
     detailsleabel.numberOfLines = 0;
@@ -213,25 +186,25 @@
     details.numberOfLines = 0;
     details.tag = indexPath.row;
     details.backgroundColor = [UIColor clearColor];
-    details.font = font;
+    details.font = font;*/
     
     [cell.contentView addSubview:namelabel];
     [cell.contentView addSubview:name];
     
     [cell.contentView addSubview:datelabel];
     [cell.contentView addSubview:date];
-    
+  /*
     [cell.contentView addSubview:detailsleabel];
-    [cell.contentView addSubview:details];
+    [cell.contentView addSubview:details];*/
     
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+   //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *book = [maindata objectAtIndex:indexPath.row];
-    NSString *bookname = [book objectForKey:@"bookname"];
+    NSString *bookname = [book objectForKey:@"tittle"];
     
     UIFont *nameFont = [UIFont fontWithName:@"Helvetica" size:14.0];
     CGSize maximumLabelSize = CGSizeMake(200,9999);
@@ -248,10 +221,10 @@
 {
     NSUInteger row = [indexPath row];
     
-    BookDetailViewController *detail = [[BookDetailViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    detail.bookurl = [[maindata objectAtIndex:row] objectForKey:@"bookurl"];
+   // BookDetailViewController *detail = [[BookDetailViewController alloc] initWithStyle:UITableViewStyleGrouped];
+   // detail.bookurl = [[maindata objectAtIndex:row] objectForKey:@"bookurl"];
     
-    [switchviewcontroller.navigationController pushViewController:detail animated:YES];
+    //[switchviewcontroller.navigationController pushViewController:detail animated:YES];
 }
 
 @end
