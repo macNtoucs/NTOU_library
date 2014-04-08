@@ -95,11 +95,11 @@
     LoginAccount.textColor = [UIColor brownColor];
 
     UIFont *font = [UIFont fontWithName:@"Helvetica" size:18.0];
-    CGSize titleLabelSize = [[NSString stringWithFormat:@"*查詢歷史借閱、預借、已借出紀錄"] sizeWithFont:font
+    CGSize titleLabelSize = [[NSString stringWithFormat:@"*查詢歷史借閱、預約、已借出紀錄"] sizeWithFont:font
                                                                    constrainedToSize:maximumLabelSize
                                                                        lineBreakMode:NSLineBreakByWordWrapping];
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = @"*查詢歷史借閱、預借、已借出紀錄";
+    titleLabel.text = @"*查詢歷史借閱、預約、已借出紀錄";
     titleLabel.frame = CGRectMake((swidth - titleLabelSize.width)/2,200,titleLabelSize.width,20);
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.font = font;
@@ -253,7 +253,7 @@
         display.resfetchURL = webURL;
     }
     
-    NSString *bookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nexturl];
+    NSString *bookURL = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083%@",nexturl]; //存入借閱記錄網址
     display.fetchURL = bookURL;
     display.userAccountId = [account objectForKey:@"account"];
     [self.navigationController pushViewController:display animated:YES];

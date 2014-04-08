@@ -15,4 +15,5 @@
 @property (strong, nonatomic) MainViewController *mainview;
 @property (nonatomic,retain) NSMutableArray *data;
 @property (strong, nonatomic) NSString *inputtext;
+@property (strong, nonatomic) TFHpple* sparser;
 @end

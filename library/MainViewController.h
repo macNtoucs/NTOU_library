@@ -10,7 +10,7 @@
 #import "TFHpple.h"
 
 @class switchController;
-@interface MainViewController : UIViewController<UITextFieldDelegate,UIGestureRecognizerDelegate>{
+@interface MainViewController : UIViewController<UIActionSheetDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate>{
     UIView * mainView; UITextField *textField;
     NSMutableArray *searchResultArray;
     //NSMutableArray *searchResultPage[20];

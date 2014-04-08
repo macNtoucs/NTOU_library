@@ -179,7 +179,7 @@
         }
     }
     
-    //截取預約連結
+    //截取ㄋ約連結
     for(size_t r = 0 ; r < [tableData_resbook count] ; r++)
     {
         TFHppleElement* buf_res = [tableData_resbook objectAtIndex:r];
@@ -214,7 +214,7 @@
     else if([bookdetail objectForKey:@"resurl"] == NULL)
         return 2;   //書籍資料＋借閱資訊
     else
-        return 3;   //可預借
+        return 3;   //可預約
 }
 
 - (NSString*)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -436,7 +436,7 @@
         UIFont *buttonfont = [UIFont boldSystemFontOfSize:18.0];
 
         button.frame = CGRectMake(110,6,100,18);
-        button.text = @"預        借";
+        button.text = @"預        約";
         button.textColor = [UIColor whiteColor];
         button.tag = indexPath.row;
         button.backgroundColor = [UIColor clearColor];
