@@ -74,7 +74,7 @@
                                                  returningResponse:&urlResponse
                                                              error:nil];
     maindata=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-    
+    [maindata retain];
 }
 
 #pragma mark - Table view data source
@@ -86,6 +86,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    [maindata retain];
     [maindata retain];
     return[maindata count];
 }

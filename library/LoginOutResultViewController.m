@@ -107,65 +107,20 @@
 
 -(void)fetchout:(NSData*)bookdata
 {
-    TFHpple* parser = [[TFHpple alloc] initWithHTMLData:bookdata];
-    NSArray *tableData_td  = [parser searchWithXPathQuery:@"//html//body//div//form//table//tr"];
-    [maindata removeAllObjects];
     
-    NSMutableDictionary *book;
-    for (size_t i = 0 ; i < [tableData_td count] ; ++i){
-        TFHppleElement* buf = [tableData_td objectAtIndex:i];
-        if([[buf.attributes objectForKey:@"class"] isEqualToString:@"patFuncEntry"])
-        {
-            book = [[NSMutableDictionary alloc] init];
-            for (size_t j = 0 ; j < [buf.children count] ; ++j){
-                TFHppleElement* buf_b = [buf.children objectAtIndex:j];
-                
-                if([buf_b.attributes objectForKey:@"class"] != NULL)
-                {
-                    if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncMark"])
-                    {
-                        [book setObject:[((TFHppleElement*)[buf_b.children objectAtIndex:0]).attributes objectForKey:@"value"] forKey:@"value"];
-                        [book setObject:[((TFHppleElement*)[buf_b.children objectAtIndex:0]).attributes objectForKey:@"id"] forKey:@"id"];
-                    }
-                    else if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
-                    {
-                        NSString *nameb = [[((TFHppleElement*)[((TFHppleElement*)[buf_b.children objectAtIndex:0]).children objectAtIndex:0]).children objectAtIndex:0] content];
-                        nameb = [nameb substringFromIndex:1];
-                        [book setObject:nameb forKey:@"bookname"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncStatus"])
-                    {
-                        NSString *dateb = [[buf_b.children objectAtIndex:0] content];
-                        NSString *datek = [NSString stringWithFormat:@"NULL"];
-                        if([buf_b.children count] > 1)
-                        {
-                            for(int i = 1 ; i < [buf_b.children count] ; i++)
-                            {
-                                if([((TFHppleElement*)[buf_b.children objectAtIndex:i]).attributes objectForKey:@"class"] != NULL)
-                                    if([[((TFHppleElement*)[buf_b.children objectAtIndex:i]).attributes objectForKey:@"class"] isEqualToString:@"patFuncRenewCount"])
-                                    {
-                                        datek = [[((TFHppleElement*)[buf_b.children objectAtIndex:i]).children objectAtIndex:0]content];
-                                    }
-                            }
-                        }
-                        dateb = [dateb substringFromIndex:1];
-                        [book setObject:dateb forKey:@"date"];
-                        [book setObject:datek forKey:@"keep"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncBarcode"])
-                    {   //條碼
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"barcode"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncCallNo"])
-                    {   //索書號
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"callno"];
-                    }
-                }
-            }
-            [maindata addObject:book];
-            [book release];
-        }
-    }
+    NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+    NSString *historyPost = [[NSString alloc]initWithFormat:@"account=%@&password=%@",[account objectForKey:@"account"],[account objectForKey:@"passWord"]];
+    NSHTTPURLResponse *urlResponse = nil;
+    NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
+    NSString * queryURL = [NSString stringWithFormat:@"http://140.121.197.135:11114/LibraryHistoryAPI/getCurrentBorrowedBooks.do"];
+    [request setURL:[NSURL URLWithString:queryURL]];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[historyPost dataUsingEncoding:NSUTF8StringEncoding]];
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request
+                                                 returningResponse:&urlResponse
+                                                             error:nil];
+    maindata=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+    [maindata retain];
 }
 
 - (void)allselect
@@ -360,11 +315,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *book = [maindata objectAtIndex:indexPath.row];
-    NSString *bookname = [book objectForKey:@"bookname"];
-    NSString *bookdate = [book objectForKey:@"date"];
-    NSString *bookbarcode = [book objectForKey:@"barcode"];
-    NSString *bookcallno = [book objectForKey:@"callno"];
-    NSString *bookkeep = [book objectForKey:@"keep"];
+    NSString *bookname = [book objectForKey:@"tittle"];
+    NSString *bookdate = [book objectForKey:@"status"];
+   // NSString *bookbarcode = [book objectForKey:@"barcode"];
+    NSString *bookcallno = [book objectForKey:@"radioValue"];
+   // NSString *bookkeep = [book objectForKey:@"keep"];
     NSString *MyIdentifier = [NSString stringWithFormat:@"Cell%d%@",indexPath.row,bookname];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     UILabel *name = nil;
@@ -416,23 +371,6 @@
     name.tag = indexPath.row;
     name.backgroundColor = [UIColor clearColor];
     name.font = font;
-    
-    barcodelabel.frame = CGRectMake(5,10 + booknameLabelSize.height,90,15);
-    barcodelabel.text = @"條碼：";
-    barcodelabel.lineBreakMode = NSLineBreakByWordWrapping;
-    barcodelabel.numberOfLines = 0;
-    barcodelabel.textAlignment = NSTextAlignmentRight;
-    barcodelabel.tag = indexPath.row;
-    barcodelabel.backgroundColor = [UIColor clearColor];
-    barcodelabel.font = boldfont;
-    
-    barcode.frame = CGRectMake(100,10 + booknameLabelSize.height,180,14);
-    barcode.text = bookbarcode;
-    barcode.lineBreakMode = NSLineBreakByWordWrapping;
-    barcode.numberOfLines = 0;
-    barcode.tag = indexPath.row;
-    barcode.backgroundColor = [UIColor clearColor];
-    barcode.font = font;
 
     datelabel.frame = CGRectMake(5,29 + booknameLabelSize.height,90,15);
     datelabel.text = @"狀態：";
@@ -451,49 +389,14 @@
     date.backgroundColor = [UIColor clearColor];
     date.font = font;
     
-    NSInteger keep = 0;
-    if (![bookkeep isEqualToString:@"NULL"]) {
-        keep = 19;
-        keeplabel.frame = CGRectMake(100,29 + keep + booknameLabelSize.height,180,14);
-        keeplabel.text = bookkeep;
-        keeplabel.lineBreakMode = NSLineBreakByWordWrapping;
-        keeplabel.numberOfLines = 0;
-        keeplabel.tag = indexPath.row;
-        keeplabel.textColor = [UIColor redColor];
-        keeplabel.backgroundColor = [UIColor clearColor];
-        keeplabel.font = font;
-        
-        [cell.contentView addSubview:keeplabel];
-    }
-    
-    callnoleabel.frame = CGRectMake(5,48 + keep + booknameLabelSize.height,90,15);
-    callnoleabel.text = @"索書號：";
-    callnoleabel.lineBreakMode = NSLineBreakByWordWrapping;
-    callnoleabel.numberOfLines = 0;
-    callnoleabel.textAlignment = NSTextAlignmentRight;
-    callnoleabel.tag = indexPath.row;
-    callnoleabel.backgroundColor = [UIColor clearColor];
-    callnoleabel.font = boldfont;
-    
-    callno.frame = CGRectMake(100,48 + keep + booknameLabelSize.height,180,14);
-    callno.text = bookcallno;
-    callno.lineBreakMode = NSLineBreakByWordWrapping;
-    callno.numberOfLines = 0;
-    callno.tag = indexPath.row;
-    callno.backgroundColor = [UIColor clearColor];
-    callno.font = font;
-    
-    [cell.contentView addSubview:callnoleabel];
-    [cell.contentView addSubview:callno];
-    
-    [cell.contentView addSubview:namelabel];
+       [cell.contentView addSubview:namelabel];
     [cell.contentView addSubview:name];
     
     [cell.contentView addSubview:datelabel];
     [cell.contentView addSubview:date];
     
-    [cell.contentView addSubview:barcodelabel];
-    [cell.contentView addSubview:barcode];
+   //[cell.contentView addSubview:barcodelabel];
+   // [cell.contentView addSubview:barcode];
         
     return cell;
 }
@@ -501,7 +404,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *book = [maindata objectAtIndex:indexPath.row];
-    NSString *bookname = [book objectForKey:@"bookname"];
+    NSString *bookname = [book objectForKey:@"tittle"];
     NSString *bookkeep = [book objectForKey:@"keep"];
     
     UIFont *nameFont = [UIFont fontWithName:@"Helvetica" size:14.0];
