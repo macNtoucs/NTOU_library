@@ -51,7 +51,7 @@
     UIBarButtonItem *flexiblespace_l = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     flexiblespace_l.width = 12.0; 
     
-    UIBarButtonItem *allselectButton =[[UIBarButtonItem alloc]
+   UIBarButtonItem *allselectButton =[[UIBarButtonItem alloc]
                                        initWithTitle:@"全   選"
                                        style:UIBarButtonItemStyleBordered
                                        target:self
@@ -71,7 +71,8 @@
     UIBarButtonItem *flexiblespace_r = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     flexiblespace_r.width = 12.0;
     
-    [actionToolbar setItems:[NSArray arrayWithObjects:flexiblespace_l,allselectButton,flexiblespace_m,finishButton,flexiblespace_r, nil]];
+    //[actionToolbar setItems:[NSArray arrayWithObjects:flexiblespace_l,flexiblespace_m,allselectButton,finishButton,flexiblespace_r, nil]];
+    [actionToolbar setItems:[NSArray arrayWithObjects:flexiblespace_l,flexiblespace_m,finishButton,flexiblespace_r, nil]];
     actionToolbar.barStyle = UIBarStyleDefault;
 
     //配合nagitive和tabbar的圖片變動tableview的大小
@@ -99,61 +100,27 @@
 }
 
 -(void)fetchresHistory{
-    NSError *error;
-    NSData* bookdata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:fetchURL] encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
- 
-    [self fetchout:bookdata];
-}
+     dispatch_async(dispatch_get_main_queue(), ^{
+         NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+         NSString *historyPost = [[NSString alloc]initWithFormat:@"account=%@&password=%@&segment=1",[account objectForKey:@"account"],[account objectForKey:@"passWord"]];
+         NSHTTPURLResponse *urlResponse = nil;
+         NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
+         NSString * queryURL = [NSString stringWithFormat:@"http://140.121.197.135:11114/LibraryHistoryAPI/getCurrentHolds.do"];
+         [request setURL:[NSURL URLWithString:queryURL]];
+         [request setHTTPMethod:@"POST"];
+         [request setHTTPBody:[historyPost dataUsingEncoding:NSUTF8StringEncoding]];
+         NSData *responseData = [NSURLConnection sendSynchronousRequest:request
+                                                 returningResponse:&urlResponse
+                                                             error:nil];
+         maindata=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+         [maindata retain];
+            });
+  
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
 
--(void)fetchout:(NSData*)bookdata
-{
-    TFHpple* parser = [[TFHpple alloc] initWithHTMLData:bookdata];
-    NSArray *tableData_td  = [parser searchWithXPathQuery:@"//html//body//div//form//table//tr"];
-    [maindata removeAllObjects];
-    
-    NSMutableDictionary *book;
-    for (size_t i = 0 ; i < [tableData_td count] ; ++i){
-        TFHppleElement* buf = [tableData_td objectAtIndex:i];
-        if([[buf.attributes objectForKey:@"class"] isEqualToString:@"patFuncEntry"])
-        {
-            book = [[NSMutableDictionary alloc] init];
-            for (size_t j = 0 ; j < [buf.children count] ; ++j){
-                TFHppleElement* buf_b = [buf.children objectAtIndex:j];
-                
-                if([buf_b.attributes objectForKey:@"class"] != NULL)
-                {
-                    if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncMark"])
-                    {
-                        [book setObject:[((TFHppleElement*)[buf_b.children objectAtIndex:1]).attributes objectForKey:@"id"] forKey:@"id"];
-                    }
-                    else if([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncTitle"])
-                    {
-                        NSString *nameb = [[((TFHppleElement*)[((TFHppleElement*)[buf_b.children objectAtIndex:1]).children objectAtIndex:0]).children objectAtIndex:0] content];
-                        nameb = [nameb substringFromIndex:1];
-                        [book setObject:nameb forKey:@"bookname"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncStatus"])
-                    {
-                        NSString *dateb = [[buf_b.children objectAtIndex:0] content];
-                        dateb = [dateb substringFromIndex:1];
-                        [book setObject:dateb forKey:@"date"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncPickup"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"place"];
-                    }
-                    else if ([[buf_b.attributes objectForKey:@"class"] isEqualToString:@"patFuncCancel"])
-                    {
-                        [book setObject:[[buf_b.children objectAtIndex:0] content] forKey:@"cancel"];
-                    }
-                }
-            }
-            [maindata addObject:book];
-            [book release];
-        }
-    }
 }
-
 - (void)allselect
 {
     NSInteger r;
@@ -175,131 +142,62 @@
 
 -(void)cancelSelectResBook
 {
-    if([selectindexs count] == 0)
-    {
-        UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"請選擇欲取消的預約"
-                                                              message:nil
-                                                             delegate:self
-                                                    cancelButtonTitle:@"好"
-                                                    otherButtonTitles:nil];
-        [alerts show];
-    }
-    NSString *cancelbook = [[NSString alloc] init];
-    for (int i = 0 ; i < [selectindexs count] ; i++) {
-        NSIndexPath *index = [selectindexs objectAtIndex:i];
-        NSDictionary *book = [maindata objectAtIndex:index.row];
-        NSString *buf = [book objectForKey:@"id"];
-        cancelbook = [NSString stringWithFormat:@"%@&%@=on",cancelbook,buf];
-    }
     
-    //取消已選取館藏
-    NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_pickup&requestUpdateHoldsSome=取消已選取館藏%@&currentsortorder=current_pickup",cancelbook];
-    
-    NSHTTPURLResponse *urlResponse = nil;
-    NSError *error = [[[NSError alloc] init]autorelease];
-    NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
-    [request setURL:[NSURL URLWithString:fetchURL]];
-    [request setHTTPMethod:@"POST"];
-    [request addValue:@"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" forHTTPHeaderField:@"Accept"];
-    [request setHTTPBody:[finalPost dataUsingEncoding:NSUTF8StringEncoding]];
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request
-                                                 returningResponse:&urlResponse
-                                                             error:&error];
-    TFHpple* parser = [[TFHpple alloc] initWithHTMLData:responseData];
-    NSArray *tableData_t  = [parser searchWithXPathQuery:@"//html//body//span//div"];
-    NSArray *tableData_b  = [parser searchWithXPathQuery:@"//html//body//span//form//table//tr//td//label//a"];
-    NSString *title = nil;
-    if([tableData_t count] != 0)
-    {
-        title = [[((TFHppleElement*)[tableData_t objectAtIndex:0]).children objectAtIndex:0] content];
-        title = [title substringFromIndex:1];//濾掉/n
-    }
-    if([title isEqualToString:@"The following hold(s) will be cancelled or updated, would you like to proceed?"])
-    {
-        NSString *msg = nil;
-        for (size_t j = 0 ; j < [tableData_b count] ; ++j){
-            TFHppleElement* buf_b = [tableData_b objectAtIndex:j];
-            NSString *book = [[buf_b.children objectAtIndex:0] content];
-            if(j == 0)
-                msg = [NSString stringWithFormat:@"'%@'",book];
-            else
-                msg = [NSString stringWithFormat:@"%@,\n'%@'",msg,book];
+        if([selectindexs count] == 0)
+        {
+            UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"請選擇欲取消的預約"
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:@"好"
+                                                   otherButtonTitles:nil];
+            [alerts show];
         }
-        
-        msg = [NSString stringWithFormat:@"確定要取消以下書本的預約？\n%@",msg];
-        acsheet = [[UIActionSheet alloc]
-                            initWithTitle:msg
-                                 delegate:self
-                        cancelButtonTitle:@"取消"
-                   destructiveButtonTitle:@"確定"
-                        otherButtonTitles:nil];
-        [acsheet showFromToolbar:actionToolbar];
-    }
+         NSString * radioVal = [NSString new];
+         NSDictionary * Jsonresponse = [NSDictionary new];
+        int isSuccess=0;
+        for (int i = 0 ; i < [selectindexs count] ; i++) {
+           [self fetchresHistory];
+            NSDictionary *book = [maindata objectAtIndex:0];
+            radioVal = [book objectForKey:@"radioValue"];
+            NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+            NSString *historyPost = [[NSString alloc]initWithFormat:@"account=%@&password=%@&radioValue=%@",[account objectForKey:@"account"],[account objectForKey:@"passWord"],radioVal];
+            NSHTTPURLResponse *urlResponse = nil;
+            NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
+            NSString * queryURL = [NSString stringWithFormat:@"http://140.121.197.135:11114/LibraryHistoryAPI/cancelReserveBook.do"];
+            [request setURL:[NSURL URLWithString:queryURL]];
+            [request setHTTPMethod:@"POST"];
+            [request setHTTPBody:[historyPost dataUsingEncoding:NSUTF8StringEncoding]];
+            NSData *responseData = [NSURLConnection sendSynchronousRequest:request
+                                                         returningResponse:&urlResponse
+                                                                     error:nil];
+            Jsonresponse=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+            [Jsonresponse retain];
+            if ([[Jsonresponse objectForKey:@"querySuccess"] isEqualToString:@"true"]) ++isSuccess;
+            
+        }
+        if (isSuccess == [selectindexs count]){
+             [self fetchresHistory];
+            UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"取消成功"
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:@"好"
+                                                   otherButtonTitles:nil];
+            [alerts show];
+        }
+        else{
+             [self fetchresHistory];
+            UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"取消失敗"
+                                                             message:nil
+                                                            delegate:self
+                                                   cancelButtonTitle:@"好"
+                                                   otherButtonTitles:nil];
+            [alerts show];
+        }
+         [radioVal release];
+    [self fetchresHistory];
+    [selectindexs removeAllObjects];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    NSString *cancelbook = [[NSString alloc] init];
-    NSData *responseData = nil;
-    for (int i = 0 ; i < [selectindexs count] ; i++) {
-        NSIndexPath *index = [selectindexs objectAtIndex:i];
-        NSDictionary *book = [maindata objectAtIndex:index.row];
-        NSString *buf = [book objectForKey:@"id"];
-        NSString *bookid = [buf substringFromIndex:6];
-        cancelbook = [NSString stringWithFormat:@"%@&loc%@=&%@=on",cancelbook,bookid,buf];
-    }
-
-    if(buttonIndex == [acsheet destructiveButtonIndex])
-    {
-        //是
-        NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_pickup&updateholdssome=是%@&currentsortorder=current_pickup",cancelbook];
-        
-        NSHTTPURLResponse *urlResponse = nil;
-        NSError *error = [[[NSError alloc] init]autorelease];
-        NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
-        [request setURL:[NSURL URLWithString:fetchURL]];
-        [request setHTTPMethod:@"POST"];
-        [request addValue:@"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" forHTTPHeaderField:@"Accept"];
-        [request setHTTPBody:[finalPost dataUsingEncoding:NSUTF8StringEncoding]];
-        responseData = [NSURLConnection sendSynchronousRequest:request
-                                                     returningResponse:&urlResponse
-                                                                 error:&error];
-    }
-    else if(buttonIndex == [acsheet cancelButtonIndex])
-    {
-        //沒有
-        NSString *finalPost = [[NSString alloc]initWithFormat:@"currentsortorder=current_pickup&donothing=沒有%@&currentsortorder=current_pickup",cancelbook];
-        
-        NSHTTPURLResponse *urlResponse = nil;
-        NSError *error = [[[NSError alloc] init]autorelease];
-        NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
-        [request setURL:[NSURL URLWithString:fetchURL]];
-        [request setHTTPMethod:@"POST"];
-        [request addValue:@"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" forHTTPHeaderField:@"Accept"];
-        [request setHTTPBody:[finalPost dataUsingEncoding:NSUTF8StringEncoding]];
-        responseData = [NSURLConnection sendSynchronousRequest:request
-                                                     returningResponse:&urlResponse
-                                                                 error:&error];
-    }
-    
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        // Show the HUD in the main tread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            // No need to hod onto (retain)
-            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
-            hud.labelText = @"Loading";
-        });
-        
-        [self fetchout:responseData];
-        [self cleanselectindexs];
-        [self allcancel];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
-            [self.tableView reloadData];
-        });
-    });
-}
 
 - (void)showActionToolbar:(BOOL)show
 {
@@ -329,6 +227,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"%d",[maindata count]);
     return [maindata count];
 }
 
@@ -345,10 +244,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *book = [maindata objectAtIndex:indexPath.row];
-    NSString *bookname = [book objectForKey:@"bookname"];
-    NSString *bookdate = [book objectForKey:@"date"];
-    NSString *bookplace = [book objectForKey:@"place"];
-    NSString *bookcancel = [book objectForKey:@"cancel"];
+    NSString *bookname = [book objectForKey:@"tittle"];
+    NSString *bookdate = [book objectForKey:@"status"];
+    NSString *bookplace = [book objectForKey:@"location"];
+    //NSString *bookcancel = [book objectForKey:@"cancel"];
     NSString *MyIdentifier = [NSString stringWithFormat:@"Cell%d%@",indexPath.row,bookname];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     UILabel *name = nil;
@@ -433,26 +332,7 @@
     place.tag = indexPath.row;
     place.backgroundColor = [UIColor clearColor];
     place.font = font;
-    
-    cancelleabel.frame = CGRectMake(5,48 + booknameLabelSize.height,90,15);
-    cancelleabel.text = @"取消預約日：";
-    cancelleabel.lineBreakMode = NSLineBreakByWordWrapping;
-    cancelleabel.numberOfLines = 0;
-    cancelleabel.textAlignment = NSTextAlignmentRight;
-    cancelleabel.tag = indexPath.row;
-    cancelleabel.backgroundColor = [UIColor clearColor];
-    cancelleabel.font = boldfont;
-    
-    cancel.frame = CGRectMake(100,48 + booknameLabelSize.height,180,14);
-    cancel.text = bookcancel;
-    cancel.lineBreakMode = NSLineBreakByWordWrapping;
-    cancel.numberOfLines = 0;
-    cancel.tag = indexPath.row;
-    cancel.backgroundColor = [UIColor clearColor];
-    cancel.font = font;
-    
-    [cell.contentView addSubview:cancelleabel];
-    [cell.contentView addSubview:cancel];
+  
     
     [cell.contentView addSubview:namelabel];
     [cell.contentView addSubview:name];
