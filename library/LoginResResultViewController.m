@@ -229,6 +229,7 @@ int isSuccess=0;
 
             [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
            [self.tableView reloadData];
+            [selectindexs removeAllObjects];
        });
     
     });
