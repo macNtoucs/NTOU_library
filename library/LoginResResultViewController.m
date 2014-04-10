@@ -30,6 +30,10 @@
 @synthesize acsheet;
 @synthesize userAccountId;
 
+int isSuccess=0;
+
+
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -44,6 +48,7 @@
 {
     selectindexs = [[NSMutableArray alloc] init];
     maindata = [[NSMutableArray alloc] init];
+    [maindata retain];
     self.tableView.allowsMultipleSelection = YES;
     
     self.actionToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 137 - 6, 320, 44)];
@@ -71,8 +76,8 @@
     UIBarButtonItem *flexiblespace_r = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     flexiblespace_r.width = 12.0;
     
-    //[actionToolbar setItems:[NSArray arrayWithObjects:flexiblespace_l,flexiblespace_m,allselectButton,finishButton,flexiblespace_r, nil]];
-    [actionToolbar setItems:[NSArray arrayWithObjects:flexiblespace_l,flexiblespace_m,finishButton,flexiblespace_r, nil]];
+    [actionToolbar setItems:[NSArray arrayWithObjects:flexiblespace_l,flexiblespace_m,allselectButton,finishButton,flexiblespace_r, nil]];
+    //[actionToolbar setItems:[NSArray arrayWithObjects:flexiblespace_l,flexiblespace_m,finishButton,flexiblespace_r, nil]];
     actionToolbar.barStyle = UIBarStyleDefault;
 
     //配合nagitive和tabbar的圖片變動tableview的大小
@@ -100,9 +105,9 @@
 }
 
 -(void)fetchresHistory{
-     dispatch_async(dispatch_get_main_queue(), ^{
+     dispatch_barrier_async(dispatch_get_main_queue(), ^{
          NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
-         NSString *historyPost = [[NSString alloc]initWithFormat:@"account=%@&password=%@&segment=1",[account objectForKey:@"account"],[account objectForKey:@"passWord"]];
+         NSString *historyPost = [[NSString alloc]initWithFormat:@"account=%@&password=%@",[account objectForKey:@"account"],[account objectForKey:@"passWord"]];
          NSHTTPURLResponse *urlResponse = nil;
          NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
          NSString * queryURL = [NSString stringWithFormat:@"http://140.121.197.135:11114/LibraryHistoryAPI/getCurrentHolds.do"];
@@ -112,11 +117,13 @@
          NSData *responseData = [NSURLConnection sendSynchronousRequest:request
                                                  returningResponse:&urlResponse
                                                              error:nil];
-         maindata=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+         NSArray * reponseDataArray = [NSArray new];
+        reponseDataArray= [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+         maindata = [NSMutableArray arrayWithArray:reponseDataArray];
          [maindata retain];
             });
   
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_barrier_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
 
@@ -143,6 +150,14 @@
 -(void)cancelSelectResBook
 {
     
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Show the HUD in the main tread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // No need to hod onto (retain)
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.superview animated:YES];
+            hud.labelText = @"Loading";
+        });
+    NSDictionary * Jsonresponse = [NSDictionary new];
         if([selectindexs count] == 0)
         {
             UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"請選擇欲取消的預約"
@@ -152,51 +167,73 @@
                                                    otherButtonTitles:nil];
             [alerts show];
         }
-         NSString * radioVal = [NSString new];
-         NSDictionary * Jsonresponse = [NSDictionary new];
-        int isSuccess=0;
+    
+    
+        NSMutableArray * postVal = [NSMutableArray new];
         for (int i = 0 ; i < [selectindexs count] ; i++) {
-           [self fetchresHistory];
-            NSDictionary *book = [maindata objectAtIndex:0];
-            radioVal = [book objectForKey:@"radioValue"];
-            NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
-            NSString *historyPost = [[NSString alloc]initWithFormat:@"account=%@&password=%@&radioValue=%@",[account objectForKey:@"account"],[account objectForKey:@"passWord"],radioVal];
-            NSHTTPURLResponse *urlResponse = nil;
-            NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
-            NSString * queryURL = [NSString stringWithFormat:@"http://140.121.197.135:11114/LibraryHistoryAPI/cancelReserveBook.do"];
-            [request setURL:[NSURL URLWithString:queryURL]];
-            [request setHTTPMethod:@"POST"];
-            [request setHTTPBody:[historyPost dataUsingEncoding:NSUTF8StringEncoding]];
-            NSData *responseData = [NSURLConnection sendSynchronousRequest:request
-                                                         returningResponse:&urlResponse
-                                                                     error:nil];
-            Jsonresponse=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
-            [Jsonresponse retain];
-            if ([[Jsonresponse objectForKey:@"querySuccess"] isEqualToString:@"true"]) ++isSuccess;
-            
-        }
-        if (isSuccess == [selectindexs count]){
-             [self fetchresHistory];
-            UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"取消成功"
-                                                             message:nil
-                                                            delegate:self
-                                                   cancelButtonTitle:@"好"
-                                                   otherButtonTitles:nil];
-            [alerts show];
-        }
-        else{
-             [self fetchresHistory];
-            UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"取消失敗"
-                                                             message:nil
-                                                            delegate:self
-                                                   cancelButtonTitle:@"好"
-                                                   otherButtonTitles:nil];
-            [alerts show];
-        }
-         [radioVal release];
-    [self fetchresHistory];
-    [selectindexs removeAllObjects];
+                NSIndexPath *index = [selectindexs objectAtIndex:i];
+                NSString * radioVal = [NSString new];
+                NSDictionary *book = [maindata objectAtIndex: index.row ] ;
+                radioVal = [book objectForKey:@"radioValue"];
+                NSMutableDictionary *rv = [NSMutableDictionary new];
+                [rv setValue:radioVal forKey:@"radioValue"];
+                [postVal addObject: rv];
+                [rv release];
+
+        }//end for
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:postVal options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]; NSDictionary *account = [[NSUserDefaults standardUserDefaults] objectForKey:@"NTOULibraryAccount"];
+    NSString *historyPost = [[NSString alloc]initWithFormat:@"account=%@&password=%@&radioValue=%@",[account objectForKey:@"account"],[account objectForKey:@"passWord"],jsonString];
+    NSHTTPURLResponse *urlResponse = nil;
+    NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
+    NSString * queryURL = [NSString stringWithFormat:@"http://140.121.197.135:11114/LibraryHistoryAPI/cancelReserveBook.do"];
+    [request setURL:[NSURL URLWithString:queryURL]];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[historyPost dataUsingEncoding:NSUTF8StringEncoding]];
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request
+                                                 returningResponse:&urlResponse
+                                                             error:nil];
+    Jsonresponse=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+    [Jsonresponse retain];
+    
+    if ([[Jsonresponse objectForKey:@"querySuccess"] isEqualToString:@"true"]) {
+        ++isSuccess;
+    }
+        
+       dispatch_async(dispatch_get_main_queue(), ^{
+           [self performSelector: @selector(fetchresHistory) withObject: nil afterDelay:0.5];
+       });
+     
+        
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+          
+          
+          if(isSuccess)
+          {
+              UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"取消成功"
+                                                               message:nil
+                                                              delegate:self
+                                                     cancelButtonTitle:@"好"
+                                                     otherButtonTitles:nil];
+              [alerts show];
+          }
+          else {
+              UIAlertView *alerts = [[UIAlertView alloc] initWithTitle:@"取消失敗"
+                                                               message:nil
+                                                              delegate:self
+                                                     cancelButtonTitle:@"好"
+                                                     otherButtonTitles:nil];
+              [alerts show];
+          }
+
+            [MBProgressHUD hideHUDForView:self.view.superview animated:YES];
+           [self.tableView reloadData];
+       });
+    
+    });
 }
+
 
 
 - (void)showActionToolbar:(BOOL)show

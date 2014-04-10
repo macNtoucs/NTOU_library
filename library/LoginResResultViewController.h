@@ -15,7 +15,7 @@
 @property (nonatomic,retain) NSString *userAccountId;
 
 - (void)showActionToolbar:(BOOL)show;
--(NSArray*)fetchresHistory;
+-(void)fetchresHistory;
 -(void)cleanselectindexs;
 - (void)allcancel;
 @end
