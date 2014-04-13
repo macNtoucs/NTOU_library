@@ -20,12 +20,13 @@
     NSInteger book_count;
 }
 @property (nonatomic,retain) NSMutableDictionary *bookdetail;
-
+@property (nonatomic, retain) NSMutableData* receiveData;
 @end
 
 @implementation BookDetailViewController
 @synthesize bookurl;
 @synthesize bookdetail;
+@synthesize receiveData;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -36,9 +37,61 @@
     return self;
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    NSHTTPURLResponse *res = (NSHTTPURLResponse *)response;
+    NSLog(@"%@",[res allHeaderFields]);
+    self.receiveData = [NSMutableData data];
+    
+}
+
+-(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [self.receiveData appendData:data];
+}
+
+
+-(void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSString *receiveStr = [[NSString alloc]initWithData:self.receiveData encoding:NSUTF8StringEncoding];
+    NSLog(@"%@",receiveStr);
+}
+
+-(void)connection:(NSURLConnection *)connection
+ didFailWithError:(NSError *)error
+{
+    NSLog(@"%@",[error localizedDescription]);
+}
+
+
+
 - (void)viewDidLoad
 {
     self.title = @"詳細資訊";
+    self.title = @"詳細資訊";
+   // bookurl = [bookurl stringByReplacingOccurrencesOfString:@"&" withString:@"\\&"];
+    NSString *parameter= [[NSString alloc]initWithFormat:@"URL=%@",bookurl];
+    NSHTTPURLResponse *urlResponse = nil;
+    NSMutableURLRequest * request = [[NSMutableURLRequest new]autorelease];
+    NSString * queryURL = [NSString stringWithFormat:@"http://140.121.197.135:11114/NTOULibrarySearchAPI/Search.do"];
+    [request setURL:[NSURL URLWithString:queryURL]];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:[parameter dataUsingEncoding:NSUTF8StringEncoding]];
+   // NSLog(@"%@",  [[NSString alloc] initWithData:request.HTTPBody encoding:NSUTF8StringEncoding]);
+    // NSURLConnection *connection = [[NSURLConnection alloc]initWithRequest:request delegate:self];
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request
+                                                 returningResponse:&urlResponse
+                                                             error:nil];
+   
+    
+    
+    
+    NSDictionary * bookDetailDic=  [NSJSONSerialization JSONObjectWithData:responseData options:0 error:nil];
+    [bookDetailDic retain];
+    
+    
+    
+    
 
     bookdetail = [[NSMutableDictionary alloc] init];
     book_count = 0;
