@@ -29,7 +29,6 @@
 @synthesize start;
 @synthesize book_count;
 @synthesize tableData_book;
-@synthesize sparser;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -57,7 +56,7 @@
     [titleView sizeToFit];
     
     self.navigationItem.titleView = titleView;
-
+    
     //配合nagitive和tabbar的圖片變動tableview的大小
     //nagitive 52 - 44 = 8 、 tabbar 55 - 49 = 6
     [self.tableView setContentInset:UIEdgeInsetsMake(8,0,6,0)];
@@ -68,7 +67,7 @@
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -82,8 +81,21 @@
             hud.labelText = @"Loading";
         });
         
-        [self getBooksNextUrl:sparser];
-
+        
+        NSError *error;
+        
+        //  設定url
+        NSString *url = [NSString stringWithFormat:@"http://ocean.ntou.edu.tw:1083/search*cht/X?SEARCH=%@&SORT=D",inputtext];
+        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        // 設定丟出封包，由data來接
+        NSData* urldata = [[NSString stringWithContentsOfURL:[NSURL URLWithString:url]encoding:NSUTF8StringEncoding error:&error] dataUsingEncoding:NSUTF8StringEncoding];
+        
+        //設定 parser讀取data，並透過Xpath得到想要的資料位置
+        TFHpple* parser = [[TFHpple alloc] initWithHTMLData:urldata];
+        
+        [self getBooksNextUrl:parser];
+        
         if([tableData_book count] < 10) //若一開始則不到10筆
         {
             [self getContentTotal:[tableData_book count] To:[tableData_book count]];
@@ -113,7 +125,7 @@
         });
         
         NSInteger read_count = 10;  //預設每次讀10筆
-
+        
         if(book_count%50 == 10) //到下一頁
         {
             NSError *error;
@@ -227,7 +239,7 @@
     //NSLog(@"%@",tableData_td);
     
     [tableData_book removeAllObjects];  //消除上一頁的紀錄
-
+    
     //過濾成只有書本資料起始的table
     for(size_t b = 0 ; b < [tableData_table count]; b++)
     {
@@ -334,7 +346,7 @@
                                     [urlData setObject:urlName forKey:@"urlName"];
                                 }
                                 
-
+                                
                                 url = [url substringFromIndex:(urlLength - 1)];
                                 
                                 NSRange nrang = [url rangeOfString:@"SORT="];
@@ -406,7 +418,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSString *nextpage_url = [pageData objectForKey:@"nextpage"];
-
+    
     if(nextpage_url != NULL || book_count < [tableData_book count])  //後面還有書
         return [data count]+1;
     else if ([data count] == 0 && start == YES) //沒有查獲的館藏
@@ -435,8 +447,8 @@
         
         CGSize maximumLabelSize = CGSizeMake(200,9999);
         CGSize booknameLabelSize = [[NSString stringWithFormat:@"沒有查獲的館藏"] sizeWithFont:boldfont
-                                        constrainedToSize:maximumLabelSize
-                                            lineBreakMode:NSLineBreakByWordWrapping];
+                                                                      constrainedToSize:maximumLabelSize
+                                                                          lineBreakMode:NSLineBreakByWordWrapping];
         nolabel.frame = CGRectMake((screenwidth - booknameLabelSize.width)/2,11,booknameLabelSize.width,20);
         nolabel.tag = indexPath.row;
         nolabel.backgroundColor = [UIColor clearColor];
@@ -462,10 +474,10 @@
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
-
+        
         UIFont *nameFont = [UIFont fontWithName:@"Helvetica" size:14.0];
         UIFont *otherFont = [UIFont fontWithName:@"Helvetica" size:12.0];
-
+        
         NSDictionary *book = [data objectAtIndex:indexPath.row];
         NSString *bookname = [book objectForKey:@"bookname"];
         NSString *book_url = [book objectForKey:@"book_url"];
@@ -473,21 +485,21 @@
         NSString *image_url = [book objectForKey:@"image_url"];
         NSString *auther = [book objectForKey:@"auther"];
         NSString *press = [book objectForKey:@"press"];
-                        
+        
         CGSize maximumLabelSize = CGSizeMake(200,9999);
         CGSize booknameLabelSize = [bookname sizeWithFont:nameFont
-                                     constrainedToSize:maximumLabelSize
-                                         lineBreakMode:NSLineBreakByWordWrapping];
+                                        constrainedToSize:maximumLabelSize
+                                            lineBreakMode:NSLineBreakByWordWrapping];
         CGSize autherLabelSize = [auther sizeWithFont:otherFont
-                                        constrainedToSize:maximumLabelSize
-                                            lineBreakMode:NSLineBreakByWordWrapping];
-
+                                    constrainedToSize:maximumLabelSize
+                                        lineBreakMode:NSLineBreakByWordWrapping];
+        
         CGSize pressLabelSize = [press sizeWithFont:otherFont
-                                        constrainedToSize:maximumLabelSize
-                                            lineBreakMode:NSLineBreakByWordWrapping];
+                                  constrainedToSize:maximumLabelSize
+                                      lineBreakMode:NSLineBreakByWordWrapping];
         if([press isEqualToString:@"NULL"])
             pressLabelSize.height = 0;
-
+        
         CGFloat height = 11 + booknameLabelSize.height + autherLabelSize.height + pressLabelSize.height;
         CGFloat imageY = height/2 - 80/2;
         if(imageY < 6)
@@ -530,7 +542,7 @@
         
         [cell.contentView addSubview:booklabel];
         [cell.contentView addSubview:autherlabel];
-
+        
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
         return cell;
@@ -576,18 +588,18 @@
         
         UIFont *nameFont = [UIFont fontWithName:@"Helvetica" size:14.0];
         UIFont *otherFont = [UIFont fontWithName:@"Helvetica" size:12.0];
-
+        
         CGSize maximumLabelSize = CGSizeMake(200,9999);
         CGSize booknameLabelSize = [bookname sizeWithFont:nameFont
                                         constrainedToSize:maximumLabelSize
                                             lineBreakMode:NSLineBreakByWordWrapping];
         CGSize autherLabelSize = [auther sizeWithFont:otherFont
-                                      constrainedToSize:maximumLabelSize
-                                          lineBreakMode:NSLineBreakByWordWrapping];
+                                    constrainedToSize:maximumLabelSize
+                                        lineBreakMode:NSLineBreakByWordWrapping];
         
         CGSize pressLabelSize = [press sizeWithFont:otherFont
-                                     constrainedToSize:maximumLabelSize
-                                         lineBreakMode:NSLineBreakByWordWrapping];
+                                  constrainedToSize:maximumLabelSize
+                                      lineBreakMode:NSLineBreakByWordWrapping];
         if([press isEqualToString:@"NULL"])
             pressLabelSize.height = 0;
         
@@ -602,43 +614,43 @@
 
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 #pragma mark - Table view delegate
 
